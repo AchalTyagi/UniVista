@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>UniVista</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniVista</title>
-    <body>
-        <h1>Welcome to UniVista</h1>
-        <p>UniVista is a platform that provides students with a comprehensive view of their academic journey. It offers tools and resources to help students track their progress, manage their courses, and connect with peers and faculty.</p>
-        <h2>Features</h2>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <!-- Placeholder for logo -->
+                <h1>College Survivor</h1>
+            </div>
+            <!-- Optional nav links based on the very top faded bar -->
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main>
+        <section class="hero-section">
+            <!-- Optional image reference as requested -->
+            <!-- <img src="image_d1466a.jpg" alt="Background Reference" style="display:none;"> -->
+            
+            <div class="hero-content">
+                <h2>Will You Survive This Sem?</h2>
+                <h2>Let's do the math.</h2>
+                <p>Turn your sleep deprivation, low bank balance, and skipped classes into an actual survival plan.</p>
+                <button class="button">Calculate My Survival &rarr;</button>
+                <div class="social-proof">
+                    <span>14,292 students calculating their survival criteria across 400+ campuses.</span>
+                </div>
+            </div>
+
+            <div class="hero-form-container">
+                <div class="form-tabs">
+                    <button class="active">Sign In</button>
+                    <button>Create Account</button>
+                </div>
+                <form class="login-form">
+                    <div class="social-login">
+                        <button type="button">Continue with Google</button>
+                        <button type="button">Continue with Discord</button>
+                    </div>
+                    
+                    <label for="email">Personal ID</label>
+                    <input type="email" id="email" placeholder="xyz@domain_name.com" required>
+                    
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="finalsarehere2024" required>
+                    
+                    <div class="form-actions">
+                        <label>
+                            <input type="checkbox" name="remember"> Remember Me
+                        </label>
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="submit-button">Log Me In</button>
+                </form>
+            </div>
+        </section>
+        </main>
     </body>
-    </html>
 </html>
