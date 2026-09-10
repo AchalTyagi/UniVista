@@ -15,7 +15,23 @@ body {
 }
 
 header {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px;
+    font-size: small;
+    font-weight: normal;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05)
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 main {
@@ -24,7 +40,7 @@ main {
     justify-content: center;
 }
 
-.hero-section {
+.main-section {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -35,7 +51,7 @@ main {
     gap: 60px;
 }
 
-.hero-content {
+.main-content {
     flex: 1;
     min-width: 300px;
     max-width: 550px;
@@ -44,17 +60,17 @@ main {
     gap: 20px;
 }
 
-.hero-content h2 {
+.main-content h2 {
     font-size: 3.5rem;
     line-height: 1.1;
 }
 
-.hero-content h3 {
+.main-content h3 {
     font-size: 2rem;
     color: #7b5aff;
 }
 
-.hero-content p {
+.main-content p {
     font-size: 1.1rem;
     color: #8b8d9c;
     line-height: 1.5;
@@ -78,7 +94,7 @@ main {
     color: #8b8d9c;
 }
 
-.hero-form-container {
+.form-container {
     flex: 1;
     min-width: 300px;
     max-width: 450px;
@@ -118,13 +134,13 @@ main {
     gap: 15px;
 }
 
-.social-login {
+.web-login {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
 }
 
-.social-login button {
+.web-login button {
     flex: 1;
     background-color: #0b0c11;
     color: #8b8d9c;
@@ -187,4 +203,17 @@ main {
     font-size: 1rem;
     cursor: pointer;
     margin-top: 15px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: left;
+}
+
+.nav-links a {
+    color: #8b8d9c;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
 }
