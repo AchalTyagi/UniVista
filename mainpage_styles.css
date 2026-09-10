@@ -1,0 +1,7 @@
+body {
+    background-color: rgb(17, 2, 44);
+}
+
+.hero-content, .logo, .hero-form-container, .login-form, .form-actions{
+    color: white;
+}
