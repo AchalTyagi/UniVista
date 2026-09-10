@@ -109,6 +109,23 @@ main {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
+/* --- NEW: Hide the Radio Buttons & Setup Toggles --- */
+input[type="radio"][name="auth-tab"] {
+    display: none;
+}
+
+.signin-section, 
+.signup-section, 
+.signin-btn, 
+.signup-btn {
+    display: none;
+}
+
+.form-section {
+    flex-direction: column;
+    gap: 15px;
+}
+
 .form-tabs {
     display: flex;
     background: rgba(0, 0, 0, 0.3);
@@ -117,20 +134,17 @@ main {
     margin-bottom: 25px;
 }
 
-.form-tabs button {
+/* NEW: Styles the tab labels to look like the old buttons */
+.tab-label {
     flex: 1;
     padding: 12px;
     background: transparent;
-    border: none;
     color: #8b8d9c;
     cursor: pointer;
     border-radius: 6px;
     font-size: 1rem;
-}
-
-.form-tabs button.active {
-    background-color: #7b5aff;
-    color: white;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .login-form {
@@ -162,6 +176,8 @@ main {
     margin-bottom: -5px;
 }
 
+/* NEW: Added input[type="text"] for the username field */
+.login-form input[type="text"],
 .login-form input[type="email"],
 .login-form input[type="password"] {
     background: rgba(0, 0, 0, 0.3);
@@ -225,4 +241,34 @@ main {
 
 .nav-links a:hover {
     color: #ffffff;
+}
+
+/* --- NEW: The CSS Hack Logic for the Tabs --- */
+
+/* When "Sign In" is checked */
+#radio-signin:checked ~ .form-tabs label[for="radio-signin"] {
+    background-color: #7b5aff;
+    color: white;
+}
+
+#radio-signin:checked ~ .login-form .signin-section {
+    display: flex;
+}
+
+#radio-signin:checked ~ .login-form .signin-btn {
+    display: block;
+}
+
+/* When "Create Account" is checked */
+#radio-signup:checked ~ .form-tabs label[for="radio-signup"] {
+    background-color: #7b5aff;
+    color: white;
+}
+
+#radio-signup:checked ~ .login-form .signup-section {
+    display: flex;
+}
+
+#radio-signup:checked ~ .login-form .signup-btn {
+    display: block;
 }
