@@ -22,7 +22,7 @@ header {
     padding: 20px 40px;
     font-size: small;
     font-weight: normal;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.05)
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
 }
 
 header nav {
@@ -98,15 +98,20 @@ main {
     flex: 1;
     min-width: 300px;
     max-width: 450px;
-    background-color: #161824;
     padding: 30px;
     border-radius: 12px;
+    
+    /* Glassmorphism setup */
+    background: linear-gradient(135deg, rgba(22, 24, 36, 0.6) 0%, rgba(22, 24, 36, 0.2) 100%);
+    backdrop-filter: blur(16px);    
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .form-tabs {
     display: flex;
-    background-color: #0b0c11;
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 4px;
     margin-bottom: 25px;
@@ -142,7 +147,7 @@ main {
 
 .web-login button {
     flex: 1;
-    background-color: #0b0c11;
+    background: rgba(0, 0, 0, 0.3);
     color: #8b8d9c;
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 12px;
@@ -159,7 +164,7 @@ main {
 
 .login-form input[type="email"],
 .login-form input[type="password"] {
-    background-color: #0b0c11;
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
     padding: 14px;
@@ -208,7 +213,7 @@ main {
 .nav-links {
     display: flex;
     gap: 20px;
-    align-items: left;
+    align-items: center;
 }
 
 .nav-links a {
@@ -216,4 +221,8 @@ main {
     text-decoration: none;
     font-size: 0.95rem;
     transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #ffffff;
 }
