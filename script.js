@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Tab Switching Logic ---
     const tabBtns = document.querySelectorAll('.tab-btn');
     const submitButton = document.querySelector('.submit-button');
     const form = document.querySelector('.login-form');
