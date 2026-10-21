@@ -84,4 +84,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Stage 3: Assignments Logic
+    const form3 = document.getElementById('wizard-form-3');
+    
+    if (form3) {
+        const assignmentsInput = document.getElementById('assignments');
+        const deadlineInput = document.getElementById('deadline');
+        const hwStatusText = document.getElementById('hw-status-text');
+        const metricStatusEl = document.getElementById('hw-metric-status');
+
+        function updateHomeworkStatus() {
+            let assignments = parseInt(assignmentsInput.value) || 0;
+            let deadline = parseInt(deadlineInput.value) || 0;
+
+            if (assignmentsInput.value === "") {
+                hwStatusText.textContent = "--";
+                metricStatusEl.textContent = "AWAITING INPUT";
+                metricStatusEl.style.color = "#a1a1aa";
+                metricStatusEl.style.background = "transparent";
+                return;
+            }
+
+            if (assignments === 0) {
+                hwStatusText.innerHTML = "Clear skies. Go take a nap.";
+                metricStatusEl.textContent = "SAFE ZONE";
+                metricStatusEl.style.color = "#4ade80"; 
+                metricStatusEl.style.background = "rgba(74,222,128,0.1)";
+            } else if (deadline <= 1) {
+                hwStatusText.innerHTML = "Pull an all-nighter immediately.";
+                metricStatusEl.textContent = "DEFCON 1: CRITICAL";
+                metricStatusEl.style.color = "#ff5252"; 
+                metricStatusEl.style.background = "rgba(255,82,82,0.1)";
+            } else if (deadline <= 3) {
+                hwStatusText.innerHTML = "High stress. Cancel weekend plans.";
+                metricStatusEl.textContent = "WARNING";
+                metricStatusEl.style.color = "#fbbf24"; 
+                metricStatusEl.style.background = "rgba(251,191,36,0.1)";
+            } else {
+                hwStatusText.innerHTML = "You have time, but don't slack off.";
+                metricStatusEl.textContent = "MANAGEABLE";
+                metricStatusEl.style.color = "#4ade80"; 
+                metricStatusEl.style.background = "rgba(74,222,128,0.1)";
+            }
+        }
+
+        // Event Listeners
+        assignmentsInput.addEventListener('input', updateHomeworkStatus);
+        deadlineInput.addEventListener('input', updateHomeworkStatus);
+
+        // Pre-fill form if data exists
+        if(localStorage.getItem('uniVista_assignments')) {
+            assignmentsInput.value = localStorage.getItem('uniVista_assignments');
+        }
+        if(localStorage.getItem('uniVista_deadline')) {
+            deadlineInput.value = localStorage.getItem('uniVista_deadline');
+        }
+
+        updateHomeworkStatus();
+
+        // Save and move to Stage 4
+        form3.addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem('uniVista_assignments', assignmentsInput.value);
+            localStorage.setItem('uniVista_deadline', deadlineInput.value);
+            window.location.href = "wizard-4-sleep.html";
+        });
+    }
+
 });
