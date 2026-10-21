@@ -6,7 +6,6 @@
 }
 
 body {
-    /* Updated background with glowing radial gradients */
     background-color: #0d111d; 
     background-image: 
         radial-gradient(circle at 85% 50%, rgba(98, 43, 190, 0.25) 0%, transparent 45%),
@@ -19,6 +18,18 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Keyboard Accessibility Focus States --- */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid #8083ff;
+    outline-offset: 2px;
 }
 
 /* --- Header Layout --- */
@@ -60,14 +71,17 @@ body {
 /* --- Main Two-Column Layout --- */
 main {
     flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .hero-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 4rem;
+    padding: 2rem 4rem 3rem 4rem;
     max-width: 1400px;
+    width: 100%;
     margin: 0 auto;
     gap: 4rem;
     position: relative;
@@ -80,7 +94,6 @@ main {
     max-width: 550px;
 }
 
-/* New Pill Badge */
 .crisis-badge {
     display: inline-flex;
     align-items: center;
@@ -98,6 +111,7 @@ main {
     background-color: #ff5252;
     border-radius: 50%;
     box-shadow: 0 0 8px rgba(255, 82, 82, 0.6);
+    flex-shrink: 0;
 }
 
 .badge-text {
@@ -107,7 +121,6 @@ main {
     letter-spacing: 1px;
 }
 
-/* Updated Heading */
 .main-title {
     font-size: 3.5rem;
     font-weight: 700;
@@ -116,9 +129,8 @@ main {
     margin-bottom: 1.5rem;
 }
 
-/* Updated Button */
 .calculate-btn {
-    background-color: #8b5cf6 !important; /* Rich purple */
+    background-color: #8b5cf6;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -127,17 +139,22 @@ main {
     padding: 0.85rem 1.8rem;
     font-size: 1rem;
     font-weight: 600;
-    border-radius: 50px !important;
+    border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    font-family: inherit;
+    transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.calculate-btn:hover {
-    background-color: #7c3aed !important;
+.calculate-btn:hover:not(:disabled) {
+    background-color: #7c3aed;
     transform: translateY(-2px);
 }
 
-/* Updated Social Proof */
+.calculate-btn:disabled {
+    cursor: wait;
+    opacity: 0.8;
+}
+
 .social-proof-new {
     margin-top: 2.5rem;
     display: flex;
@@ -148,6 +165,7 @@ main {
 .avatar-stack {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .stack-item {
@@ -168,15 +186,16 @@ main {
     color: #9ca3af;
 }
 
-/* --- Right Column: Form Container (UNCHANGED) --- */
+/* --- Right Column: Form Container --- */
 .hero-form-container {
     flex: 1;
     max-width: 480px;
-    background-color: #121420; /* Solid dark background matching image form */
+    width: 100%;
+    background-color: #121420;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 2rem;
-    box-shadow: 0 20px 40px rgba(0,0,0, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .form-tabs {
@@ -269,6 +288,20 @@ main {
     border-color: #8083ff;
 }
 
+.input-group input.input-error {
+    border-color: #ff5252;
+}
+
+.form-error {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 82, 82, 0.1);
+    border: 1px solid rgba(255, 82, 82, 0.25);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+}
+
 .form-actions {
     display: flex;
     justify-content: space-between;
@@ -307,21 +340,19 @@ main {
     border-radius: 6px;
     cursor: pointer;
     font-family: inherit;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
 .submit-button:hover {
     opacity: 0.9;
 }
 
-/* --- Header Navigation Styles --- */
-.nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-
-.nav-links a {
+/* About Link (Moved to bottom right of hero container) */
+.about-link-bottom {
+    position: absolute;
+    bottom: -1rem;
+    right: 4rem;
+    font-size: 0.85rem;
     color: #a1a1aa;
     text-decoration: none;
     font-size: 0.95rem;
@@ -333,14 +364,15 @@ main {
     color: #ffffff;
 }
 
-/* --- New Footer --- */
+/* --- Footer --- */
 .bottom-footer {
     background-color: #090b10;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding: 1.5rem 4rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2rem;
 }
 
 .footer-left h4 {
@@ -380,38 +412,4 @@ main {
     font-size: 0.65rem;
     font-family: monospace;
     color: #52525b;
-}
-
-/* --- Page Load Animations --- */
-.hero-content {
-    animation: slideInLeft 0.8s ease-out forwards;
-}
-
-.hero-form-container {
-    animation: slideInRight 0.8s ease-out forwards;
-}
-
-@keyframes slideInLeft {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-/* --- Crisis Badge Pulse Animation --- */
-.status-dot {
-    animation: pulse 1.5s infinite alternate;
-}
-
-@keyframes pulse {
-    from { box-shadow: 0 0 4px rgba(255, 82, 82, 0.4); }
-    to { box-shadow: 0 0 12px rgba(255, 82, 82, 0.9); }
-}
-
-/* --- Calculate Button Glow --- */
-.calculate-btn:hover {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
 }
