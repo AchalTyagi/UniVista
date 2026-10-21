@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Stage 1: Funds Logic
+
+    // ==========================================
+    // STAGE 1: FUNDS LOGIC
+    // ==========================================
     const form1 = document.getElementById('wizard-form-1');
-    
     if (form1) {
         const fundsInput = document.getElementById('funds');
         const daysSlider = document.getElementById('days-slider');
@@ -12,70 +13,50 @@ document.addEventListener('DOMContentLoaded', () => {
         const metricStatusEl = document.getElementById('metric-status');
         const pills = document.querySelectorAll('.pill-btn');
 
-        // Core Calculation Function
         function updateSurvivalRatio() {
-            // Get current values (default to 0 or 1 if empty to prevent NaN errors)
             let funds = parseFloat(fundsInput.value) || 0;
             let days = parseInt(daysSlider.value) || 1;
-            
-            // Calculate ratios
             let dailyBudget = funds / days;
             let maggiePerDay = dailyBudget / 15;
 
-            // Update DOM text
             dailyBudgetEl.textContent = `₹${dailyBudget.toFixed(2)}/day`;
             maggieCountEl.innerHTML = `Equivalent to: <strong style="color: #ffffff;">${maggiePerDay.toFixed(1)} packs of Maggie</strong> per day`;
 
-            // Update Status Badge Colors based on severity
             if (dailyBudget < 15) {
                 metricStatusEl.textContent = "CRITICAL: STARVATION IMMINENT";
-                metricStatusEl.style.color = "#ff5252"; // Red
-                metricStatusEl.style.background = "rgba(255,82,82,0.1)";
+                metricStatusEl.style.color = "#ff5252";
             } else if (dailyBudget < 50) {
                 metricStatusEl.textContent = "WARNING: NO ROOM FOR ERROR";
-                metricStatusEl.style.color = "#fbbf24"; // Yellow
-                metricStatusEl.style.background = "rgba(251,191,36,0.1)";
+                metricStatusEl.style.color = "#fbbf24";
             } else {
                 metricStatusEl.textContent = "MANAGEABLE";
-                metricStatusEl.style.color = "#4ade80"; // Green
-                metricStatusEl.style.background = "rgba(74,222,128,0.1)";
+                metricStatusEl.style.color = "#4ade80";
             }
         }
 
-        // Event Listeners for instant updates
         fundsInput.addEventListener('input', updateSurvivalRatio);
-        
         daysSlider.addEventListener('input', (e) => {
-            daysDisplay.textContent = e.target.value; // Updates the "10 Days" text next to slider
+            daysDisplay.textContent = e.target.value;
             updateSurvivalRatio();
         });
 
-        // Predicament Pills Logic
         pills.forEach(pill => {
             pill.addEventListener('click', () => {
-                fundsInput.value = pill.getAttribute('data-val'); // Set input value
-                
-                // Toggle active pill styling
+                fundsInput.value = pill.getAttribute('data-val');
                 pills.forEach(p => p.classList.remove('selected'));
                 pill.classList.add('selected');
-                
-                updateSurvivalRatio(); // Run calc immediately
+                updateSurvivalRatio();
             });
         });
 
-        // Pre-fill form if user comes back from Stage 2
-        if(localStorage.getItem('uniVista_funds')) {
-            fundsInput.value = localStorage.getItem('uniVista_funds');
-        }
+        if(localStorage.getItem('uniVista_funds')) fundsInput.value = localStorage.getItem('uniVista_funds');
         if(localStorage.getItem('uniVista_days')) {
             daysSlider.value = localStorage.getItem('uniVista_days');
             daysDisplay.textContent = localStorage.getItem('uniVista_days');
         }
         
-        // Run calculation once on page load
         updateSurvivalRatio();
 
-        // Save and move to Stage 2
         form1.addEventListener('submit', (e) => {
             e.preventDefault();
             localStorage.setItem('uniVista_funds', fundsInput.value);
@@ -84,66 +65,90 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Stage 3: Assignments Logic
-    const form3 = document.getElementById('wizard-form-3');
-    
-    if (form3) {
-        const assignmentsInput = document.getElementById('assignments');
-        const deadlineInput = document.getElementById('deadline');
-        const hwStatusText = document.getElementById('hw-status-text');
-        const metricStatusEl = document.getElementById('hw-metric-status');
+    // ==========================================
+    // STAGE 2: ATTENDANCE LOGIC
+    // ==========================================
+    const form2 = document.getElementById('wizard-form-2');
+    if (form2) {
+        const conductedInput = document.getElementById('conducted');
+        const attendedInput = document.getElementById('attended');
+        const targetSlider = document.getElementById('target-slider');
+        const targetDisplay = document.getElementById('target-display');
+        
+        const currentPercentEl = document.getElementById('current-percent');
+        const bunkAllowanceEl = document.getElementById('bunk-allowance');
+        const metricStatusEl = document.getElementById('att-metric-status');
 
-        function updateHomeworkStatus() {
-            // Safely parse inputs, default to empty string if blank
-            let assignments = assignmentsInput.value !== "" ? parseInt(assignmentsInput.value) : "";
-            let deadline = deadlineInput.value !== "" ? parseInt(deadlineInput.value) : "";
+        function updateAttendance() {
+            let conducted = parseInt(conductedInput.value) || 0;
+            let attended = parseInt(attendedInput.value) || 0;
+            let target = parseInt(targetSlider.value) || 75;
 
-            // Awaiting input state
-            if (assignments === "" || deadline === "") {
-                hwStatusText.textContent = "--";
+            // Auto-correct if user types more attended classes than conducted
+            if (attended > conducted && conducted > 0) {
+                attended = conducted;
+                attendedInput.value = conducted;
+            }
+
+            if (conducted === 0 || attendedInput.value === "") {
+                currentPercentEl.textContent = "--%";
+                bunkAllowanceEl.innerHTML = "";
                 metricStatusEl.textContent = "AWAITING INPUT";
                 metricStatusEl.style.color = "#a1a1aa";
-                metricStatusEl.style.background = "transparent";
                 return;
             }
 
-            // Calculation states
-            if (assignments === 0) {
-                hwStatusText.innerHTML = "Clear skies. Go take a nap.";
+            let currentPercent = (attended / conducted) * 100;
+            currentPercentEl.textContent = `${currentPercent.toFixed(1)}%`;
+
+            let targetDecimal = target / 100;
+
+            if (currentPercent >= target) {
+                // Calculate safe bunks
+                let safeBunks = Math.floor((attended - (targetDecimal * conducted)) / targetDecimal);
+                safeBunks = Math.max(0, safeBunks); // Prevent negative numbers
+                
+                bunkAllowanceEl.innerHTML = `You can safely bunk <strong style="color: #ffffff;">${safeBunks}</strong> more consecutive classes.`;
                 metricStatusEl.textContent = "SAFE ZONE";
                 metricStatusEl.style.color = "#4ade80"; 
-                metricStatusEl.style.background = "rgba(74,222,128,0.1)";
-            } else if (deadline <= 1) {
-                hwStatusText.innerHTML = "Pull an all-nighter immediately.";
-                metricStatusEl.textContent = "DEFCON 1: CRITICAL";
-                metricStatusEl.style.color = "#ff5252"; 
-                metricStatusEl.style.background = "rgba(255,82,82,0.1)";
-            } else if (deadline <= 3) {
-                hwStatusText.innerHTML = "High stress. Cancel weekend plans.";
-                metricStatusEl.textContent = "WARNING";
-                metricStatusEl.style.color = "#fbbf24"; 
-                metricStatusEl.style.background = "rgba(251,191,36,0.1)";
             } else {
-                hwStatusText.innerHTML = "You have time, but don't slack off.";
-                metricStatusEl.textContent = "MANAGEABLE";
-                metricStatusEl.style.color = "#4ade80"; 
-                metricStatusEl.style.background = "rgba(74,222,128,0.1)";
+                // Calculate required classes to recover
+                let requiredClasses = Math.ceil(((targetDecimal * conducted) - attended) / (1 - targetDecimal));
+                
+                bunkAllowanceEl.innerHTML = `You must attend <strong style="color: #ffffff;">${requiredClasses}</strong> consecutive classes to recover.`;
+                metricStatusEl.textContent = "CRITICAL: DEBARMENT RISK";
+                metricStatusEl.style.color = "#ff5252"; 
             }
         }
 
-        assignmentsInput.addEventListener('input', updateHomeworkStatus);
-        deadlineInput.addEventListener('input', updateHomeworkStatus);
+        // Real-time Event Listeners
+        conductedInput.addEventListener('input', updateAttendance);
+        attendedInput.addEventListener('input', updateAttendance);
+        
+        targetSlider.addEventListener('input', (e) => {
+            targetDisplay.textContent = e.target.value;
+            updateAttendance();
+        });
 
-        if(localStorage.getItem('uniVista_assignments')) assignmentsInput.value = localStorage.getItem('uniVista_assignments');
-        if(localStorage.getItem('uniVista_deadline')) deadlineInput.value = localStorage.getItem('uniVista_deadline');
+        // Pre-fill form if user comes back from a future page
+        if(localStorage.getItem('uniVista_conducted')) conductedInput.value = localStorage.getItem('uniVista_conducted');
+        if(localStorage.getItem('uniVista_attended')) attendedInput.value = localStorage.getItem('uniVista_attended');
+        if(localStorage.getItem('uniVista_targetAtt')) {
+            targetSlider.value = localStorage.getItem('uniVista_targetAtt');
+            targetDisplay.textContent = localStorage.getItem('uniVista_targetAtt');
+        }
 
-        updateHomeworkStatus();
+        // Run immediately on page load
+        updateAttendance();
 
-        form3.addEventListener('submit', (e) => {
+        form2.addEventListener('submit', (e) => {
             e.preventDefault();
-            localStorage.setItem('uniVista_assignments', assignmentsInput.value);
-            localStorage.setItem('uniVista_deadline', deadlineInput.value);
-            window.location.href = "wizard-4-sleep.html";
+            localStorage.setItem('uniVista_conducted', conductedInput.value);
+            localStorage.setItem('uniVista_attended', attendedInput.value);
+            localStorage.setItem('uniVista_targetAtt', targetSlider.value);
+            // Notice: ensure wizard-3-assignments.html exists in your folder before clicking next!
+            window.location.href = "wizard-3-assignments.html";
         });
     }
+
 });
