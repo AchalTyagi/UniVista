@@ -8,15 +8,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Updated Header -->
+    <!-- Updated Header with Navigation -->
     <header class="top-nav">
         <div class="logo">
             <h1>UniVista</h1>
         </div>
+        
+        <!-- NEW: Center Navigation -->
+        <nav class="nav-links">
+            <a href="about-us.html">About Us</a>
+        </nav>
+
         <div class="user-profile">
             <span>Hello User!</span>
             <div class="avatar-circle">
-                <!-- Placeholder for user avatar -->
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
             </div>
         </div>
@@ -24,7 +29,7 @@
 
     <main>
         <section class="hero-section">
-            <!-- Left Content Column (Updated to match new design) -->
+            <!-- Left Content Column -->
             <div class="hero-content">
                 <div class="crisis-badge">
                     <span class="status-dot"></span>
@@ -54,7 +59,7 @@
                 </div>
             </div>
 
-            <!-- Right Form Column (Kept exactly as requested) -->
+            <!-- Right Form Column -->
             <div class="hero-form-container">
                 <div class="form-tabs">
                     <button class="tab-btn active">Sign In</button>
@@ -101,25 +106,10 @@
                     <button type="submit" class="submit-button">Log Me In</button>
                 </form>
             </div>
-            
-            <a href="#" class="about-link-bottom">About Us</a>
+            <!-- Removed the about-link-bottom from here -->
         </section>
     </main>
 
-    <!-- New Footer Section -->
-    <footer class="bottom-footer">
-        <div class="footer-left">
-            <h4>UniVista</h4>
-            <p>Academic telemetry & financial triage algorithm. Predictive survival models are simulations<br>for collegiate stress mitigation and not certified financial or accredited degree guarantees.</p>
-        </div>
-        <div class="footer-right">
-            <div class="footer-links">
-                <a href="#">CAMPUS TELEMETRY FEED</a> &middot;
-                <a href="#">SURVIVAL THRESHOLDS</a> &middot;
-                <a href="#">EMERGENCY AID API</a>
-            </div>
-            <p class="copyright">&copy; 2024 CSC ENGINE</p>
-        </div>
-    </footer>
+    <script src="../scripts/script.js"></script>
 </body>
 </html>

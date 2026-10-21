@@ -314,20 +314,23 @@ main {
     opacity: 0.9;
 }
 
-/* About Link (Moved to bottom right of hero container) */
-.about-link-bottom {
-    position: absolute;
-    bottom: -1rem;
-    right: 4rem;
-    font-size: 0.85rem;
+/* --- Header Navigation Styles --- */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
     color: #a1a1aa;
     text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
     transition: color 0.2s ease;
 }
 
-.about-link-bottom:hover {
+.nav-links a:hover {
     color: #ffffff;
-    text-decoration: underline;
 }
 
 /* --- New Footer --- */
@@ -377,4 +380,38 @@ main {
     font-size: 0.65rem;
     font-family: monospace;
     color: #52525b;
+}
+
+/* --- Page Load Animations --- */
+.hero-content {
+    animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.hero-form-container {
+    animation: slideInRight 0.8s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* --- Crisis Badge Pulse Animation --- */
+.status-dot {
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { box-shadow: 0 0 4px rgba(255, 82, 82, 0.4); }
+    to { box-shadow: 0 0 12px rgba(255, 82, 82, 0.9); }
+}
+
+/* --- Calculate Button Glow --- */
+.calculate-btn:hover {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
 }
