@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funds | Survival Wizard</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/wizard_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo"><h1>UniVista</h1></div>
+        <nav class="nav-links"><a href="about-us.html">About Us</a></nav>
+        <a href="user-profile.html" class="user-profile">
+            <span>Hello User!</span>
+            <div class="avatar-circle"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar"></div>
+        </a>
+    </header>
+
+    <main class="wizard-layout">
+        <!-- HORIZONTAL PROGRESS TRACKER -->
+        <div class="wizard-header">
+            <div class="stage-info">
+                <h2>STAGE 01 // 05 <span class="stage-name">Money & Burn Rate</span></h2>
+                <span class="initialized-text">20% INITIALIZED</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 20%;"></div>
+            </div>
+            <div class="stepper-labels">
+                <span class="active">1. Funds</span>
+                <span>2. Attendance</span>
+                <span>3. Homework</span>
+                <span>4. Sleep</span>
+                <span>5. Calculate</span>
+            </div>
+        </div>
+
+        <!-- FORM CARD -->
+        <div class="wizard-card">
+            <form id="wizard-form-1">
+                <div class="protocol-badge">LIQUID ASSET EXTRACTION PROTOCOL</div>
+                <h3 class="step-heading">How Much Money Is Left?</h3>
+                <p class="step-desc">Include loose change, emergency funds, and whatever is in your UPI wallet.</p>
+                
+                <div class="input-group">
+                    <label for="funds">
+                        MY CAPITAL <span class="sub-label">(Immediate cash or UPI)</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <span class="currency-symbol">₹</span>
+                        <input type="number" id="funds" placeholder="200" required>
+                    </div>
+                    
+                    <div class="predicament-pills">
+                        <button type="button" class="pill-btn" data-val="0">₹0 (Rock Bottom)</button>
+                        <button type="button" class="pill-btn" data-val="15">₹15 (End of Sem)</button>
+                        <button type="button" class="pill-btn" data-val="50">₹50 (Groceries)</button>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="days">Days remaining until next pocket money</label>
+                    <div class="slider-wrapper">
+                        <input type="range" min="1" max="30" value="10" class="slider" id="days-slider">
+                        <div class="slider-value"><span id="days-display">10</span> Days</div>
+                    </div>
+                </div>
+
+                <div class="survival-metric-box">
+                    <div class="metric-header">
+                        <span class="metric-title">SURVIVAL RATIO</span>
+                        <span class="metric-status" id="metric-status">AWAITING INPUT</span>
+                    </div>
+                    <p class="metric-result">
+                        Daily Budget: <strong id="daily-budget">₹--/day</strong><br>
+                        <span id="maggie-count" style="font-size: 0.95rem; color: #a1a1aa; display: inline-block; margin-top: 8px;"></span>
+                    </p>
+                    <div class="metric-footer">
+                        <span>Maggie baseline: ₹15/unit</span>
+                    </div>
+                </div>
+
+                <div class="wizard-actions">
+                    <a href="dashboard.html" class="btn-back">&larr; Back</a>
+                    <button type="submit" class="submit-button wizard-next-btn">Next Step &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="../scripts/wizard.js"></script>
+</body>
+</html>

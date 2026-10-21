@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance | Survival Wizard</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/wizard_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo"><h1>UniVista</h1></div>
+        <nav class="nav-links"><a href="about-us.html">About Us</a></nav>
+        <a href="user-profile.html" class="user-profile">
+            <span>Hello User!</span>
+            <div class="avatar-circle"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar"></div>
+        </a>
+    </header>
+
+    <main class="wizard-layout">
+        <div class="wizard-header">
+            <div class="stage-info">
+                <h2>STAGE 02 // 05 <span class="stage-name">Attendance Threshold</span></h2>
+                <span class="initialized-text">40% INITIALIZED</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 40%;"></div>
+            </div>
+            <div class="stepper-labels">
+                <span>1. Funds</span>
+                <span class="active">2. Attendance</span>
+                <span>3. Homework</span>
+                <span>4. Sleep</span>
+                <span>5. Calculate</span>
+            </div>
+        </div>
+
+        <div class="wizard-card">
+            <form id="wizard-form-2">
+                <div class="protocol-badge">LECTURE TRUANCY OPTIMIZATION</div>
+                <h3 class="step-heading">Are You Safe to Skip?</h3>
+                <p class="step-desc">Calculate exactly how many classes you can bunk before the debarment list drops.</p>
+                
+                <div class="input-group">
+                    <label for="conducted">TOTAL CLASSES CONDUCTED</label>
+                    <input type="number" id="conducted" class="standard-input" placeholder="e.g. 40" required min="1">
+                </div>
+
+                <div class="input-group">
+                    <label for="attended">TOTAL CLASSES ATTENDED</label>
+                    <input type="number" id="attended" class="standard-input" placeholder="e.g. 28" required min="0">
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-percent">Target Minimum Attendance (%)</label>
+                    <div class="slider-wrapper">
+                        <input type="range" min="60" max="100" value="75" class="slider" id="target-slider">
+                        <div class="slider-value"><span id="target-display">75</span>%</div>
+                    </div>
+                </div>
+
+                <div class="survival-metric-box">
+                    <div class="metric-header">
+                        <span class="metric-title">ATTENDANCE STATUS</span>
+                        <span class="metric-status" id="att-metric-status">AWAITING INPUT</span>
+                    </div>
+                    <p class="metric-result">Current Attendance: <strong id="current-percent">--%</strong></p>
+                    <p class="metric-result" style="margin-top: -0.5rem; font-size: 0.95rem; color: #a1a1aa;" id="bunk-allowance"></p>
+                    <div class="metric-footer">
+                        <span>Standard university minimum: 75%</span>
+                    </div>
+                </div>
+
+                <div class="wizard-actions">
+                    <a href="wizard-1-funds.html" class="btn-back">&larr; Back to Funds</a>
+                    <button type="submit" class="submit-button wizard-next-btn">Next Step &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script src="../scripts/wizard.js"></script>
+</body>
+</html>

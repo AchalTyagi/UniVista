@@ -1,241 +1,364 @@
+/* --- Global & Typography --- */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 body {
-    background-color: #0d0f17;
+    background-color: #0d111d; 
+    background-image: 
+        radial-gradient(circle at 85% 50%, rgba(98, 43, 190, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 10% 70%, rgba(160, 60, 60, 0.12) 0%, transparent 40%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    line-height: 1.5;
     min-height: 100vh;
-}
-
-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 40px;
-    font-size: small;
-    font-weight: normal;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-}
-
-header nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-main {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.main-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 40px 20px;
-    gap: 60px;
-}
-
-.main-content {
-    flex: 1;
-    min-width: 300px;
-    max-width: 550px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
-.main-content h2 {
+.hidden {
+    display: none !important;
+}
+
+/* --- Keyboard Accessibility Focus States --- */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid #8083ff;
+    outline-offset: 2px;
+}
+
+/* --- Header Layout --- */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem 1rem 4rem;
+}
+
+.logo h1 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: #a1a1aa;
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #2a2d3e;
+}
+
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Main Two-Column Layout --- */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem 3rem 4rem;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 4rem;
+    position: relative;
+    min-height: 65vh;
+}
+
+/* --- Left Column: Content --- */
+.hero-content {
+    flex: 1;
+    max-width: 550px;
+}
+
+.crisis-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff5252;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 82, 82, 0.6);
+    flex-shrink: 0;
+}
+
+.badge-text {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: #a1a1aa;
+    letter-spacing: 1px;
+}
+
+.main-title {
     font-size: 3.5rem;
-    line-height: 1.1;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
 }
 
-.main-content h3 {
-    font-size: 2rem;
-    color: #7b5aff;
-}
-
-.main-content p {
-    font-size: 1.1rem;
-    color: #8b8d9c;
-    line-height: 1.5;
-}
-
-.button {
-    background-color: #7b5aff;
+.calculate-btn {
+    background-color: #8b5cf6;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     color: white;
     border: none;
-    padding: 16px 32px;
-    font-size: 1.1rem;
-    border-radius: 30px;
+    padding: 0.85rem 1.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
     cursor: pointer;
-    width: fit-content;
-    margin-top: 10px;
+    font-family: inherit;
+    transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.social-proof {
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #8b8d9c;
+.calculate-btn:hover:not(:disabled) {
+    background-color: #7c3aed;
+    transform: translateY(-2px);
 }
 
-.form-container {
+.calculate-btn:disabled {
+    cursor: wait;
+    opacity: 0.8;
+}
+
+.social-proof-new {
+    margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar-stack {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.stack-item {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    font-weight: 700;
+    border: 2px solid #0d111d;
+    color: white;
+}
+
+.social-proof-new span {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+/* --- Right Column: Form Container --- */
+.hero-form-container {
     flex: 1;
-    min-width: 300px;
-    max-width: 450px;
-    padding: 30px;
+    max-width: 480px;
+    width: 100%;
+    background-color: #121420;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
-    
-    /* Glassmorphism setup */
-    background: linear-gradient(135deg, rgba(22, 24, 36, 0.6) 0%, rgba(22, 24, 36, 0.2) 100%);
-    backdrop-filter: blur(16px);    
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* --- NEW: Hide the Radio Buttons & Setup Toggles --- */
-input[type="radio"][name="auth-tab"] {
-    display: none;
-}
-
-.signin-section, 
-.signup-section, 
-.signin-btn, 
-.signup-btn {
-    display: none;
-}
-
-.form-section {
-    flex-direction: column;
-    gap: 15px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .form-tabs {
     display: flex;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    padding: 4px;
-    margin-bottom: 25px;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* NEW: Styles the tab labels to look like the old buttons */
-.tab-label {
+.tab-btn {
     flex: 1;
-    padding: 12px;
     background: transparent;
-    color: #8b8d9c;
+    border: none;
+    color: #9ca3af;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    font-family: inherit;
     cursor: pointer;
-    border-radius: 6px;
-    font-size: 1rem;
-    text-align: center;
-    transition: background-color 0.2s, color 0.2s;
+    transition: all 0.2s ease;
 }
 
-.login-form {
+.tab-btn.active {
+    background-color: #8083ff;
+    color: #000000;
+    font-weight: 600;
+    border-radius: 8px 8px 0 0;
+}
+
+.social-login {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
 }
 
-.web-login {
+.btn-social {
     display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.web-login button {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.3);
-    color: #8b8d9c;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 12px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.75rem;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.login-form label {
+.btn-social:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-social svg {
+    flex-shrink: 0;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.input-group label {
     font-size: 0.8rem;
-    color: #8b8d9c;
-    text-transform: uppercase;
-    margin-bottom: -5px;
+    color: #d1d5db;
+    margin-bottom: 0.4rem;
 }
 
-/* NEW: Added input[type="text"] for the username field */
-.login-form input[type="text"],
-.login-form input[type="email"],
-.login-form input[type="password"] {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-    padding: 14px;
+.input-group input {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    padding: 0.8rem;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
 }
 
-.login-form input::placeholder {
-    color: #4a4d5e;
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #8083ff;
+}
+
+.input-group input.input-error {
+    border-color: #ff5252;
+}
+
+.form-error {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 82, 82, 0.1);
+    border: 1px solid rgba(255, 82, 82, 0.25);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
 }
 
 .form-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    margin-top: 5px;
+    margin-bottom: 1.25rem;
 }
 
-.form-actions label {
-    color: #8b8d9c;
-    text-transform: none;
+.remember-me {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #ffffff;
     cursor: pointer;
 }
 
-.form-actions a {
-    color: #8b8d9c;
+.forgot-link {
+    font-size: 0.8rem;
+    color: #71d8e3;
     text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: #a2d6db;
 }
 
 .submit-button {
-    background-color: #e2e8f0;
-    color: #0f172a;
+    width: 100%;
+    background-color: #c0c1ff;
+    color: #0b021a;
     border: none;
-    padding: 16px;
+    padding: 0.85rem;
+    font-weight: 700;
+    font-size: 0.95rem;
     border-radius: 6px;
-    font-weight: bold;
-    font-size: 1rem;
     cursor: pointer;
-    margin-top: 15px;
+    font-family: inherit;
+    transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
+.submit-button:hover {
+    opacity: 0.9;
+}
+
+/* --- Header Navigation Styles --- */
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 2rem;
     align-items: center;
 }
 
 .nav-links a {
-    color: #8b8d9c;
+    color: #a1a1aa;
     text-decoration: none;
     font-size: 0.95rem;
+    font-weight: 500;
     transition: color 0.2s ease;
 }
 
@@ -243,32 +366,52 @@ input[type="radio"][name="auth-tab"] {
     color: #ffffff;
 }
 
-/* --- NEW: The CSS Hack Logic for the Tabs --- */
+/* --- Footer --- */
+.bottom-footer {
+    background-color: #090b10;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
 
-/* When "Sign In" is checked */
-#radio-signin:checked ~ .form-tabs label[for="radio-signin"] {
-    background-color: #7b5aff;
+.footer-left h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.footer-left p {
+    font-size: 0.7rem;
+    color: #71717a;
+    line-height: 1.4;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-links {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: #71717a;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: #a1a1aa;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
     color: white;
 }
 
-#radio-signin:checked ~ .login-form .signin-section {
-    display: flex;
-}
-
-#radio-signin:checked ~ .login-form .signin-btn {
-    display: block;
-}
-
-/* When "Create Account" is checked */
-#radio-signup:checked ~ .form-tabs label[for="radio-signup"] {
-    background-color: #7b5aff;
-    color: white;
-}
-
-#radio-signup:checked ~ .login-form .signup-section {
-    display: flex;
-}
-
-#radio-signup:checked ~ .login-form .signup-btn {
-    display: block;
+.copyright {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: #52525b;
 }

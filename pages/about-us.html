@@ -3,9 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
+    <title>About Us - UniVista</title>
+    <link rel="stylesheet" href="../styles/about_us_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="logo">
+            <a href="mainpage.html"><h1>UniVista</h1></a>
+        </div>
+        <nav class="nav-links">
+            <a href="about-us.html" class="nav-link active">About Us</a>
+            <a href="#" class="nav-link wizard-btn">Survival Wizard</a>
+            <a href="#" class="nav-link">#####</a>
+        </nav>
+        <div class="user-profile">
+            <span id="user-greeting">Hello User!</span>
+            <div class="avatar-circle">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+            </div>
+        </div>
+    </header>
 
+    <main class="about-container">
+        <!-- Page Title -->
+        <h1 class="page-title">About Us</h1>
+
+        <!-- Hero Intro Section -->
+        <section class="intro-section">
+            <div class="intro-left">
+                <h2>Standard Budget Apps Assume You Are An Adult, <br>
+                    <span class="highlight-text">We Know You Have ₹20 and 19 Assignments Pending.</span>
+                </h2>
+            </div>
+            <div class="intro-right">
+                <div class="origin-card">
+                    <p>"Origin Story: Born in BMU campus library at 12:42 AM when 5 engineering majors realized standard productivity tools couldn't calculate if skipping an 9:00 AM class would void graduation."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reality Check Banner -->
+        <section class="reality-banner">
+            <div class="reality-content">
+                <span class="badge">THE REALITY CHECK</span>
+                <h3>"Built for the broke, the tired, and the dangerously overcaffeinated"</h3>
+                <p>"We calculate the exact moment your empty bank account and pending assignments will cause a total meltdown—so you can actually do something about it."</p>
+            </div>
+            <div class="reality-stats">
+                <div class="stat-header">
+                    <span class="stat-label">PANIC LEVEL ACCURACY</span>
+                    <span class="stat-value">99.1%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: 99.1%;"></div>
+                </div>
+                <p class="stat-caption">"Based on actual student breakdowns."</p>
+            </div>
+        </section>
+
+        <!-- Core Pillars Grid -->
+        <section class="pillars-grid">
+            <!-- Pillar 1 -->
+            <div class="pillar-card">
+                <div class="icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8z"></path><path d="M4 10a2 2 0 012-2h12a2 2 0 012 2"></path><path d="M12 4v4"></path></svg>
+                </div>
+                <span class="pillar-number">PILLAR 01</span>
+                <h4>Maggi Budget</h4>
+                <p>Track your last few rupees so you know exactly when you'll run out of food money.</p>
+                <div class="card-footer">
+                    <span>UNIT: ₹ / PACKET</span>
+                    <span class="highlight-mono">LIVE TELEMETRY</span>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="pillar-card">
+                <div class="icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"></path><path d="M2 8h18a2 2 0 012 2v10"></path><path d="M2 17h20"></path><path d="M6 8v9"></path></svg>
+                </div>
+                <span class="pillar-number">PILLAR 02</span>
+                <h4>Safe to Skip?</h4>
+                <p>Calculates exactly how many classes you can bunk without ruining your grade.</p>
+                <div class="card-footer">
+                    <span>LIMIT: 74.9% RISK</span>
+                    <span class="danger-mono">CRITICAL CUTOFF</span>
+                </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="pillar-card">
+                <div class="icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg>
+                </div>
+                <span class="pillar-number">PILLAR 03</span>
+                <h4>Assignment SOS</h4>
+                <p>Sorts your massive pile of homework so you know what to panic about first.</p>
+                <div class="card-footer">
+                    <span>METRIC: P/NP TRIAGE</span>
+                    <span class="highlight-mono">PASS VECTOR</span>
+                </div>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div class="pillar-card">
+                <div class="icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"></path><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"></path><path d="M6 1v3"></path><path d="M10 1v3"></path><path d="M14 1v3"></path></svg>
+                </div>
+                <span class="pillar-number">PILLAR 04</span>
+                <h4>Sleep Debt Tracker</h4>
+                <p>Measures how much of a zombie you are based on your late-night studying.</p>
+                <div class="card-footer">
+                    <span>CAFFEINE</span>
+                    <span class="highlight-mono">BIOMETRIC CURVE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Stories -->
+        <section class="stories-section">
+            <div class="section-header">
+                <h2><span class="quote-icon">❝</span> User Stories</h2>
+                <span class="mono-label">VERIFIED CAMPUS SURVIVORS</span>
+            </div>
+            <div class="stories-grid">
+                <div class="story-card">
+                    <p>"The calculator proved I only needed a 42% on the finals to keep my scholarship. I slept for 11 solid hours and somehow got a 68%. This algorithm literally prevented cardiac arrest."</p>
+                    <div class="user-info">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tyler" alt="Tyler K.">
+                        <div class="user-meta">
+                            <strong>Tyler K.</strong>
+                            <span>CS Junior • Georgia Tech</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <p>"The Bunk Threshold told me I had exactly 1 lecture to burn before the 75% attendance trigger. Used that day to cure a migraine and ace organic chemistry lab. Unhinged utility."</p>
+                    <div class="user-info">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maya" alt="Maya S.">
+                        <div class="user-meta">
+                            <strong>Maya S.</strong>
+                            <span>Pre-Med Senior • Michigan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <p>"When I saw my Ramen Runway was 4.2 days but allowance dropped in 5, the simulator suggested stealing hot sauce packets to enhance tap water broth. 10/10 math, survived week 14."</p>
+                    <div class="user-info">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Devon" alt="Devon R.">
+                        <div class="user-meta">
+                            <strong>Devon R.</strong>
+                            <span>Architecture Sophomore • Pratt</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Network CTA -->
+        <section class="network-section">
+            <div class="network-header">
+                <div class="network-title">
+                    <span class="badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> OUR LITTLE WORLD</span>
+                    <h2>Join the Underground Survivor Network</h2>
+                    <p>You don't have to suffer alone in the silent stacks of the library. Join our community hubs for crowd-sourced syllabus leaks, syllabus loophole discovery, and communal midnight emotional support.</p>
+                </div>
+                <div class="online-pill">1000+ STUDENTS ONLINE</div>
+            </div>
+
+            <div class="social-links-grid">
+                <a href="#" class="social-card">
+                    <div class="card-top">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path></svg>
+                        <span class="arrow">↗</span>
+                    </div>
+                    <strong>Discord Guild</strong>
+                    <span>42K+ sobbing in #general channel</span>
+                </a>
+                <a href="#" class="social-card">
+                    <div class="card-top">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path><path d="M2 12h20"></path></svg>
+                        <span class="arrow">↗</span>
+                    </div>
+                    <strong>r/CollegeSurvivors</strong>
+                    <span>Daily survival memes & tier lists</span>
+                </a>
+                <a href="#" class="social-card">
+                    <div class="card-top">
+                        <span style="font-weight:bold; font-size:1.2rem;">#</span>
+                        <span class="arrow">↗</span>
+                    </div>
+                    <strong>@SurvivalCalc</strong>
+                    <span>Midterm panic dispatches & polls</span>
+                </a>
+                <a href="#" class="social-card">
+                    <div class="card-top">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><path d="M7 2v20"></path><path d="M17 2v20"></path><path d="M2 12h20"></path><path d="M2 7h5"></path><path d="M2 17h5"></path><path d="M17 17h5"></path><path d="M17 7h5"></path></svg>
+                        <span class="arrow">↗</span>
+                    </div>
+                    <strong>Dorm Triage Reels</strong>
+                    <span>Relatable 3 AM campus kitchen hacks</span>
+                </a>
+                <a href="#" class="social-card">
+                    <div class="card-top">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path></svg>
+                        <span class="arrow">↗</span>
+                    </div>
+                    <strong>GitHub Telemetry</strong>
+                    <span>Open-source weighted doom scripts</span>
+                </a>
+            </div>
+        </section>
+    </main>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
