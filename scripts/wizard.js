@@ -94,10 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const metricStatusEl = document.getElementById('hw-metric-status');
 
         function updateHomeworkStatus() {
-            let assignments = parseInt(assignmentsInput.value) || 0;
-            let deadline = parseInt(deadlineInput.value) || 0;
+            // Safely parse inputs, default to empty string if blank
+            let assignments = assignmentsInput.value !== "" ? parseInt(assignmentsInput.value) : "";
+            let deadline = deadlineInput.value !== "" ? parseInt(deadlineInput.value) : "";
 
-            if (assignmentsInput.value === "") {
+            // Awaiting input state
+            if (assignments === "" || deadline === "") {
                 hwStatusText.textContent = "--";
                 metricStatusEl.textContent = "AWAITING INPUT";
                 metricStatusEl.style.color = "#a1a1aa";
@@ -105,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Calculation states
             if (assignments === 0) {
                 hwStatusText.innerHTML = "Clear skies. Go take a nap.";
                 metricStatusEl.textContent = "SAFE ZONE";
@@ -128,21 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Event Listeners
         assignmentsInput.addEventListener('input', updateHomeworkStatus);
         deadlineInput.addEventListener('input', updateHomeworkStatus);
 
-        // Pre-fill form if data exists
-        if(localStorage.getItem('uniVista_assignments')) {
-            assignmentsInput.value = localStorage.getItem('uniVista_assignments');
-        }
-        if(localStorage.getItem('uniVista_deadline')) {
-            deadlineInput.value = localStorage.getItem('uniVista_deadline');
-        }
+        if(localStorage.getItem('uniVista_assignments')) assignmentsInput.value = localStorage.getItem('uniVista_assignments');
+        if(localStorage.getItem('uniVista_deadline')) deadlineInput.value = localStorage.getItem('uniVista_deadline');
 
         updateHomeworkStatus();
 
-        // Save and move to Stage 4
         form3.addEventListener('submit', (e) => {
             e.preventDefault();
             localStorage.setItem('uniVista_assignments', assignmentsInput.value);
@@ -150,5 +146,4 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = "wizard-4-sleep.html";
         });
     }
-
 });
