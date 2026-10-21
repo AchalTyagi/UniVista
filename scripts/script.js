@@ -30,13 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Form Submission Prevent Default (To stop page reloads during testing)
+   // 3. Form Submission Redirect
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Stops the page from refreshing
+            
             const email = document.getElementById('email').value;
-            alert(`Attempting to authenticate user: ${email}`);
+            
+            // Optional: Show a quick loading message or alert before redirecting
+            console.log(`Authenticating ${email}...`);
+            
+            // Redirect the user to the main dashboard page
+            window.location.href = "dashboard.html"; 
         });
     }
+
+    // 4. Social Login Redirect
+    const socialButtons = document.querySelectorAll('.btn-social');
+    socialButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            window.location.href = "dashboard.html";
+        });
+    });
 });
