@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep | Survival Wizard</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/wizard_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo"><h1>UniVista</h1></div>
+        <nav class="nav-links"><a href="about-us.html">About Us</a></nav>
+        <a href="user-profile.html" class="user-profile">
+            <span>Hello User!</span>
+            <div class="avatar-circle"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar"></div>
+        </a>
+    </header>
+
+    <main class="wizard-layout">
+        <!-- HORIZONTAL PROGRESS TRACKER -->
+        <div class="wizard-header">
+            <div class="stage-info">
+                <h2>STAGE 04 // 05 <span class="stage-name">Sleep & Biometrics</span></h2>
+                <span class="initialized-text">80% INITIALIZED</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 80%;"></div>
+            </div>
+            <div class="stepper-labels">
+                <span>1. Funds</span>
+                <span>2. Attendance</span>
+                <span>3. Homework</span>
+                <span class="active">4. Sleep</span>
+                <span>5. Calculate</span>
+            </div>
+        </div>
+
+        <!-- FORM CARD -->
+        <div class="wizard-card">
+            <form id="wizard-form-4">
+                <div class="protocol-badge">SOMATIC STRESS TRACKER</div>
+                <h3 class="step-heading">Sleep Debt Assessment</h3>
+                <p class="step-desc">How close are you to hallucinating in the middle of a lecture?</p>
+                
+                <div class="input-group">
+                    <label for="sleep">AVERAGE SLEEP (LAST 3 DAYS IN HOURS)</label>
+                    <input type="number" id="sleep" class="standard-input" placeholder="e.g. 4.5" required min="0" max="24" step="0.5">
+                </div>
+
+                <div class="input-group">
+                    <label for="caffeine">DAILY CAFFEINE INTAKE (CUPS / CANS)</label>
+                    <input type="number" id="caffeine" class="standard-input" placeholder="e.g. 3" required min="0">
+                </div>
+
+                <div class="survival-metric-box">
+                    <div class="metric-header">
+                        <span class="metric-title">COGNITIVE DECLINE STATUS</span>
+                        <span class="metric-status" id="sleep-metric-status">AWAITING INPUT</span>
+                    </div>
+                    <p class="metric-result">Brain Function: <strong id="sleep-status-text">--</strong></p>
+                    <div class="metric-footer">
+                        <span>8 hours is a myth, but 2 hours is a death sentence.</span>
+                    </div>
+                </div>
+
+                <div class="wizard-actions">
+                    <a href="wizard-3-assignments.html" class="btn-back">&larr; Back to Homework</a>
+                    <button type="submit" class="submit-button wizard-next-btn">Next Step &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="../scripts/wizard.js"></script>
+</body>
+</html>
