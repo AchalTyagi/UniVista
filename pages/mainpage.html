@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Updated Header -->
+    <!-- Updated Header with Navigation -->
     <header class="top-nav">
         <div class="logo">
             <h1>UniVista</h1>
@@ -20,7 +20,7 @@
         </nav>
 
         <div class="user-profile">
-            <span id="user-greeting">Hello User!</span>
+            <span>Hello User!</span>
             <div class="avatar-circle">
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
             </div>
@@ -42,15 +42,15 @@
                     Let's do the math.
                 </h1>
                 
-                <button type="button" class="button calculate-btn">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <button class="button calculate-btn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                     </svg>
-                    <span>Calculate My Survival &rarr;</span>
+                    Calculate My Survival &rarr;
                 </button>
                 
                 <div class="social-proof-new">
-                    <div class="avatar-stack" aria-hidden="true">
+                    <div class="avatar-stack">
                         <div class="stack-item" style="background: #6c5ce7; z-index: 3;">CS</div>
                         <div class="stack-item" style="background: #00b894; z-index: 2; margin-left: -10px;">BI</div>
                         <div class="stack-item" style="background: #d63031; z-index: 1; margin-left: -10px;">ENG</div>
@@ -61,15 +61,15 @@
 
             <!-- Right Form Column -->
             <div class="hero-form-container">
-                <div class="form-tabs" role="tablist">
-                    <button type="button" class="tab-btn active" data-tab="signin" role="tab" aria-selected="true">Sign In</button>
-                    <button type="button" class="tab-btn" data-tab="signup" role="tab" aria-selected="false">Create your Account</button>
+                <div class="form-tabs">
+                    <button class="tab-btn active">Sign In</button>
+                    <button class="tab-btn">Create your Account</button>
                 </div>
                 
-                <form class="login-form" novalidate>
+                <form class="login-form">
                     <div class="social-login">
-                        <button type="button" class="btn-social" aria-label="Continue with Google">
-                            <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <button type="button" class="btn-social">
+                            <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -106,25 +106,10 @@
                     <button type="submit" class="submit-button">Log Me In</button>
                 </form>
             </div>
-            
-            <a href="#" class="about-link-bottom">About Us</a>
+            <!-- Removed the about-link-bottom from here -->
         </section>
     </main>
 
-    <!-- New Footer Section -->
-    <footer class="bottom-footer">
-        <div class="footer-left">
-            <h4>UniVista</h4>
-            <p>Academic telemetry & financial triage algorithm. Predictive survival models are simulations<br>for collegiate stress mitigation and not certified financial or accredited degree guarantees.</p>
-        </div>
-        <div class="footer-right">
-            <div class="footer-links">
-                <a href="#">CAMPUS TELEMETRY FEED</a> &middot;
-                <a href="#">SURVIVAL THRESHOLDS</a> &middot;
-                <a href="#">EMERGENCY AID API</a>
-            </div>
-            <p class="copyright">&copy; 2024 CSC ENGINE</p>
-        </div>
-    </footer>
+    <script src="../scripts/script.js"></script>
 </body>
 </html>

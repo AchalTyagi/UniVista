@@ -347,12 +347,14 @@ main {
     opacity: 0.9;
 }
 
-/* About Link (Moved to bottom right of hero container) */
-.about-link-bottom {
-    position: absolute;
-    bottom: -1rem;
-    right: 4rem;
-    font-size: 0.85rem;
+/* --- Header Navigation Styles --- */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
     color: #a1a1aa;
     text-decoration: none;
     font-size: 0.95rem;
