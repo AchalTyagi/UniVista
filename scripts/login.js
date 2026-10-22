@@ -19,108 +19,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Form Submission Redirect (Login/Create Account)
+    // 2. Form Submission Redirect 
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault(); // Stops the page from refreshing
             
-            const email = document.getElementById('email').value;
-            console.log(`Authenticating ${email}...`);
-            
-            // Redirect the user to the dashboard page
-            window.location.href = "dashboard.html"; 
+            // Route new users to the initialization gatekeeper to build their profile
+            window.location.href = "login.html"; 
         });
     }
 
-    // 3. Google & GitHub OAuth Popup Logic
+    // 3. Google & GitHub Auth (Simplified Routing)
     const socialButtons = document.querySelectorAll('.btn-social');
     const googleBtn = document.getElementById('google-btn') || socialButtons[0];
     const githubBtn = document.getElementById('github-btn') || socialButtons[1];
-    const avatarImg = document.querySelector('.avatar-circle img');
-    const userGreeting = document.querySelector('.user-profile span');
 
-    const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; // Replace with your Client ID
-    let tokenClient;
-
-    // Dynamically load Google Identity Services script if not already in HTML
-    if (!document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
-        const gsiScript = document.createElement('script');
-        gsiScript.src = 'https://accounts.google.com/gsi/client';
-        gsiScript.async = true;
-        gsiScript.defer = true;
-        gsiScript.onload = initGoogleAuth;
-        document.head.appendChild(gsiScript);
-    } else {
-        window.addEventListener('load', initGoogleAuth);
-    }
-
-    function initGoogleAuth() {
-        if (window.google && !GOOGLE_CLIENT_ID.startsWith('YOUR_')) {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: GOOGLE_CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-                callback: async (tokenResponse) => {
-                    if (tokenResponse && tokenResponse.access_token) {
-                        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                            headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
-                        });
-                        const user = await res.json();
-
-                        // Update header greeting and avatar image
-                        if (userGreeting) {
-                            userGreeting.textContent = `Hello ${user.given_name || user.name}!`;
-                        }
-                        if (user.picture && avatarImg) {
-                            avatarImg.src = user.picture;
-                        }
-
-                        // Redirect to dashboard after successful Google sign-in
-                        window.location.href = "dashboard.html";
-                    }
-                },
-            });
-        }
-    }
-
-    // Helper to open a centered popup window
-    function openCenteredPopup(url, title) {
-        const width = 500;
-        const height = 600;
-        const left = (window.screen.width / 2) - (width / 2);
-        const top = (window.screen.height / 2) - (height / 2);
-        window.open(
-            url,
-            title,
-            `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes`
-        );
-    }
-
-    // Google Button Click Handler
     if (googleBtn) {
         googleBtn.addEventListener('click', () => {
-            if (tokenClient) {
-                // Opens the official Google OAuth account selector popup
-                tokenClient.requestAccessToken({ prompt: 'select_account' });
-            } else {
-                // Fallback popup if Client ID hasn't been configured yet
-                openCenteredPopup('https://accounts.google.com/signin', 'GoogleSignIn');
-            }
+            // Route to initialization gatekeeper
+            window.location.href = "login.html";
         });
     }
 
-    // GitHub Button Click Handler
     if (githubBtn) {
         githubBtn.addEventListener('click', () => {
-            openCenteredPopup('https://github.com/login', 'GitHubSignIn');
+            // Route to initialization gatekeeper
+            window.location.href = "login.html";
         });
     }
 
-    // 4. Calculate My Survival Button Logic
+    // 4. "Calculate My Survival" Button Logic
     const calculateBtn = document.querySelector('.calculate-btn');
     if (calculateBtn) {
         calculateBtn.addEventListener('click', () => {
-            window.location.href = "dashboard.html";
+            // Check if they already have a profile
+            const hasProfile = localStorage.getItem('uniVista_profile');
+            
+            // If they have a profile, go to dashboard. If not, send to initialization.
+            window.location.href = hasProfile ? "dashboard.html" : "login.html";
         });
     }
 });
