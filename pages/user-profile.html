@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operative Profile | UniVista</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/profile_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <h1>UniVista</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="wizard-1-funds.html">Survival Wizard</a>
+        </nav>
+        <a href="user-profile.html" class="user-profile active-nav">
+            <span>Ledev Sharma</span>
+            <div class="avatar-circle">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+            </div>
+        </a>
+    </header>
+
+    <main class="profile-layout">
+        
+        <!-- Left Column: Identity & Hardware -->
+        <aside class="profile-sidebar">
+            <div class="profile-card">
+                <div class="profile-avatar-large">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+                </div>
+                <h1 class="profile-name">Ledev Sharma</h1>
+                <p class="profile-status">Undergraduate // Year 2</p>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    SYSTEMS NOMINAL
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Current Loadout (Hardware)</h3>
+                <ul class="loadout-list">
+                    <li><strong>CPU:</strong> Intel Core i7-1355U</li>
+                    <li><strong>RAM:</strong> 16 GB</li>
+                    <li><strong>GPU:</strong> Intel Iris Xe Graphics</li>
+                    <li><strong>Controller:</strong> Kreo Surge XB</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Right Column: Telemetry & Trajectory -->
+        <section class="profile-dashboard">
+            
+            <div class="dashboard-header">
+                <h2>OPERATIVE TELEMETRY</h2>
+                <span class="sync-text">LAST SYNC: JUST NOW</span>
+            </div>
+
+            <div class="stats-grid">
+                <!-- Academic Trajectory -->
+                <div class="stat-box target-box">
+                    <div class="stat-icon">🎓</div>
+                    <h3>Academic Trajectory</h3>
+                    <div class="stat-comparison">
+                        <div class="stat-current">
+                            <span class="label">CURRENT</span>
+                            <span class="value">6.57</span>
+                        </div>
+                        <div class="stat-arrow">&rarr;</div>
+                        <div class="stat-target">
+                            <span class="label">TARGET</span>
+                            <span class="value">8.5 - 9.0</span>
+                        </div>
+                    </div>
+                    <p class="stat-footer">Preparing for 3rd-year internships.</p>
+                </div>
+
+                <!-- Post-Grad Directives -->
+                <div class="stat-box">
+                    <div class="stat-icon">🌍</div>
+                    <h3>Post-Grad Directives</h3>
+                    <ul class="directive-list">
+                        <li>Evaluating CAT Examination</li>
+                        <li>Exploring US Masters Programs</li>
+                        <li>Exploring Germany Masters Programs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Active Development & Tech Stack -->
+            <div class="dev-section">
+                <h3>Active Development & Arsenal</h3>
+                
+                <div class="project-list">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4>RepoXray</h4>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                        <p>Software dependency security risk assessment web application utilizing Express and MongoDB Atlas.</p>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4>Smart-file-organiser</h4>
+                            <span class="tech-tag">Python</span>
+                        </div>
+                        <p>Desktop application project built with Python and PyQt6 to streamline directory sorting.</p>
+                    </div>
+                </div>
+
+                <div class="skills-container">
+                    <span class="skill-pill">Java</span>
+                    <span class="skill-pill">C (DSA)</span>
+                    <span class="skill-pill">Python (Pandas)</span>
+                    <span class="skill-pill">Linear Algebra</span>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+</body>
+</html>
