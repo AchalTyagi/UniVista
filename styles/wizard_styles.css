@@ -256,3 +256,18 @@
     text-decoration: none;
     font-size: 0.9rem;
 }
+/* --- Stage 5: Results --- */
+.result-score { text-align: center; margin-bottom: 1.2rem; }
+.result-score-value { font-size: 4rem; font-weight: 700; line-height: 1; }
+.result-score-max { color: #a1a1aa; font-size: 1.2rem; margin-left: 4px; }
+.result-verdict { font-family: monospace; letter-spacing: 2px; margin-top: 0.5rem; font-weight: 700; }
+.result-rows { display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0 1rem; }
+.result-row { background: rgba(0, 0, 0, 0.3); border-left: 3px solid #8b5cf6; border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; }
+.result-row-head { display: flex; justify-content: space-between; font-family: monospace; font-size: 0.8rem; margin-bottom: 0.4rem; }
+.result-row-head strong { color: #fff; }
+.result-row p { color: #a1a1aa; font-size: 0.85rem; }
+.result-disclaimer { color: #52525b; font-size: 0.75rem; margin-bottom: 2rem; }
+.empty-result { text-align: center; color: #a1a1aa; padding: 1.5rem 0 2.5rem; }
+.empty-result ul { list-style: none; margin-top: 1rem; }
+.empty-result li { margin-bottom: 0.5rem; }
+.empty-result a { color: #8b5cf6; text-decoration: none; }

@@ -1,63 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Tab Switching Logic
+    // 1. Tabs
     const tabButtons = document.querySelectorAll('.tab-btn');
     const submitButton = document.querySelector('.submit-button');
-    
+
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Remove active class from all tabs
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked tab
-            button.classList.add('active');
-            
-            // Change the submit button text based on the active tab
-            if (button.textContent.trim() === 'Sign In') {
-                submitButton.textContent = 'Log Me In';
+            if (button.textContent.trim() === 'Create your Account') {
+                window.location.href = 'login.html';
             } else {
-                submitButton.textContent = 'Create Account';
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                submitButton.textContent = 'Log Me In';
             }
         });
     });
 
-    // 2. Form Submission Redirect 
+    // 2. Sign In: validate against registered accounts
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Stops the page from refreshing
-            
-            // Route new users to the initialization gatekeeper to build their profile
-            window.location.href = "login.html"; 
+        const errorBox = document.createElement('div');
+        errorBox.className = 'form-error';
+        errorBox.hidden = true;
+        loginForm.insertBefore(errorBox, loginForm.querySelector('.form-actions'));
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorBox.hidden = true;
+            submitButton.disabled = true;
+
+            const result = await UniVistaAuth.signIn(
+                document.getElementById('email').value,
+                document.getElementById('password').value
+            );
+
+            if (result.ok) {
+                window.location.href = 'dashboard.html';
+            } else {
+                errorBox.textContent = result.error;
+                errorBox.hidden = false;
+                submitButton.disabled = false;
+            }
         });
     }
 
-    // 3. Google & GitHub Auth (Simplified Routing)
-    const socialButtons = document.querySelectorAll('.btn-social');
-    const googleBtn = document.getElementById('google-btn') || socialButtons[0];
-    const githubBtn = document.getElementById('github-btn') || socialButtons[1];
+    // 3. Google / GitHub buttons: no OAuth backend, so route to registration
+    document.querySelectorAll('.btn-social').forEach(btn => {
+        btn.addEventListener('click', () => { window.location.href = 'login.html'; });
+    });
 
-    if (googleBtn) {
-        googleBtn.addEventListener('click', () => {
-            // Route to initialization gatekeeper
-            window.location.href = "login.html";
-        });
-    }
-
-    if (githubBtn) {
-        githubBtn.addEventListener('click', () => {
-            // Route to initialization gatekeeper
-            window.location.href = "login.html";
-        });
-    }
-
-    // 4. "Calculate My Survival" Button Logic
+    // 4. "Calculate My Survival"
     const calculateBtn = document.querySelector('.calculate-btn');
     if (calculateBtn) {
         calculateBtn.addEventListener('click', () => {
-            // Check if they already have a profile
-            const hasProfile = localStorage.getItem('uniVista_profile');
-            
-            // If they have a profile, go to dashboard. If not, send to initialization.
-            window.location.href = hasProfile ? "dashboard.html" : "login.html";
+            window.location.href = UniVistaAuth.getProfile() ? 'dashboard.html' : 'login.html';
         });
     }
 });
