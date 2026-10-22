@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     bunkAllowanceDisplay.textContent = `You can safely skip the next ${skippable} class(es).`;
                 }
             } else {
-                const requiredToAttend = Math.ceil(((target / 100) * conducted - attended) / (1 - (target / 100)));
+                const requiredToAttend = target === 100 ? null : Math.max(0, Math.ceil(((target / 100) * conducted - attended) / (1 - (target / 100))));
                 attMetricStatus.textContent = 'DEBARMENT RISK';
                 attMetricStatus.style.color = '#ff5252'; 
-                bunkAllowanceDisplay.textContent = `Must attend next ${requiredToAttend} class(es) to reach ${target}%.`;
+                bunkAllowanceDisplay.textContent = target === 100 ? 'To reach 100%, you must attend every future class; the exact number depends on how many classes are conducted next.' : `Must attend next ${requiredToAttend} class(es) to reach ${target}%.`;
             }
         }
 
@@ -149,7 +149,63 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('uniVista_attended', attendedInput.value);
                 localStorage.setItem('uniVista_targetAtt', targetSlider.value);
                 
-                window.location.href = "wizard-3-homework.html";
+                window.location.href = "wizard-3-assignments.html";
+            });
+        }
+    }
+
+    // ==========================================
+    // STAGE 3: ASSIGNMENTS LOGIC
+    // ==========================================
+    const assignmentsInput = document.getElementById('assignments');
+    const deadlineInput = document.getElementById('deadline');
+    const hwStatus = document.getElementById('hw-metric-status');
+    const hwStatusText = document.getElementById('hw-status-text');
+    const wizardForm3 = document.getElementById('wizard-form-3');
+
+    if (assignmentsInput && deadlineInput) {
+        function calculateAssignmentThreat() {
+            const assignments = Number(assignmentsInput.value);
+            const deadline = Number(deadlineInput.value);
+
+            if (assignmentsInput.value === '' || deadlineInput.value === '') {
+                hwStatus.textContent = 'AWAITING INPUT';
+                hwStatusText.textContent = '--';
+                return;
+            }
+            if (assignments < 0 || deadline < 0 || !Number.isFinite(assignments) || !Number.isFinite(deadline)) {
+                hwStatus.textContent = 'INVALID INPUT';
+                hwStatusText.textContent = 'Enter valid non-negative values';
+                return;
+            }
+
+            let status;
+            if (assignments === 0) status = 'NO PENDING WORK';
+            else if (deadline <= 1 && assignments >= 2) status = 'CRITICAL';
+            else if (deadline <= 2 || assignments >= 4) status = 'HIGH';
+            else if (assignments >= 2 || deadline <= 5) status = 'MODERATE';
+            else status = 'LOW';
+
+            hwStatus.textContent = status;
+            hwStatusText.textContent = status;
+            hwStatus.style.color = status === 'CRITICAL' ? '#ff5252' : status === 'HIGH' ? '#f39c12' : status === 'NO PENDING WORK' ? '#00b894' : '';
+        }
+
+        assignmentsInput.addEventListener('input', calculateAssignmentThreat);
+        deadlineInput.addEventListener('input', calculateAssignmentThreat);
+        const savedAssignments = localStorage.getItem('uniVista_assignments');
+        const savedDeadline = localStorage.getItem('uniVista_deadline');
+        if (savedAssignments !== null) assignmentsInput.value = savedAssignments;
+        if (savedDeadline !== null) deadlineInput.value = savedDeadline;
+        calculateAssignmentThreat();
+
+        if (wizardForm3) {
+            wizardForm3.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!wizardForm3.reportValidity()) return;
+                localStorage.setItem('uniVista_assignments', assignmentsInput.value);
+                localStorage.setItem('uniVista_deadline', deadlineInput.value);
+                alert('Your assignment details have been saved. The Sleep and Calculate pages will be added later.');
             });
         }
     }
