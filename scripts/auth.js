@@ -13,12 +13,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (profileData) {
         const profile = JSON.parse(profileData);
         
-        // Find the navbar elements
         const navName = document.getElementById('global-nav-name');
         const navAvatar = document.getElementById('global-nav-avatar');
 
-        // Update them with the user's actual data
         if (navName) navName.textContent = profile.name;
         if (navAvatar) navAvatar.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.avatarSeed}`;
+    }
+
+    // 4. Logout Logic
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Wipe all UniVista data from local storage so the next user starts fresh
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('uniVista_')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            
+            // Send them back to the gatekeeper
+            window.location.href = 'login.html';
+        });
     }
 });
