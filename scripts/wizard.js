@@ -1,0 +1,153 @@
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // ==========================================
+    // STAGE 1: FUNDS LOGIC
+    // ==========================================
+    const fundsInput = document.getElementById('funds');
+    const daysSlider = document.getElementById('days-slider');
+    const daysDisplay = document.getElementById('days-display');
+    const dailyBudgetDisplay = document.getElementById('daily-budget');
+    const maggieCountDisplay = document.getElementById('maggie-count');
+    const metricStatus = document.getElementById('metric-status');
+    const pillBtns = document.querySelectorAll('.pill-btn');
+    const wizardForm1 = document.getElementById('wizard-form-1');
+
+    if (fundsInput && daysSlider) {
+        const MAGGI_UNIT_COST = 15;
+
+        function calculateBurnRate() {
+            const currentFunds = parseFloat(fundsInput.value) || 0;
+            const remainingDays = parseInt(daysSlider.value) || 1;
+
+            const dailyBudget = currentFunds / remainingDays;
+            const maggiePerDay = Math.floor(dailyBudget / MAGGI_UNIT_COST);
+
+            dailyBudgetDisplay.textContent = `₹${dailyBudget.toFixed(2)}/day`;
+
+            if (fundsInput.value === '') {
+                metricStatus.textContent = "AWAITING INPUT";
+                metricStatus.style.color = "#ffffff";
+                maggieCountDisplay.textContent = "";
+            } else if (currentFunds === 0) {
+                metricStatus.textContent = "TOTAL INSOLVENCY";
+                metricStatus.style.color = "#ff5252";
+                maggieCountDisplay.textContent = "0 meals. Emergency aid required.";
+            } else if (maggiePerDay >= 3) {
+                metricStatus.textContent = "NOMINAL";
+                metricStatus.style.color = "#00b894";
+                maggieCountDisplay.textContent = `Sustainable: ${maggiePerDay} unit(s) per day.`;
+            } else if (maggiePerDay > 0) {
+                metricStatus.textContent = "WARNING";
+                metricStatus.style.color = "#f39c12";
+                maggieCountDisplay.textContent = `Rationing required: ${maggiePerDay} unit(s) per day.`;
+            } else {
+                metricStatus.textContent = "CRITICAL DEFICIT";
+                metricStatus.style.color = "#ff5252";
+                maggieCountDisplay.textContent = "Insufficient daily capital for baseline nutrition.";
+            }
+        }
+
+        // Trigger calculation when typing
+        fundsInput.addEventListener('input', calculateBurnRate);
+        
+        // Trigger calculation when dragging slider
+        daysSlider.addEventListener('input', (e) => {
+            daysDisplay.textContent = e.target.value;
+            calculateBurnRate();
+        });
+
+        // Trigger calculation when clicking quick-select pills
+        pillBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                fundsInput.value = e.target.getAttribute('data-val');
+                calculateBurnRate(); 
+            });
+        });
+
+        // Handle redirection to Stage 2
+        if (wizardForm1) {
+            wizardForm1.addEventListener('submit', (e) => {
+                e.preventDefault(); // Stop default page refresh
+                localStorage.setItem('univista_liquid_assets', fundsInput.value);
+                localStorage.setItem('univista_days_remaining', daysSlider.value);
+                
+                // Redirect to the attendance page
+                window.location.href = "wizard-2-attendance.html";
+            });
+        }
+    }
+
+    // ==========================================
+    // STAGE 2: ATTENDANCE LOGIC
+    // ==========================================
+    const conductedInput = document.getElementById('conducted');
+    const attendedInput = document.getElementById('attended');
+    const targetSlider = document.getElementById('target-slider');
+    const targetDisplay = document.getElementById('target-display');
+    const currentPercentDisplay = document.getElementById('current-percent');
+    const bunkAllowanceDisplay = document.getElementById('bunk-allowance');
+    const attMetricStatus = document.getElementById('att-metric-status');
+    const wizardForm2 = document.getElementById('wizard-form-2');
+
+    if (conductedInput && attendedInput && targetSlider) {
+        function calculateAttendance() {
+            const conducted = parseInt(conductedInput.value);
+            const attended = parseInt(attendedInput.value);
+            const target = parseInt(targetSlider.value);
+
+            if (isNaN(conducted) || isNaN(attended) || conducted <= 0) {
+                currentPercentDisplay.textContent = '--%';
+                attMetricStatus.textContent = 'AWAITING INPUT';
+                attMetricStatus.style.color = '#ffffff';
+                bunkAllowanceDisplay.textContent = '';
+                return;
+            }
+
+            if (attended > conducted) {
+                currentPercentDisplay.textContent = 'ERR';
+                attMetricStatus.textContent = 'INVALID INPUT';
+                attMetricStatus.style.color = '#ff5252';
+                bunkAllowanceDisplay.textContent = 'Classes attended cannot exceed classes conducted.';
+                return;
+            }
+
+            const currentPercent = (attended / conducted) * 100;
+            currentPercentDisplay.textContent = `${currentPercent.toFixed(1)}%`;
+
+            if (currentPercent >= target) {
+                const skippable = Math.floor((attended * 100 / target) - conducted);
+                attMetricStatus.textContent = 'SAFE ZONE';
+                attMetricStatus.style.color = '#00b894'; 
+                
+                if (skippable === 0) {
+                    bunkAllowanceDisplay.textContent = `You are exactly at target. Cannot skip next class.`;
+                } else {
+                    bunkAllowanceDisplay.textContent = `You can safely skip the next ${skippable} class(es).`;
+                }
+            } else {
+                const requiredToAttend = Math.ceil(((target / 100) * conducted - attended) / (1 - (target / 100)));
+                attMetricStatus.textContent = 'DEBARMENT RISK';
+                attMetricStatus.style.color = '#ff5252'; 
+                bunkAllowanceDisplay.textContent = `Must attend next ${requiredToAttend} class(es) to reach ${target}%.`;
+            }
+        }
+
+        conductedInput.addEventListener('input', calculateAttendance);
+        attendedInput.addEventListener('input', calculateAttendance);
+        
+        targetSlider.addEventListener('input', (e) => {
+            targetDisplay.textContent = e.target.value;
+            calculateAttendance();
+        });
+
+        if (wizardForm2) {
+            wizardForm2.addEventListener('submit', (e) => {
+                e.preventDefault();
+                localStorage.setItem('univista_classes_conducted', conductedInput.value);
+                localStorage.setItem('univista_classes_attended', attendedInput.value);
+                localStorage.setItem('univista_target_attendance', targetSlider.value);
+                window.location.href = "wizard-3-homework.html";
+            });
+        }
+    }
+});
