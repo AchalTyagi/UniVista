@@ -61,11 +61,11 @@
                 <span class="sync-text">LAST SYNC: JUST NOW</span>
             </div>
 
-            <!-- New Section: Wizard History -->
+            <!-- Wizard History -->
             <div class="dev-section" style="margin-bottom: 2rem;">
                 <h3>Recent Survival Analysis</h3>
                 <div id="wizard-history-container" class="history-container">
-                    <!-- JavaScript will inject the history cards here -->
+                    <!-- JS injects history cards here -->
                 </div>
             </div>
 
@@ -92,10 +92,8 @@
                 <div class="stat-box">
                     <div class="stat-icon">🌍</div>
                     <h3>Post-Grad Directives</h3>
-                    <ul class="directive-list">
-                        <li>Evaluating CAT Examination</li>
-                        <li>Exploring US Masters Programs</li>
-                        <li>Exploring Germany Masters Programs</li>
+                    <ul class="directive-list" id="display-directives">
+                        <!-- JS injects directives here -->
                     </ul>
                 </div>
             </div>
@@ -104,20 +102,22 @@
             <div class="dev-section">
                 <h3>Active Development & Arsenal</h3>
                 <div class="project-list">
-                    <div class="project-card">
+                    <!-- Project 1 Link -->
+                    <a href="#" target="_blank" id="display-p1-link" class="project-card clickable-card">
                         <div class="project-header">
-                            <h4>RepoXray</h4>
-                            <span class="tech-tag">Node.js</span>
+                            <h4 id="display-p1-name">RepoXray</h4>
+                            <span class="tech-tag" id="display-p1-tech">Node.js</span>
                         </div>
-                        <p>Dependency security risk assessment web app utilizing Express and MongoDB Atlas.</p>
-                    </div>
-                    <div class="project-card">
+                        <p id="display-p1-desc">Dependency security risk assessment web app utilizing Express and MongoDB Atlas.</p>
+                    </a>
+                    <!-- Project 2 Link -->
+                    <a href="#" target="_blank" id="display-p2-link" class="project-card clickable-card">
                         <div class="project-header">
-                            <h4>Smart-file-organiser</h4>
-                            <span class="tech-tag">Python</span>
+                            <h4 id="display-p2-name">Smart-file-organiser</h4>
+                            <span class="tech-tag" id="display-p2-tech">Python</span>
                         </div>
-                        <p>Desktop application project built with PyQt6 to streamline directory sorting.</p>
-                    </div>
+                        <p id="display-p2-desc">Desktop application project built with PyQt6 to streamline directory sorting.</p>
+                    </a>
                 </div>
                 <div class="skills-container">
                     <span class="skill-pill">Java</span>
@@ -137,6 +137,8 @@
                 <button id="close-modal-btn" class="close-btn">&times;</button>
             </div>
             <form id="edit-profile-form">
+                
+                <!-- Core Info -->
                 <div class="input-group">
                     <label>Operative Name</label>
                     <input type="text" id="edit-name" class="standard-input" required>
@@ -146,12 +148,60 @@
                     <input type="text" id="edit-status" class="standard-input" required>
                 </div>
                 <div class="input-group">
-                    <label>Avatar Seed (Type any word to generate image)</label>
+                    <label>Avatar Seed (Type any word for a new image)</label>
                     <input type="text" id="edit-avatar" class="standard-input" required>
                 </div>
+
+                <!-- Directives -->
+                <h3 class="modal-section-title">Future Plans & Directives</h3>
+                <div class="input-group">
+                    <label>Directives (Separate with commas)</label>
+                    <input type="text" id="edit-directives" class="standard-input" placeholder="e.g. Evaluating CAT, Exploring US Masters">
+                </div>
+
+                <!-- Projects -->
+                <h3 class="modal-section-title">GitHub Project 1</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="input-group">
+                        <label>Project Name</label>
+                        <input type="text" id="edit-p1-name" class="standard-input">
+                    </div>
+                    <div class="input-group">
+                        <label>Tech Stack</label>
+                        <input type="text" id="edit-p1-tech" class="standard-input">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>GitHub URL</label>
+                    <input type="url" id="edit-p1-link" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>Short Description</label>
+                    <input type="text" id="edit-p1-desc" class="standard-input">
+                </div>
+
+                <h3 class="modal-section-title">GitHub Project 2</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="input-group">
+                        <label>Project Name</label>
+                        <input type="text" id="edit-p2-name" class="standard-input">
+                    </div>
+                    <div class="input-group">
+                        <label>Tech Stack</label>
+                        <input type="text" id="edit-p2-tech" class="standard-input">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>GitHub URL</label>
+                    <input type="url" id="edit-p2-link" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>Short Description</label>
+                    <input type="text" id="edit-p2-desc" class="standard-input">
+                </div>
                 
-                <h3 style="color: #8b5cf6; font-size: 0.9rem; margin: 1.5rem 0 1rem 0; text-transform: uppercase;">Hardware Loadout</h3>
-                
+                <!-- Hardware -->
+                <h3 class="modal-section-title">Hardware Loadout</h3>
                 <div class="input-group">
                     <label>CPU</label>
                     <input type="text" id="edit-cpu" class="standard-input">
@@ -177,7 +227,6 @@
         </div>
     </div>
 
-    <!-- We will create this script next -->
     <script src="../scripts/profile.js"></script>
 </body>
 </html>

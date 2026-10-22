@@ -423,3 +423,24 @@
     color: #52525b;
     margin-top: 0.25rem;
 }
+
+/* --- Modal Extensions & Project Links --- */
+.modal-section-title {
+    color: #8b5cf6;
+    font-size: 0.85rem;
+    margin: 1.5rem 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    padding-bottom: 0.5rem;
+}
+
+.clickable-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.clickable-card p {
+    color: #a1a1aa; /* Ensures paragraph text stays gray instead of link blue */
+}
