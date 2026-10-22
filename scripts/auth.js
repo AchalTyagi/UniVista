@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Check if user is logged in
     const profileData = localStorage.getItem('uniVista_profile');
     
-    // 2. If no profile exists and we are NOT on the login/mainpage, redirect them
+    // 2. If no profile exists and we are NOT on the login or mainpage, redirect them
     const currentPage = window.location.pathname.split('/').pop();
-    if (!profileData && currentPage !== 'login.html' && currentPage !== 'mainpage.html') {
+    if (!profileData && currentPage !== 'login.html' && currentPage !== 'mainpage.html' && currentPage !== '') {
         window.location.href = 'login.html';
         return;
     }
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Send them back to the gatekeeper
-            window.location.href = 'login.html';
+            // Redirect to the main page instead of the login gatekeeper
+            window.location.href = 'mainpage.html';
         });
     }
 });

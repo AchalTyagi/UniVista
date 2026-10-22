@@ -444,3 +444,24 @@
 .clickable-card p {
     color: #a1a1aa; /* Ensures paragraph text stays gray instead of link blue */
 }
+
+/* --- Logout Button --- */
+.logout-btn {
+    width: 100%;
+    background: rgba(255, 82, 82, 0.05);
+    border: 1px solid rgba(255, 82, 82, 0.2);
+    color: #ff5252;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    margin-top: 0.75rem; /* Creates space between Edit and Logout */
+}
+
+.logout-btn:hover {
+    background: rgba(255, 82, 82, 0.15);
+    border-color: #ff5252;
+}

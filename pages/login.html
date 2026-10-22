@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | UniVista</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/wizard_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+    <div class="wizard-card" style="width: 100%; max-width: 450px;">
+        <div class="protocol-badge">SYSTEM INITIALIZATION</div>
+        <h3 class="step-heading">Identify Operative</h3>
+        <p class="step-desc">Enter your credentials to access the telemetry dashboard.</p>
+        
+        <form id="login-form">
+            <div class="input-group" style="text-align: left;">
+                <label for="login-name">FULL NAME</label>
+                <input type="text" id="login-name" class="standard-input" placeholder="e.g. John Doe" required>
+            </div>
+
+            <div class="input-group" style="text-align: left; margin-bottom: 2rem;">
+                <label for="login-status">ACADEMIC STATUS</label>
+                <input type="text" id="login-status" class="standard-input" placeholder="e.g. Undergraduate // Year 2" required>
+            </div>
+
+            <button type="submit" class="submit-button" style="width: 100%;">Initialize System &rarr;</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Create a baseline profile for the new user
+            const newProfile = {
+                name: document.getElementById('login-name').value,
+                status: document.getElementById('login-status').value,
+                avatarSeed: document.getElementById('login-name').value.replace(/\s+/g, ''), // Generates avatar based on name
+                cpu: "Unknown", ram: "Unknown", gpu: "Unknown", controller: "Unknown",
+                directives: "", p1Name: "", p1Tech: "", p1Desc: "", p1Link: "",
+                p2Name: "", p2Tech: "", p2Desc: "", p2Link: ""
+            };
+
+            // Save to system and redirect to dashboard
+            localStorage.setItem('uniVista_profile', JSON.stringify(newProfile));
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>
