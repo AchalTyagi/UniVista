@@ -65,13 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Handle redirection to Stage 2
+        // Handle redirection to Stage 2
         if (wizardForm1) {
             wizardForm1.addEventListener('submit', (e) => {
-                e.preventDefault(); // Stop default page refresh
-                localStorage.setItem('univista_liquid_assets', fundsInput.value);
-                localStorage.setItem('univista_days_remaining', daysSlider.value);
+                e.preventDefault(); 
+                // UPDATED KEYS
+                localStorage.setItem('uniVista_funds', fundsInput.value);
+                localStorage.setItem('uniVista_days', daysSlider.value);
                 
-                // Redirect to the attendance page
                 window.location.href = "wizard-2-attendance.html";
             });
         }
@@ -143,9 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wizardForm2) {
             wizardForm2.addEventListener('submit', (e) => {
                 e.preventDefault();
-                localStorage.setItem('univista_classes_conducted', conductedInput.value);
-                localStorage.setItem('univista_classes_attended', attendedInput.value);
-                localStorage.setItem('univista_target_attendance', targetSlider.value);
+                // UPDATED KEYS
+                localStorage.setItem('uniVista_conducted', conductedInput.value);
+                localStorage.setItem('uniVista_attended', attendedInput.value);
+                localStorage.setItem('uniVista_targetAtt', targetSlider.value);
+                
                 window.location.href = "wizard-3-homework.html";
             });
         }
