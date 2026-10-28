@@ -92,23 +92,56 @@
     }
 
     async function signIn(email, password) {
-        email = normEmail(email);
-        const accounts = getAccounts();
-        const acc = accounts[email];
-        if (!acc) return { ok: false, error: 'No account found for this email. Click "Create your Account" to register.' };
-        if (acc.passHash !== await hashPassword(email, password)) return { ok: false, error: 'Incorrect password.' };
+    email = normEmail(email);
 
-        clearActiveSession();
-        Object.entries(acc.data || {}).forEach(([k, v]) => localStorage.setItem(k, v));
-        if (!getProfile()) {
-            localStorage.setItem(PROFILE_KEY, JSON.stringify({
-                name: email.split('@')[0], email, status: 'Student', avatarSeed: email.split('@')[0],
-                cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown', directives: '',
-                p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
-            }));
-        }
-        return { ok: true };
+    const accounts = getAccounts();
+    const acc = accounts[email];
+
+    if (!acc) {
+        return {
+            ok: false,
+            error: 'No account found for this email. Click "Create your Account" to register.'
+        };
     }
+
+    if (acc.passHash !== await hashPassword(email, password)) {
+        return { ok: false, error: 'Incorrect password.' };
+    }
+
+    // Clear all previous wizard/session data.
+    clearActiveSession();
+
+    // Restore the user's profile only, not their previous wizard answers.
+    const savedProfile = acc.data?.[PROFILE_KEY];
+
+    if (savedProfile) {
+        localStorage.setItem(PROFILE_KEY, savedProfile);
+    } else {
+        const username = email.split('@')[0];
+
+        localStorage.setItem(PROFILE_KEY, JSON.stringify({
+            name: username,
+            email,
+            status: 'Student',
+            avatarSeed: username,
+            cpu: 'Unknown',
+            ram: 'Unknown',
+            gpu: 'Unknown',
+            controller: 'Unknown',
+            directives: '',
+            p1Name: '',
+            p1Tech: '',
+            p1Desc: '',
+            p1Link: '',
+            p2Name: '',
+            p2Tech: '',
+            p2Desc: '',
+            p2Link: ''
+        }));
+    }
+
+    return { ok: true };
+}
 
     function saveProfile(profile) {
         const current = getProfile() || {};
