@@ -46,3 +46,19 @@ Want to actually build something? Awesome. Here is the standard protocol:
 
 ### ✌️ The Vibe Check (Code of Conduct)
 Keep it respectful and kind. We are all stressed out, running on three hours of sleep, and trying our best. No toxic tech-bro behavior, gatekeeping, or being rude in the PR comments. If you wouldn't say it to someone in the library at 2 AM, don't type it here.
+
+## Run locally
+
+1. Keep the `pages`, `styles`, and `scripts` folders together in the project root.
+2. Open `pages/mainpage.html` in a browser, or serve the project root with a local static server and visit `/pages/mainpage.html`.
+3. Use the main page form to continue to the dashboard (authentication is intentionally bypassed during this UI/functionality pass).
+4. Start the Survival Wizard from the dashboard. The currently wired steps are Funds → Attendance → Assignments. Sleep and Calculate are not connected yet.
+
+## Project structure
+
+- `pages/` — HTML pages
+- `styles/` — shared and page-specific CSS
+- `scripts/` — JavaScript for navigation, profile display, and wizard interactions
+
+Note: this is a frontend prototype. Login/authentication is intentionally not enforced at this stage.
+

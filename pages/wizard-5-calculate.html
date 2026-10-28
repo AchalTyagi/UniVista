@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results | Survival Wizard</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/wizard_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <a href="mainpage.html" style="text-decoration: none; color: inherit;">
+                <h1>UniVista</h1>
+            </a>
+        </div>
+        <nav class="nav-links"><a href="about-us.html">About Us</a></nav>
+        <a href="user-profile.html" class="user-profile">
+            <span id="global-nav-name">Hello User!</span>
+            <div class="avatar-circle"><img id="global-nav-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar"></div>
+        </a>
+    </header>
+
+    <main class="wizard-layout">
+        <!-- HORIZONTAL PROGRESS TRACKER -->
+        <div class="wizard-header">
+            <div class="stage-info">
+                <h2>STAGE 05 // 05 <span class="stage-name">Final Calculation</span></h2>
+                <span class="initialized-text">100% INITIALIZED</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+            <div class="stepper-labels">
+                <span>1. Funds</span>
+                <span>2. Attendance</span>
+                <span>3. Homework</span>
+                <span>4. Sleep</span>
+                <span class="active">5. Calculate</span>
+            </div>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div class="wizard-card">
+            <div class="protocol-badge">FINAL SURVIVAL ASSESSMENT</div>
+            <h3 class="step-heading">Your Survival Verdict</h3>
+            <p class="step-desc">Combined from your funds, attendance, homework and sleep data.</p>
+
+            <div id="result-root"></div>
+
+            <div class="wizard-actions">
+                <a href="wizard-4-sleep.html" class="btn-back">&larr; Back to Sleep</a>
+                <a href="wizard-1-funds.html" class="btn-back">Recalculate</a>
+                <a href="user-profile.html" class="submit-button wizard-next-btn" style="text-decoration:none; text-align:center;">View Profile &rarr;</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/wizard.js"></script>
+</body>
+</html>

@@ -12,19 +12,19 @@
 <!-- Updated Header with Navigation -->
     <header class="top-nav">
         <div class="logo">
-            <h1>UniVista</h1>
+            <a href="mainpage.html" style="text-decoration: none; color: inherit;">
+                <h1>UniVista</h1>
+            </a>
         </div>
-        
-        <!-- Center Navigation -->
         <nav class="nav-links">
-            <a href="about-us.html">About Us</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="wizard-1-funds.html">Survival Wizard</a>
         </nav>
-
-        <!-- CHANGED: Made the user profile an anchor link -->
         <a href="user-profile.html" class="user-profile">
-            <span>Hello User!</span>
+            <!-- ADDED IDs HERE -->
+            <span id="global-nav-name">Hello User!</span>
             <div class="avatar-circle">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+                <img id="global-nav-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
             </div>
         </a>
     </header>
@@ -112,6 +112,7 @@
         </section>
     </main>
 
-    <script src="../scripts/script.js"></script>
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/login.js"></script>
 </body>
 </html>

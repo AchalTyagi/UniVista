@@ -11,16 +11,18 @@
 <body>
     <header class="top-nav">
         <div class="logo">
-            <h1>UniVista</h1>
+            <a href="mainpage.html" style="text-decoration: none; color: inherit;">
+                <h1>UniVista</h1>
+            </a>
         </div>
         <nav class="nav-links">
             <a href="dashboard.html">Dashboard</a>
             <a href="wizard-1-funds.html">Survival Wizard</a>
         </nav>
         <a href="user-profile.html" class="user-profile active-nav">
-            <span>Ledev Sharma</span>
+            <span id="nav-user-name">Ledev Sharma</span>
             <div class="avatar-circle">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+                <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
             </div>
         </a>
     </header>
@@ -31,23 +33,28 @@
         <aside class="profile-sidebar">
             <div class="profile-card">
                 <div class="profile-avatar-large">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+                    <img id="main-user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
                 </div>
-                <h1 class="profile-name">Ledev Sharma</h1>
-                <p class="profile-status">Undergraduate // Year 2</p>
-                <div class="status-badge">
+                <h1 class="profile-name" id="display-name">Ledev Sharma</h1>
+                <p class="profile-status" id="display-status">Undergraduate // Year 2</p>
+                <div class="status-badge" style="margin-bottom: 1.5rem;">
                     <span class="status-dot"></span>
                     SYSTEMS NOMINAL
                 </div>
+                
+                <!-- Buttons Stacked Here -->
+                <button id="edit-profile-btn" class="edit-btn">Edit Profile</button>
+                <button id="logout-btn" class="logout-btn">Log Out Operative</button>
             </div>
 
             <div class="info-card">
+                <!-- Rest of your hardware loadout remains unchanged -->
                 <h3>Current Loadout (Hardware)</h3>
                 <ul class="loadout-list">
-                    <li><strong>CPU:</strong> Intel Core i7-1355U</li>
-                    <li><strong>RAM:</strong> 16 GB</li>
-                    <li><strong>GPU:</strong> Intel Iris Xe Graphics</li>
-                    <li><strong>Controller:</strong> Kreo Surge XB</li>
+                    <li><strong>CPU:</strong> <span id="display-cpu">Intel Core i7-1355U</span></li>
+                    <li><strong>RAM:</strong> <span id="display-ram">16 GB</span></li>
+                    <li><strong>GPU:</strong> <span id="display-gpu">Intel Iris Xe Graphics</span></li>
+                    <li><strong>Controller:</strong> <span id="display-controller">Kreo Surge XB</span></li>
                 </ul>
             </div>
         </aside>
@@ -60,6 +67,14 @@
                 <span class="sync-text">LAST SYNC: JUST NOW</span>
             </div>
 
+            <!-- Wizard History -->
+            <div class="dev-section" style="margin-bottom: 2rem;">
+                <h3>Recent Survival Analysis</h3>
+                <div id="wizard-history-container" class="history-container">
+                    <!-- JS injects history cards here -->
+                </div>
+            </div>
+
             <div class="stats-grid">
                 <!-- Academic Trajectory -->
                 <div class="stat-box target-box">
@@ -67,7 +82,7 @@
                     <h3>Academic Trajectory</h3>
                     <div class="stat-comparison">
                         <div class="stat-current">
-                            <span class="label">CURRENT</span>
+                            <span class="label">CURRENT CGPA</span>
                             <span class="value">6.57</span>
                         </div>
                         <div class="stat-arrow">&rarr;</div>
@@ -83,36 +98,33 @@
                 <div class="stat-box">
                     <div class="stat-icon">🌍</div>
                     <h3>Post-Grad Directives</h3>
-                    <ul class="directive-list">
-                        <li>Evaluating CAT Examination</li>
-                        <li>Exploring US Masters Programs</li>
-                        <li>Exploring Germany Masters Programs</li>
+                    <ul class="directive-list" id="display-directives">
+                        <!-- JS injects directives here -->
                     </ul>
                 </div>
             </div>
 
-            <!-- Active Development & Tech Stack -->
+            <!-- Active Development -->
             <div class="dev-section">
                 <h3>Active Development & Arsenal</h3>
-                
                 <div class="project-list">
-                    <div class="project-card">
+                    <!-- Project 1 Link -->
+                    <a href="#" target="_blank" id="display-p1-link" class="project-card clickable-card">
                         <div class="project-header">
-                            <h4>RepoXray</h4>
-                            <span class="tech-tag">Node.js</span>
+                            <h4 id="display-p1-name">RepoXray</h4>
+                            <span class="tech-tag" id="display-p1-tech">Node.js</span>
                         </div>
-                        <p>Software dependency security risk assessment web application utilizing Express and MongoDB Atlas.</p>
-                    </div>
-
-                    <div class="project-card">
+                        <p id="display-p1-desc">Dependency security risk assessment web app utilizing Express and MongoDB Atlas.</p>
+                    </a>
+                    <!-- Project 2 Link -->
+                    <a href="#" target="_blank" id="display-p2-link" class="project-card clickable-card">
                         <div class="project-header">
-                            <h4>Smart-file-organiser</h4>
-                            <span class="tech-tag">Python</span>
+                            <h4 id="display-p2-name">Smart-file-organiser</h4>
+                            <span class="tech-tag" id="display-p2-tech">Python</span>
                         </div>
-                        <p>Desktop application project built with Python and PyQt6 to streamline directory sorting.</p>
-                    </div>
+                        <p id="display-p2-desc">Desktop application project built with PyQt6 to streamline directory sorting.</p>
+                    </a>
                 </div>
-
                 <div class="skills-container">
                     <span class="skill-pill">Java</span>
                     <span class="skill-pill">C (DSA)</span>
@@ -120,9 +132,108 @@
                     <span class="skill-pill">Linear Algebra</span>
                 </div>
             </div>
-
         </section>
     </main>
 
+    <!-- EDIT PROFILE MODAL -->
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile Configuration</h2>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <form id="edit-profile-form">
+                
+                <!-- Core Info -->
+                <div class="input-group">
+                    <label>Operative Name</label>
+                    <input type="text" id="edit-name" class="standard-input" required>
+                </div>
+                <div class="input-group">
+                    <label>Academic Status</label>
+                    <input type="text" id="edit-status" class="standard-input" required>
+                </div>
+                <div class="input-group">
+                    <label>Avatar Seed (Type any word for a new image)</label>
+                    <input type="text" id="edit-avatar" class="standard-input" required>
+                </div>
+
+                <!-- Directives -->
+                <h3 class="modal-section-title">Future Plans & Directives</h3>
+                <div class="input-group">
+                    <label>Directives (Separate with commas)</label>
+                    <input type="text" id="edit-directives" class="standard-input" placeholder="e.g. Evaluating CAT, Exploring US Masters">
+                </div>
+
+                <!-- Projects -->
+                <h3 class="modal-section-title">GitHub Project 1</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="input-group">
+                        <label>Project Name</label>
+                        <input type="text" id="edit-p1-name" class="standard-input">
+                    </div>
+                    <div class="input-group">
+                        <label>Tech Stack</label>
+                        <input type="text" id="edit-p1-tech" class="standard-input">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>GitHub URL</label>
+                    <input type="url" id="edit-p1-link" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>Short Description</label>
+                    <input type="text" id="edit-p1-desc" class="standard-input">
+                </div>
+
+                <h3 class="modal-section-title">GitHub Project 2</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="input-group">
+                        <label>Project Name</label>
+                        <input type="text" id="edit-p2-name" class="standard-input">
+                    </div>
+                    <div class="input-group">
+                        <label>Tech Stack</label>
+                        <input type="text" id="edit-p2-tech" class="standard-input">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>GitHub URL</label>
+                    <input type="url" id="edit-p2-link" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>Short Description</label>
+                    <input type="text" id="edit-p2-desc" class="standard-input">
+                </div>
+                
+                <!-- Hardware -->
+                <h3 class="modal-section-title">Hardware Loadout</h3>
+                <div class="input-group">
+                    <label>CPU</label>
+                    <input type="text" id="edit-cpu" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>RAM</label>
+                    <input type="text" id="edit-ram" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>GPU</label>
+                    <input type="text" id="edit-gpu" class="standard-input">
+                </div>
+                <div class="input-group">
+                    <label>Primary Controller</label>
+                    <input type="text" id="edit-controller" class="standard-input">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancel-modal-btn" class="btn-back" style="padding: 0.8rem 1.5rem; border: none;">Cancel</button>
+                    <button type="submit" class="submit-button" style="width: auto; padding: 0.8rem 1.5rem;">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../scripts/profile.js"></script>
+    <script src="../scripts/auth.js"></script>
 </body>
 </html>

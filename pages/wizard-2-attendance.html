@@ -10,11 +10,15 @@
 </head>
 <body>
     <header class="top-nav">
-        <div class="logo"><h1>UniVista</h1></div>
+        <div class="logo">
+            <a href="mainpage.html" style="text-decoration: none; color: inherit;">
+                <h1>UniVista</h1>
+            </a>
+        </div>
         <nav class="nav-links"><a href="about-us.html">About Us</a></nav>
         <a href="user-profile.html" class="user-profile">
-            <span>Hello User!</span>
-            <div class="avatar-circle"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar"></div>
+            <span id="global-nav-name">Hello User!</span>
+            <div class="avatar-circle"><img id="global-nav-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar"></div>
         </a>
     </header>
 
@@ -74,11 +78,12 @@
 
                 <div class="wizard-actions">
                     <a href="wizard-1-funds.html" class="btn-back">&larr; Back to Funds</a>
-                    <button type="submit" class="submit-button wizard-next-btn">Next Step &rarr;</button>
+                    <button type="submit" class="submit-button wizard-next-btn">Next &rarr;</button>
                 </div>
             </form>
         </div>
     </main>
+    <script src="../scripts/auth.js"></script>
     <script src="../scripts/wizard.js"></script>
 </body>
 </html>
