@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_PROFILE = {
         name: 'Your Name', status: 'Student', currentCgpa: '', targetCgpa: '',
         cpu: '', ram: '', gpu: '', controller: '', directives: '',
-        p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
+        p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: '', socialLinks: []
     };
 
     // Only allow http(s) links (blocks javascript: URLs)
@@ -42,6 +42,99 @@ document.addEventListener('DOMContentLoaded', () => {
         p1Name: 'edit-p1-name', p1Tech: 'edit-p1-tech', p1Desc: 'edit-p1-desc', p1Link: 'edit-p1-link',
         p2Name: 'edit-p2-name', p2Tech: 'edit-p2-tech', p2Desc: 'edit-p2-desc', p2Link: 'edit-p2-link' };
 
+    const SOCIAL_PLATFORMS = [
+        { value: 'LinkedIn', label: 'LinkedIn' },
+        { value: 'Instagram', label: 'Instagram' },
+        { value: 'X', label: 'X' },
+        { value: 'GitHub', label: 'GitHub' },
+        { value: 'Portfolio', label: 'Personal Portfolio' },
+        { value: 'YouTube', label: 'YouTube' },
+        { value: 'Facebook', label: 'Facebook' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'Behance', label: 'Behance' },
+        { value: 'Other', label: 'Other' }
+    ];
+
+    function addSocialLinkInput(link = {}) {
+        const container = $('social-link-inputs');
+        if (!container || container.querySelectorAll('.social-link-row').length >= 5) return;
+        const row = document.createElement('div');
+        row.className = 'social-link-row';
+        const select = document.createElement('select');
+        select.className = 'standard-input social-platform';
+        select.setAttribute('aria-label', 'Social platform');
+        SOCIAL_PLATFORMS.forEach(platform => {
+            const option = document.createElement('option');
+            option.value = platform.value;
+            option.textContent = platform.label;
+            select.appendChild(option);
+        });
+        select.value = SOCIAL_PLATFORMS.some(x => x.value === link.platform) ? link.platform : 'LinkedIn';
+        const url = document.createElement('input');
+        url.type = 'url';
+        url.className = 'standard-input social-url';
+        url.placeholder = 'https://...';
+        url.setAttribute('aria-label', 'Social profile URL');
+        url.value = safeUrl(link.url || '');
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'remove-social-link';
+        remove.textContent = 'Remove';
+        remove.addEventListener('click', () => { row.remove(); updateSocialLinkControls(); });
+        row.append(select, url, remove);
+        container.appendChild(row);
+        updateSocialLinkControls();
+    }
+
+    function updateSocialLinkControls() {
+        const container = $('social-link-inputs');
+        const button = $('add-social-link-btn');
+        if (!container || !button) return;
+        const count = container.querySelectorAll('.social-link-row').length;
+        button.hidden = count >= 5;
+        button.textContent = count >= 5 ? 'Maximum 5 links reached' : '+ Add Social Link';
+    }
+
+    function renderSocialLinks(p) {
+        const container = $('display-social-links');
+        if (!container) return;
+        container.textContent = '';
+        const links = Array.isArray(p.socialLinks) ? p.socialLinks : [];
+        links.slice(0, 5).forEach(link => {
+            const url = safeUrl(link && link.url);
+            const platform = String(link && link.platform || 'Link');
+            if (!url) return;
+            const anchor = document.createElement('a');
+            anchor.className = 'social-link-chip';
+            anchor.href = url;
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+            const iconName = ({
+                'LinkedIn': 'linkedin', 'Instagram': 'instagram', 'X': 'x', 'GitHub': 'github',
+                'Portfolio': 'portfolio', 'YouTube': 'youtube', 'Facebook': 'facebook',
+                'Medium': 'medium', 'Behance': 'behance', 'Other': 'other'
+            })[platform] || 'other';
+            const icon = document.createElement('img');
+            icon.className = 'social-link-icon';
+            icon.src = `../assets/images/social-${iconName}.png`;
+            icon.alt = '';
+            icon.loading = 'lazy';
+            anchor.appendChild(icon);
+            anchor.title = platform;
+            anchor.setAttribute('aria-label', `${platform} profile (opens in a new tab)`);
+            container.appendChild(anchor);
+        });
+    }
+
+    function fillSocialLinks(p) {
+        const container = $('social-link-inputs');
+        if (!container) return;
+        container.textContent = '';
+        const links = Array.isArray(p.socialLinks) ? p.socialLinks.slice(0, 5) : [];
+        links.forEach(link => addSocialLinkInput(link));
+        updateSocialLinkControls();
+    }
+
     function fillForm(p) {
         Object.entries(idFor).forEach(([field, id]) => {
             if (field !== 'directives') $(id).value = p[field] || '';
@@ -59,6 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const hasProject2 = ['p2Name', 'p2Tech', 'p2Link', 'p2Desc'].some(key => String(p[key] || '').trim());
         project2.hidden = !hasProject2;
         $('add-project-btn').hidden = hasProject2;
+        const removeProject2 = $('remove-project-2-btn');
+        if (removeProject2) removeProject2.hidden = !hasProject2;
+        fillSocialLinks(p);
     }
 
     let directiveCounter = 1;
@@ -75,8 +171,44 @@ document.addEventListener('DOMContentLoaded', () => {
         input.placeholder = 'e.g. Exploring Germany Masters';
         input.value = value;
         row.append(label, input);
+        if (index > 1) {
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'remove-social-link remove-entry-btn';
+            remove.textContent = 'Remove';
+            remove.setAttribute('aria-label', `Remove directive ${index}`);
+            remove.addEventListener('click', () => {
+                row.remove();
+                relabelDirectiveInputs();
+            });
+            row.appendChild(remove);
+        }
         container.appendChild(row);
+        relabelDirectiveInputs();
         return input;
+    }
+
+    function relabelDirectiveInputs() {
+        const rows = Array.from($('directive-inputs').querySelectorAll('.directive-input-row'));
+        rows.forEach((row, index) => {
+            const label = row.querySelector('label');
+            const input = row.querySelector('input');
+            const n = index + 1;
+            if (label) label.textContent = `Post-Grad Directive ${n}`;
+            if (input) {
+                if (n === 1) input.id = 'edit-directives';
+                else input.classList.add('extra-directive-input');
+            }
+            const remove = row.querySelector('.remove-entry-btn');
+            if (remove) remove.setAttribute('aria-label', `Remove directive ${n}`);
+        });
+    }
+
+    function clearProject2() {
+        ['edit-p2-name', 'edit-p2-tech', 'edit-p2-link', 'edit-p2-desc'].forEach(id => { if ($(id)) $(id).value = ''; });
+        $('project-2-fields').hidden = true;
+        $('add-project-btn').hidden = false;
+        if ($('remove-project-2-btn')) $('remove-project-2-btn').hidden = true;
     }
 
     function render() {
@@ -85,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $('display-name').textContent = p.name;
         if ($('nav-user-name')) $('nav-user-name').textContent = p.name;
         $('display-status').textContent = p.status;
+        renderSocialLinks(p);
         const currentCgpa = $('display-current-cgpa');
         const targetCgpa = $('display-target-cgpa');
         if (currentCgpa) currentCgpa.textContent = p.currentCgpa !== '' && p.currentCgpa != null ? Number(p.currentCgpa).toFixed(2).replace(/\\.00$/, '') : '—';
@@ -128,11 +261,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
     $('add-directive-btn')?.addEventListener('click', () => addDirectiveInput());
+    $('add-social-link-btn')?.addEventListener('click', () => addSocialLinkInput());
     $('add-project-btn')?.addEventListener('click', () => {
         $('project-2-fields').hidden = false;
         $('add-project-btn').hidden = true;
+        if ($('remove-project-2-btn')) $('remove-project-2-btn').hidden = false;
         $('edit-p2-name').focus();
     });
+    $('remove-project-2-btn')?.addEventListener('click', clearProject2);
 
     if (form) {
         form.addEventListener('submit', (e) => {
@@ -145,6 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('edit-directives').value,
                 ...Array.from(document.querySelectorAll('#directive-inputs .extra-directive-input')).map(input => input.value)
             ].map(value => value.trim()).filter(Boolean).join(', ');
+            updated.socialLinks = Array.from(document.querySelectorAll('#social-link-inputs .social-link-row'))
+                .map(row => ({ platform: row.querySelector('.social-platform').value, url: row.querySelector('.social-url').value.trim() }))
+                .filter(link => link.url)
+                .filter(link => /^https?:\/\//i.test(link.url))
+                .slice(0, 5);
             UniVistaAuth.saveProfile(updated); // also syncs the account record and keeps the email
             render();
             modal.classList.remove('active');

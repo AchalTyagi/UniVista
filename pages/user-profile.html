@@ -35,6 +35,7 @@
                 </div>
                 <h1 class="profile-name" id="display-name">Your Name</h1>
                 <p class="profile-status" id="display-status">Student</p>
+                <div id="display-social-links" class="social-links" aria-label="Social profile links"></div>
                 <div class="status-badge" style="margin-bottom: 1.5rem;">
                     <span class="status-dot"></span>
                     SYSTEMS NOMINAL
@@ -147,7 +148,14 @@
                     <label>Academic Status</label>
                     <input type="text" id="edit-status" class="standard-input" required>
                 </div>
-<!-- Academic goals -->
+
+                <!-- Optional social links: maximum five -->
+                <h3 class="modal-section-title">Social & Professional Links</h3>
+                <p class="social-links-help">Add up to 5 links. Choose a platform for each link and enter its full URL.</p>
+                <div id="social-link-inputs"></div>
+                <button type="button" id="add-social-link-btn" class="add-entry-btn">+ Add Social Link</button>
+
+                <!-- Academic goals -->
                 <h3 class="modal-section-title">Academic Trajectory</h3>
                 <div class="academic-input-grid">
                     <div class="input-group">
@@ -212,6 +220,7 @@
                     <label>Short Description</label>
                     <input type="text" id="edit-p2-desc" class="standard-input">
                 </div>
+                <button type="button" id="remove-project-2-btn" class="remove-social-link remove-entry-btn" hidden>Remove Project</button>
                 </div>
                 
                 <!-- Hardware -->
