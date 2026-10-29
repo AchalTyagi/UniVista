@@ -62,3 +62,8 @@ Keep it respectful and kind. We are all stressed out, running on three hours of 
 
 Note: this is a frontend prototype. Login/authentication is intentionally not enforced at this stage.
 
+
+
+## Session behavior
+
+Each successful sign-in starts a fresh wizard session. The user's profile details are preserved, while previously entered funds, attendance, assignments, sleep values, and the previous result are cleared and must be entered again. This prototype uses browser `localStorage`; it is not production-grade authentication or secure multi-user storage.

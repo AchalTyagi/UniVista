@@ -1,224 +1,147 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ==========================================
-    // PROFILE EDITING LOGIC
-    // ==========================================
     const editBtn = document.getElementById('edit-profile-btn');
     const modal = document.getElementById('edit-modal');
     const closeBtn = document.getElementById('close-modal-btn');
     const cancelBtn = document.getElementById('cancel-modal-btn');
     const form = document.getElementById('edit-profile-form');
 
-    // DOM Elements to Update on the Page
-    const displayElements = {
-        name: document.getElementById('display-name'),
-        status: document.getElementById('display-status'),
-        cpu: document.getElementById('display-cpu'),
-        ram: document.getElementById('display-ram'),
-        gpu: document.getElementById('display-gpu'),
-        controller: document.getElementById('display-controller'),
-        navName: document.getElementById('nav-user-name'),
-        navAvatar: document.getElementById('nav-user-avatar'),
-        mainAvatar: document.getElementById('main-user-avatar'),
-        
-        // New Elements
-        directives: document.getElementById('display-directives'),
-        
-        p1Name: document.getElementById('display-p1-name'),
-        p1Tech: document.getElementById('display-p1-tech'),
-        p1Desc: document.getElementById('display-p1-desc'),
-        p1Link: document.getElementById('display-p1-link'),
-        
-        p2Name: document.getElementById('display-p2-name'),
-        p2Tech: document.getElementById('display-p2-tech'),
-        p2Desc: document.getElementById('display-p2-desc'),
-        p2Link: document.getElementById('display-p2-link')
+    const $ = (id) => document.getElementById(id);
+
+    const DEFAULT_PROFILE = {
+        name: 'Operative', status: 'Student', avatarSeed: 'Felix',
+        cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown', directives: '',
+        p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
     };
 
-    // Form Input Elements
-    const inputElements = {
-        name: document.getElementById('edit-name'),
-        status: document.getElementById('edit-status'),
-        avatar: document.getElementById('edit-avatar'),
-        cpu: document.getElementById('edit-cpu'),
-        ram: document.getElementById('edit-ram'),
-        gpu: document.getElementById('edit-gpu'),
-        controller: document.getElementById('edit-controller'),
-        
-        directives: document.getElementById('edit-directives'),
-        
-        p1Name: document.getElementById('edit-p1-name'),
-        p1Tech: document.getElementById('edit-p1-tech'),
-        p1Desc: document.getElementById('edit-p1-desc'),
-        p1Link: document.getElementById('edit-p1-link'),
-        
-        p2Name: document.getElementById('edit-p2-name'),
-        p2Tech: document.getElementById('edit-p2-tech'),
-        p2Desc: document.getElementById('edit-p2-desc'),
-        p2Link: document.getElementById('edit-p2-link')
-    };
+    // Only allow http(s) links (blocks javascript: URLs)
+    const safeUrl = (u) => /^https?:\/\//i.test(u || '') ? u : '';
 
-    // Load Profile Data
-    function loadProfileData() {
-        let profile;
-        try { profile = JSON.parse(sessionStorage.getItem('uniVista_profile') || localStorage.getItem('uniVista_profile') || 'null'); }
-        catch (_) { profile = null; }
-        if (!profile) { window.location.replace('mainpage.html'); return; }
-        profile = { status: 'Undergraduate', avatarSeed: profile.name || 'Student', cpu: 'Not specified', ram: 'Not specified', gpu: 'Not specified', controller: 'Not specified', directives: '', p1Name: 'Project 1', p1Tech: '', p1Desc: '', p1Link: '#', p2Name: 'Project 2', p2Tech: '', p2Desc: '', p2Link: '#', ...profile };
-
-        // Update Text Elements
-        displayElements.name.textContent = profile.name;
-        displayElements.navName.textContent = profile.name;
-        displayElements.status.textContent = profile.status;
-        displayElements.cpu.textContent = profile.cpu;
-        displayElements.ram.textContent = profile.ram;
-        displayElements.gpu.textContent = profile.gpu;
-        displayElements.controller.textContent = profile.controller;
-
-        // Render Directives List
-        const directiveArray = profile.directives.split(',').map(item => item.trim()).filter(item => item !== "");
-        displayElements.directives.innerHTML = directiveArray.map(d => `<li>${d}</li>`).join('');
-
-        // Update Projects
-        displayElements.p1Name.textContent = profile.p1Name;
-        displayElements.p1Tech.textContent = profile.p1Tech;
-        displayElements.p1Desc.textContent = profile.p1Desc;
-        displayElements.p1Link.href = profile.p1Link;
-
-        displayElements.p2Name.textContent = profile.p2Name;
-        displayElements.p2Tech.textContent = profile.p2Tech;
-        displayElements.p2Desc.textContent = profile.p2Desc;
-        displayElements.p2Link.href = profile.p2Link;
-
-        // Update Avatar
-        const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.avatarSeed}`;
-        displayElements.navAvatar.src = avatarUrl;
-        displayElements.mainAvatar.src = avatarUrl;
-
-        // Pre-fill form inputs
-        inputElements.name.value = profile.name;
-        inputElements.status.value = profile.status;
-        inputElements.avatar.value = profile.avatarSeed;
-        inputElements.cpu.value = profile.cpu;
-        inputElements.ram.value = profile.ram;
-        inputElements.gpu.value = profile.gpu;
-        inputElements.controller.value = profile.controller;
-        inputElements.directives.value = profile.directives;
-        
-        inputElements.p1Name.value = profile.p1Name;
-        inputElements.p1Tech.value = profile.p1Tech;
-        inputElements.p1Desc.value = profile.p1Desc;
-        inputElements.p1Link.value = profile.p1Link;
-        
-        inputElements.p2Name.value = profile.p2Name;
-        inputElements.p2Tech.value = profile.p2Tech;
-        inputElements.p2Desc.value = profile.p2Desc;
-        inputElements.p2Link.value = profile.p2Link;
+    function currentProfile() {
+        // Merge so older/partial profiles never produce "undefined"
+        return Object.assign({}, DEFAULT_PROFILE, UniVistaAuth.getProfile() || {});
     }
 
-    const toggleModal = () => modal.classList.toggle('active');
-    
-    if (editBtn) editBtn.addEventListener('click', toggleModal);
-    if (closeBtn) closeBtn.addEventListener('click', toggleModal);
-    if (cancelBtn) cancelBtn.addEventListener('click', toggleModal);
+    function renderProject(prefix, p) {
+        const card = $(`display-${prefix}-link`);
+        const name = p[`${prefix}Name`];
+        if (!name) { card.style.display = 'none'; return; } // no empty cards for new users
+        card.style.display = '';
+        $(`display-${prefix}-name`).textContent = name;
+        $(`display-${prefix}-tech`).textContent = p[`${prefix}Tech`];
+        $(`display-${prefix}-desc`).textContent = p[`${prefix}Desc`];
+        const url = safeUrl(p[`${prefix}Link`]);
+        if (url) { card.href = url; card.removeAttribute('aria-disabled'); card.style.pointerEvents = ''; }
+        else { card.removeAttribute('href'); card.style.pointerEvents = 'none'; }
+    }
 
-    // Save Changes
+    // Maps profile fields to the edit-form input ids
+    const idFor = { name: 'edit-name', status: 'edit-status', cpu: 'edit-cpu', ram: 'edit-ram', gpu: 'edit-gpu',
+        controller: 'edit-controller', directives: 'edit-directives',
+        p1Name: 'edit-p1-name', p1Tech: 'edit-p1-tech', p1Desc: 'edit-p1-desc', p1Link: 'edit-p1-link',
+        p2Name: 'edit-p2-name', p2Tech: 'edit-p2-tech', p2Desc: 'edit-p2-desc', p2Link: 'edit-p2-link' };
+
+    function fillForm(p) {
+        Object.entries(idFor).forEach(([field, id]) => { $(id).value = p[field] || ''; });
+        $('edit-avatar').value = p.avatarSeed || '';
+    }
+
+    function render() {
+        const p = currentProfile();
+
+        $('display-name').textContent = p.name;
+        $('nav-user-name').textContent = p.name;
+        $('display-status').textContent = p.status;
+        $('display-cpu').textContent = p.cpu;
+        $('display-ram').textContent = p.ram;
+        $('display-gpu').textContent = p.gpu;
+        $('display-controller').textContent = p.controller;
+
+        // Directives: build with textContent (no innerHTML injection)
+        const list = $('display-directives');
+        list.textContent = '';
+        const items = p.directives.split(',').map(s => s.trim()).filter(Boolean);
+        (items.length ? items : ['No directives set yet']).forEach(text => {
+            const li = document.createElement('li');
+            li.textContent = text;
+            list.appendChild(li);
+        });
+
+        renderProject('p1', p);
+        renderProject('p2', p);
+
+        const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.avatarSeed)}`;
+        $('nav-user-avatar').src = avatarUrl;
+        $('main-user-avatar').src = avatarUrl;
+
+        fillForm(p);
+    }
+
+    const openModal = () => { fillForm(currentProfile()); modal.classList.add('active'); };
+    const closeModal = () => { modal.classList.remove('active'); fillForm(currentProfile()); }; // discard unsaved edits
+
+    if (editBtn) editBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const updatedProfile = {
-                name: inputElements.name.value,
-                status: inputElements.status.value,
-                avatarSeed: inputElements.avatar.value,
-                cpu: inputElements.cpu.value,
-                ram: inputElements.ram.value,
-                gpu: inputElements.gpu.value,
-                controller: inputElements.controller.value,
-                directives: inputElements.directives.value,
-                
-                p1Name: inputElements.p1Name.value,
-                p1Tech: inputElements.p1Tech.value,
-                p1Desc: inputElements.p1Desc.value,
-                p1Link: inputElements.p1Link.value,
-                
-                p2Name: inputElements.p2Name.value,
-                p2Tech: inputElements.p2Tech.value,
-                p2Desc: inputElements.p2Desc.value,
-                p2Link: inputElements.p2Link.value
-            };
-
-            localStorage.setItem('uniVista_profile', JSON.stringify(updatedProfile));
-            loadProfileData(); 
-            toggleModal(); 
+            const updated = { avatarSeed: $('edit-avatar').value.trim() || 'Felix' };
+            Object.entries(idFor).forEach(([field, id]) => { updated[field] = $(id).value.trim(); });
+            UniVistaAuth.saveProfile(updated); // also syncs the account record and keeps the email
+            render();
+            modal.classList.remove('active');
         });
     }
 
     // ==========================================
-    // SURVIVAL WIZARD HISTORY LOGIC
+    // SURVIVAL WIZARD HISTORY
     // ==========================================
     function loadWizardHistory() {
-        const historyContainer = document.getElementById('wizard-history-container');
-        if (!historyContainer) return;
-        
-        const funds = localStorage.getItem('uniVista_funds');
-        const attended = localStorage.getItem('uniVista_attended');
-        const conducted = localStorage.getItem('uniVista_conducted');
-        const sleep = localStorage.getItem('uniVista_sleep');
+        const container = $('wizard-history-container');
+        if (!container) return;
 
-        if (!funds && !attended && !sleep) {
-            historyContainer.innerHTML = `
-                <div class="empty-history">
-                    No survival telemetry recorded yet. <br>
-                    <a href="wizard-1-funds.html" style="color: #8b5cf6; text-decoration: none; margin-top: 10px; display: inline-block;">Start the Wizard &rarr;</a>
-                </div>
-            `;
+        const n = (k) => { const v = localStorage.getItem('uniVista_' + k); return v === null || v === '' ? NaN : Number(v); };
+        const funds = n('funds'), conducted = n('conducted'), attended = n('attended');
+        const assignments = n('assignments'), deadline = n('deadline'), sleep = n('sleep');
+        let result = null;
+        try { result = JSON.parse(localStorage.getItem('uniVista_lastResult')); } catch (e) { /* ignore */ }
+
+        const cards = [];
+        const add = (color, title, value, caption) => cards.push({ color, title, value, caption });
+
+        if (result && Number.isFinite(result.score)) add('#8b5cf6', 'Survival Score', `${result.score}/100`, String(result.verdict));
+        if (Number.isFinite(funds)) add('#fbbf24', 'Capital', `₹${funds}`, 'Last logged funds');
+        if (Number.isFinite(conducted) && Number.isFinite(attended) && conducted > 0) {
+            add('#4ade80', 'Attendance', `${((attended / conducted) * 100).toFixed(1)}%`, 'Current standing');
+        }
+        if (Number.isFinite(assignments) && Number.isFinite(deadline)) {
+            add('#f87171', 'Pending Work', `${assignments} due`, `Nearest in ${deadline} day(s)`);
+        }
+        if (Number.isFinite(sleep)) add('#a78bfa', 'Sleep Avg', `${sleep} hrs`, 'Last 3 days');
+
+        container.textContent = '';
+        if (!cards.length) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-history';
+            empty.innerHTML = 'No survival telemetry recorded yet. <br><a href="wizard-1-funds.html" style="color:#8b5cf6;text-decoration:none;margin-top:10px;display:inline-block;">Start the Wizard &rarr;</a>';
+            container.appendChild(empty);
             return;
         }
-
-        let html = '';
-
-        if (funds) {
-            html += `
-                <div class="history-card" style="border-top-color: #fbbf24;">
-                    <h4>Capital</h4>
-                    <p>₹${funds}</p>
-                    <span>Last logged funds</span>
-                </div>
-            `;
-        }
-
-        if (conducted && attended) {
-            const attPercent = ((parseInt(attended) / parseInt(conducted)) * 100).toFixed(1);
-            html += `
-                <div class="history-card" style="border-top-color: #4ade80;">
-                    <h4>Attendance</h4>
-                    <p>${attPercent}%</p>
-                    <span>Current standing</span>
-                </div>
-            `;
-        }
-
-        if (sleep) {
-            html += `
-                <div class="history-card" style="border-top-color: #a78bfa;">
-                    <h4>Sleep Avg</h4>
-                    <p>${sleep} hrs</p>
-                    <span>Last 3 days</span>
-                </div>
-            `;
-        }
-
-        historyContainer.innerHTML = html;
+        cards.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'history-card';
+            card.style.borderTopColor = c.color;
+            const h = document.createElement('h4'); h.textContent = c.title;
+            const p = document.createElement('p'); p.textContent = c.value;
+            const s = document.createElement('span'); s.textContent = c.caption;
+            card.append(h, p, s);
+            container.appendChild(card);
+        });
     }
 
-    const logoutButton = document.getElementById('logout-btn');
-    if (logoutButton) logoutButton.addEventListener('click', event => {
-        event.preventDefault();
-        localStorage.removeItem('uniVista_profile');
-        sessionStorage.removeItem('uniVista_profile');
-        window.location.replace('mainpage.html');
-    });
-    loadProfileData();
+    render();
     loadWizardHistory();
 });
