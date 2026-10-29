@@ -134,11 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
 
         if (wizardForm1) {
-            wizardForm1.addEventListener('submit', (e) => {
+            wizardForm1.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (isInvalidFunds(num(fundsInput))) { fundsInput.focus(); return; }
                 set('funds', fundsInput.value);
                 set('days', daysSlider.value);
+                if (window.UniVistaData) await window.UniVistaData.saveRecord('wizard-funds', { funds: Number(fundsInput.value), days: Number(daysSlider.value) });
                 window.location.href = 'wizard-2-attendance.html';
             });
         }
@@ -191,13 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
         targetSlider.addEventListener('input', renderAttendance);
 
         if (wizardForm2) {
-            wizardForm2.addEventListener('submit', (e) => {
+            wizardForm2.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 // Don't let invalid data (e.g. attended > conducted) through to later stages
                 if (renderAttendance().state !== 'ok') return;
                 set('conducted', conductedInput.value);
                 set('attended', attendedInput.value);
                 set('targetAtt', targetSlider.value);
+                if (window.UniVistaData) await window.UniVistaData.saveRecord('wizard-attendance', { conducted: Number(conductedInput.value), attended: Number(attendedInput.value), targetAtt: Number(targetSlider.value) });
                 window.location.href = 'wizard-3-assignments.html';
             });
         }
@@ -244,11 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
         deadlineInput.addEventListener('input', renderHomework);
 
         if (wizardForm3) {
-            wizardForm3.addEventListener('submit', (e) => {
+            wizardForm3.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (!renderHomework()) return;
                 set('assignments', assignmentsInput.value);
                 set('deadline', deadlineInput.value);
+                if (window.UniVistaData) await window.UniVistaData.saveRecord('wizard-assignments', { assignments: Number(assignmentsInput.value), deadline: Number(deadlineInput.value) });
                 window.location.href = 'wizard-4-sleep.html'; // was an alert() dead end
             });
         }
@@ -295,11 +298,12 @@ document.addEventListener('DOMContentLoaded', () => {
         caffeineInput.addEventListener('input', renderSleep);
 
         if (wizardForm4) {
-            wizardForm4.addEventListener('submit', (e) => {
+            wizardForm4.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (!renderSleep()) return;
                 set('sleep', sleepInput.value);
                 set('caffeine', caffeineInput.value);
+                if (window.UniVistaData) await window.UniVistaData.saveRecord('wizard-sleep', { sleep: Number(sleepInput.value), caffeine: Number(caffeineInput.value) });
                 window.location.href = 'wizard-5-calculate.html';
             });
         }
@@ -347,6 +351,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 else { verdict = 'TERMINAL'; level = 'bad'; }
 
                 set('lastResult', JSON.stringify({ score, verdict }));
+                if (window.UniVistaData) window.UniVistaData.saveRecord('wizard-final-result', {
+                    inputs: stored, score, verdict,
+                    breakdown: { funds: funds.status, attendance: att.status, homework: hw.status, sleep: sl.status }
+                });
 
                 const rows = [
                     ['Funds', funds.status, funds.level, `₹${Number(stored.funds)} over ${stored.days} day(s) = ₹${funds.daily.toFixed(2)}/day. ${funds.note}`],

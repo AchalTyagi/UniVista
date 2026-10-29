@@ -97,11 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
             UniVistaAuth.saveProfile(updated); // also syncs the account record and keeps the email
             render();
             modal.classList.remove('active');
+            if (window.UniVistaData) window.UniVistaData.saveRecord('profile-update', updated);
         });
     }
 
     // ==========================================
-    // SURVIVAL WIZARD HISTORY
+    const exportBtn = $('export-profile-json-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            if (window.UniVistaData?.exportAll) {
+                window.UniVistaData.exportAll();
+            } else {
+                alert('JSON export is unavailable. Please reload the page and try again.');
+            }
+        });
+    }
+
+        // SURVIVAL WIZARD HISTORY
     // ==========================================
     function loadWizardHistory() {
         const container = $('wizard-history-container');

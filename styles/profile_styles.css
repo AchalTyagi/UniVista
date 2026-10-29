@@ -475,3 +475,135 @@
 }
 .profile-empty-state strong { color: #c4b5fd; }
 .project-card[style*="display: none"] { display: none !important; }
+
+
+/* --- Edit Profile modal: keep all controls consistent with the UniVista theme --- */
+#edit-modal {
+    padding: 1.25rem;
+    box-sizing: border-box;
+}
+
+#edit-modal .modal-content {
+    width: min(100%, 620px);
+    max-width: 620px;
+    max-height: min(88vh, 900px);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #514078 #171824;
+    box-sizing: border-box;
+}
+
+#edit-modal .modal-content::-webkit-scrollbar {
+    width: 9px;
+}
+
+#edit-modal .modal-content::-webkit-scrollbar-track {
+    background: #171824;
+    border-radius: 8px;
+}
+
+#edit-modal .modal-content::-webkit-scrollbar-thumb {
+    background: #514078;
+    border: 2px solid #171824;
+    border-radius: 8px;
+}
+
+#edit-modal .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #8b5cf6;
+}
+
+#edit-modal .standard-input {
+    display: block;
+    min-height: 48px;
+    line-height: 1.4;
+}
+
+#edit-modal .input-group label {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+#edit-modal .modal-actions {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+#edit-modal .modal-actions button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    width: auto;
+    margin: 0;
+    padding: 0.8rem 1.2rem !important;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    box-sizing: border-box;
+}
+
+#edit-modal .modal-actions .btn-back {
+    background: #1b1d2a;
+    color: #e5e7eb;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+#edit-modal .modal-actions .btn-back:hover {
+    background: #26283a;
+    border-color: rgba(139, 92, 246, 0.65) !important;
+}
+
+#edit-modal .modal-actions .submit-button {
+    background: #c4bfff;
+    color: #11121c;
+    border: 1px solid #c4bfff;
+}
+
+#edit-modal .modal-actions .submit-button:hover {
+    background: #a99cff;
+    border-color: #a99cff;
+    transform: translateY(-1px);
+}
+
+#edit-modal .modal-actions button:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+    #edit-modal {
+        padding: 0.65rem;
+    }
+
+    #edit-modal .modal-content {
+        max-height: 94vh;
+        padding: 1.1rem;
+    }
+
+    #edit-modal .modal-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65rem;
+    }
+
+    #edit-modal .modal-actions button {
+        width: 100%;
+        padding: 0.75rem 0.65rem !important;
+    }
+
+    #edit-modal .modal-actions .submit-button {
+        grid-column: 1 / -1;
+    }
+}
