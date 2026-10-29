@@ -607,3 +607,52 @@
         grid-column: 1 / -1;
     }
 }
+
+
+/* Academic CGPA customization and recent survival analysis */
+.academic-input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+.history-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+.history-card {
+    min-width: 0;
+    padding: 1.1rem;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-top: 3px solid #8b5cf6;
+    border-radius: 10px;
+}
+.history-card h4 {
+    margin: 0 0 .65rem;
+    color: #a1a1aa;
+    font-size: .85rem;
+    font-weight: 600;
+}
+.history-card p {
+    margin: 0 0 .4rem;
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+.history-card span {
+    color: #a1a1aa;
+    font-size: .78rem;
+    line-height: 1.4;
+}
+.empty-history {
+    padding: 1.25rem;
+    border: 1px dashed rgba(255,255,255,.15);
+    border-radius: 10px;
+    color: #a1a1aa;
+}
+@media (max-width: 600px) {
+    .academic-input-grid { grid-template-columns: 1fr; }
+    .history-container { grid-template-columns: 1fr; }
+}

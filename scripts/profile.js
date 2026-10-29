@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $ = (id) => document.getElementById(id);
 
     const DEFAULT_PROFILE = {
-        name: 'Your Name', status: 'Student', avatarSeed: 'Felix',
+        name: 'Your Name', status: 'Student', avatarSeed: 'Felix', currentCgpa: '', targetCgpa: '',
         cpu: '', ram: '', gpu: '', controller: '', directives: '',
         p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
     };
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Maps profile fields to the edit-form input ids
     const idFor = { name: 'edit-name', status: 'edit-status', cpu: 'edit-cpu', ram: 'edit-ram', gpu: 'edit-gpu',
-        controller: 'edit-controller', directives: 'edit-directives',
+        controller: 'edit-controller', directives: 'edit-directives', currentCgpa: 'edit-current-cgpa', targetCgpa: 'edit-target-cgpa',
         p1Name: 'edit-p1-name', p1Tech: 'edit-p1-tech', p1Desc: 'edit-p1-desc', p1Link: 'edit-p1-link',
         p2Name: 'edit-p2-name', p2Tech: 'edit-p2-tech', p2Desc: 'edit-p2-desc', p2Link: 'edit-p2-link' };
 
@@ -51,8 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = currentProfile();
 
         $('display-name').textContent = p.name;
-        $('nav-user-name').textContent = p.name;
+        if ($('nav-user-name')) $('nav-user-name').textContent = p.name;
         $('display-status').textContent = p.status;
+        const currentCgpa = $('display-current-cgpa');
+        const targetCgpa = $('display-target-cgpa');
+        if (currentCgpa) currentCgpa.textContent = p.currentCgpa !== '' && p.currentCgpa != null ? Number(p.currentCgpa).toFixed(2).replace(/\\.00$/, '') : '—';
+        if (targetCgpa) targetCgpa.textContent = p.targetCgpa !== '' && p.targetCgpa != null ? Number(p.targetCgpa).toFixed(2).replace(/\\.00$/, '') : '—';
+        const academicFooter = document.querySelector('.target-box .stat-footer');
+        if (academicFooter) academicFooter.textContent = (p.currentCgpa || p.targetCgpa) ? 'Your academic goals, as entered in profile customization.' : 'Add your current and target CGPA in Edit Profile.';
         $('display-cpu').textContent = p.cpu || 'Not added yet';
         $('display-ram').textContent = p.ram || 'Not added yet';
         $('display-gpu').textContent = p.gpu || 'Not added yet';
@@ -61,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Directives: build with textContent (no innerHTML injection)
         const list = $('display-directives');
         list.textContent = '';
-        const items = p.directives.split(',').map(s => s.trim()).filter(Boolean);
+        const items = String(p.directives || '').split(',').map(s => s.trim()).filter(Boolean);
         (items.length ? items : ['No directives set yet']).forEach(text => {
             const li = document.createElement('li');
             li.textContent = text;
@@ -75,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (projectsEmpty) projectsEmpty.style.display = hasProjects ? 'none' : 'block';
 
         const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.avatarSeed)}`;
-        $('nav-user-avatar').src = avatarUrl;
-        $('main-user-avatar').src = avatarUrl;
+        if ($('nav-user-avatar')) $('nav-user-avatar').src = avatarUrl;
+        if ($('main-user-avatar')) $('main-user-avatar').src = avatarUrl;
 
         fillForm(p);
     }
@@ -119,41 +125,61 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = $('wizard-history-container');
         if (!container) return;
 
-        const n = (k) => { const v = localStorage.getItem('uniVista_' + k); return v === null || v === '' ? NaN : Number(v); };
+        const read = (key) => {
+            const raw = localStorage.getItem('uniVista_' + key);
+            if (raw === null || raw === '') return null;
+            try { return JSON.parse(raw); } catch (_) { return raw; }
+        };
+        const n = (key) => {
+            const value = read(key);
+            if (value === null || value === '') return NaN;
+            return Number(value);
+        };
+
         const funds = n('funds'), conducted = n('conducted'), attended = n('attended');
         const assignments = n('assignments'), deadline = n('deadline'), sleep = n('sleep');
-        let result = null;
-        try { result = JSON.parse(localStorage.getItem('uniVista_lastResult')); } catch (e) { /* ignore */ }
-
+        const result = read('lastResult');
         const cards = [];
         const add = (color, title, value, caption) => cards.push({ color, title, value, caption });
 
-        if (result && Number.isFinite(result.score)) add('#8b5cf6', 'Survival Score', `${result.score}/100`, String(result.verdict));
-        if (Number.isFinite(funds)) add('#fbbf24', 'Capital', `₹${funds}`, 'Last logged funds');
-        if (Number.isFinite(conducted) && Number.isFinite(attended) && conducted > 0) {
+        if (result && typeof result === 'object' && Number.isFinite(Number(result.score))) {
+            add('#8b5cf6', 'Survival Score', `${result.score}/100`, result.verdict || 'Latest analysis');
+        }
+        if (Number.isFinite(funds)) add('#fbbf24', 'Capital', `₹${funds}`, 'Funds entered');
+        if (Number.isFinite(conducted) && Number.isFinite(attended) && conducted > 0 && attended <= conducted) {
             add('#4ade80', 'Attendance', `${((attended / conducted) * 100).toFixed(1)}%`, 'Current standing');
         }
         if (Number.isFinite(assignments) && Number.isFinite(deadline)) {
-            add('#f87171', 'Pending Work', `${assignments} due`, `Nearest in ${deadline} day(s)`);
+            add('#f87171', 'Pending Work', `${assignments} pending`, `Nearest deadline: ${deadline} day(s)`);
         }
-        if (Number.isFinite(sleep)) add('#a78bfa', 'Sleep Avg', `${sleep} hrs`, 'Last 3 days');
+        if (Number.isFinite(sleep)) add('#a78bfa', 'Sleep Average', `${sleep} hrs`, 'Average sleep entered');
 
-        container.textContent = '';
+        container.replaceChildren();
         if (!cards.length) {
             const empty = document.createElement('div');
             empty.className = 'empty-history';
-            empty.innerHTML = 'No survival telemetry recorded yet. <br><a href="wizard-1-funds.html" style="color:#8b5cf6;text-decoration:none;margin-top:10px;display:inline-block;">Start the Wizard &rarr;</a>';
+            const message = document.createElement('p');
+            message.textContent = 'No survival analysis saved yet. Complete all four wizard stages and calculate your result to see it here.';
+            const link = document.createElement('a');
+            link.href = 'wizard-1-funds.html';
+            link.textContent = 'Start the Survival Wizard →';
+            link.style.cssText = 'color:#8b5cf6;text-decoration:none;margin-top:10px;display:inline-block;';
+            empty.append(message, link);
             container.appendChild(empty);
             return;
         }
-        cards.forEach(c => {
+
+        cards.forEach((c) => {
             const card = document.createElement('div');
             card.className = 'history-card';
             card.style.borderTopColor = c.color;
-            const h = document.createElement('h4'); h.textContent = c.title;
-            const p = document.createElement('p'); p.textContent = c.value;
-            const s = document.createElement('span'); s.textContent = c.caption;
-            card.append(h, p, s);
+            const title = document.createElement('h4');
+            title.textContent = c.title;
+            const value = document.createElement('p');
+            value.textContent = c.value;
+            const caption = document.createElement('span');
+            caption.textContent = c.caption;
+            card.append(title, value, caption);
             container.appendChild(card);
         });
     }

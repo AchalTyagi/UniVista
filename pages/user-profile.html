@@ -18,9 +18,9 @@
         </div>
         <nav class="nav-links"><a href="dashboard.html">Dashboard</a><a href="wizard-1-funds.html">Survival Wizard</a><a href="about-us.html">About Us</a></nav>
         <a href="user-profile.html" class="user-profile active-nav">
-            <span id="global-nav-name">Hello User!</span>
+            <span id="nav-user-name">Hello User!</span>
             <div class="avatar-circle">
-                <img id="global-nav-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
+                <img id="nav-user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
             </div>
         </a>
     </header>
@@ -81,12 +81,12 @@
                     <div class="stat-comparison">
                         <div class="stat-current">
                             <span class="label">CURRENT CGPA</span>
-                            <span class="value">—</span>
+                            <span class="value" id="display-current-cgpa">—</span>
                         </div>
                         <div class="stat-arrow">&rarr;</div>
                         <div class="stat-target">
-                            <span class="label">TARGET</span>
-                            <span class="value">—</span>
+                            <span class="label">TARGET CGPA</span>
+                            <span class="value" id="display-target-cgpa">—</span>
                         </div>
                     </div>
                     <p class="stat-footer">Customize this section with your academic goals.</p>
@@ -150,6 +150,19 @@
                 <div class="input-group">
                     <label>Avatar Seed (Type any word for a new image)</label>
                     <input type="text" id="edit-avatar" class="standard-input" required>
+                </div>
+
+                <!-- Academic goals -->
+                <h3 class="modal-section-title">Academic Trajectory</h3>
+                <div class="academic-input-grid">
+                    <div class="input-group">
+                        <label for="edit-current-cgpa">Current CGPA (0–10)</label>
+                        <input type="number" id="edit-current-cgpa" class="standard-input" min="0" max="10" step="0.01" placeholder="e.g. 7.25">
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-target-cgpa">Target CGPA (0–10)</label>
+                        <input type="number" id="edit-target-cgpa" class="standard-input" min="0" max="10" step="0.01" placeholder="e.g. 8.50">
+                    </div>
                 </div>
 
                 <!-- Directives -->
