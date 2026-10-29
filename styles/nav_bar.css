@@ -1,0 +1,49 @@
+/* Shared navigation bar — consistent across every UniVista page */
+.top-nav {
+    position: relative;
+    z-index: 20;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem clamp(1.25rem, 4.8vw, 4.75rem);
+    margin: 0;
+    background: rgba(13, 15, 29, 0.94);
+    border-bottom: 1px solid rgba(180, 184, 220, 0.22);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.top-nav .nav-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.top-nav a,
+.top-nav button {
+    transition: color 160ms ease, opacity 160ms ease;
+}
+
+.top-nav a:hover { color: #fff; }
+
+@media (max-width: 700px) {
+    .top-nav {
+        min-height: 72px;
+        flex-wrap: wrap;
+        padding: 1rem 1.25rem;
+        gap: 0.75rem 1rem;
+    }
+    .top-nav .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+        padding-top: 0.5rem;
+    }
+}

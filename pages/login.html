@@ -3,71 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account | UniVista</title>
+    <title>Login | UniVista</title>
     <link rel="stylesheet" href="../styles/mainpage_styles.css">
     <link rel="stylesheet" href="../styles/wizard_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/nav_bar.css">
 </head>
 <body style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
 
     <div class="wizard-card" style="width: 100%; max-width: 450px;">
         <div class="protocol-badge">SYSTEM INITIALIZATION</div>
         <h3 class="step-heading">Identify Operative</h3>
-        <p class="step-desc">Create your account to access the telemetry dashboard.</p>
-
+        <p class="step-desc">Enter your credentials to access the telemetry dashboard.</p>
+        
         <form id="login-form">
-            <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
+            <div class="input-group" style="text-align: left;">
                 <label for="login-name">FULL NAME</label>
                 <input type="text" id="login-name" class="standard-input" placeholder="e.g. John Doe" required>
             </div>
 
-            <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
+            <div class="input-group" style="text-align: left; margin-bottom: 2rem;">
                 <label for="login-status">ACADEMIC STATUS</label>
                 <input type="text" id="login-status" class="standard-input" placeholder="e.g. Undergraduate // Year 2" required>
             </div>
 
-            <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
-                <label for="login-email">PERSONAL ID (EMAIL)</label>
-                <input type="email" id="login-email" class="standard-input" placeholder="xyz@domain.com" required>
-            </div>
-
-            <div class="input-group" style="text-align: left; margin-bottom: 1.5rem;">
-                <label for="login-password">PASSWORD</label>
-                <input type="password" id="login-password" class="standard-input" placeholder="At least 6 characters" minlength="6" required>
-            </div>
-
-            <div id="login-error" class="form-error" hidden></div>
-
             <button type="submit" class="submit-button" style="width: 100%;">Initialize System &rarr;</button>
-            <p style="text-align:center; margin-top:1rem; font-size:0.85rem; color:#a1a1aa;">
-                Already registered? <a href="mainpage.html" style="color:#8b5cf6;">Sign in</a>
-            </p>
         </form>
     </div>
 
-    <script src="../scripts/auth.js"></script>
     <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const errorBox = document.getElementById('login-error');
-            const btn = e.target.querySelector('button[type="submit"]');
-            errorBox.hidden = true;
-            btn.disabled = true;
-
-            const result = await UniVistaAuth.register({
+            
+            // Create a baseline profile for the new user
+            const newProfile = {
                 name: document.getElementById('login-name').value,
                 status: document.getElementById('login-status').value,
-                email: document.getElementById('login-email').value,
-                password: document.getElementById('login-password').value
-            });
+                avatarSeed: document.getElementById('login-name').value.replace(/\s+/g, ''), // Generates avatar based on name
+                cpu: "Unknown", ram: "Unknown", gpu: "Unknown", controller: "Unknown",
+                directives: "", p1Name: "", p1Tech: "", p1Desc: "", p1Link: "",
+                p2Name: "", p2Tech: "", p2Desc: "", p2Link: ""
+            };
 
-            if (result.ok) {
-                window.location.href = 'dashboard.html';
-            } else {
-                errorBox.textContent = result.error;
-                errorBox.hidden = false;
-                btn.disabled = false;
-            }
+            // Save to system and redirect to dashboard
+            localStorage.setItem('uniVista_profile', JSON.stringify(newProfile));
+            window.location.href = 'dashboard.html';
         });
     </script>
 </body>
