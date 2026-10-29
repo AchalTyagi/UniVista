@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (Number.isFinite(assignments) && Number.isFinite(deadline)) {
             add('#f87171', 'Pending Work', `${assignments} pending`, `Nearest deadline: ${deadline} day(s)`);
         }
-        if (Number.isFinite(sleep)) add('#a78bfa', 'Sleep Average', `${sleep} hrs`, 'Average sleep entered');
+        if (Number.isFinite(sleep)) add('#a78bfa', 'Sleep Average', `${(sleep / 3).toFixed(1)} hrs/day`, 'Average per day over the last 3 days');
 
         container.replaceChildren();
         if (!cards.length) {
