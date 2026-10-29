@@ -86,7 +86,6 @@
         clearActiveSession(); // never leak a previous user's data into a new account
         localStorage.setItem(PROFILE_KEY, JSON.stringify({
             name, email, status,
-            avatarSeed: name.replace(/\s+/g, '') || 'Felix',
             cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown',
             directives: '',
             p1Name: '', p1Tech: '', p1Desc: '', p1Link: '',
@@ -111,7 +110,7 @@
 
         clearActiveSession();
         localStorage.setItem(PROFILE_KEY, JSON.stringify(savedProfile || {
-            name: email.split('@')[0], email, status: 'Student', avatarSeed: email.split('@')[0],
+            name: email.split('@')[0], email, status: 'Student',
             cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown', directives: '',
             p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
         }));
@@ -159,7 +158,7 @@
             const navName = document.getElementById('global-nav-name');
             const navAvatar = document.getElementById('global-nav-avatar');
             if (navName) navName.textContent = profile.name;
-            if (navAvatar) navAvatar.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(profile.avatarSeed || 'Felix')}`;
+            if (navAvatar) navAvatar.src = '../assets/images/default-avatar.png';
         } else {
             if (userProfileEl) userProfileEl.style.display = 'none';
             if (navLinksEl && page !== 'about-us.html') navLinksEl.style.display = 'none';
