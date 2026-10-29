@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cards.forEach((c) => {
             const card = document.createElement('div');
-            card.className = 'history-card';
+            card.className = c.title === 'Survival Score' ? 'history-card history-score-card' : 'history-card';
             card.style.borderTopColor = c.color;
             const title = document.createElement('h4');
             title.textContent = c.title;

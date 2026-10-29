@@ -740,3 +740,35 @@
 .extra-directive-row label { grid-column: 1 / -1; }
 .extra-directive-row input { min-width: 0; }
 @media (max-width: 600px) { .extra-directive-row { grid-template-columns: 1fr; } .extra-directive-row label { grid-column: auto; } }
+
+
+/* Survival score is the primary, full-width summary; other metrics follow below. */
+.history-container {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+}
+.history-card.history-score-card {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) auto minmax(160px, 1fr);
+    align-items: center;
+    gap: 1rem;
+    min-height: 96px;
+    padding: 1.25rem 1.4rem;
+    border-top-width: 3px;
+    border-left: 1px solid rgba(139, 92, 246, 0.35);
+    background: linear-gradient(100deg, rgba(139, 92, 246, 0.13), rgba(255,255,255,0.025));
+}
+.history-score-card h4 { margin: 0; }
+.history-score-card p { margin: 0; font-size: clamp(1.5rem, 2.5vw, 2rem); white-space: nowrap; }
+.history-score-card span { text-align: right; }
+@media (max-width: 900px) {
+    .history-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .history-card.history-score-card { grid-template-columns: 1fr auto; }
+    .history-score-card span { grid-column: 1 / -1; text-align: left; }
+}
+@media (max-width: 600px) {
+    .history-container { grid-template-columns: 1fr; }
+    .history-card.history-score-card { grid-template-columns: 1fr; gap: .45rem; }
+    .history-score-card span { grid-column: auto; text-align: left; }
+}
