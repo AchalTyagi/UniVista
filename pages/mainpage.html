@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../styles/mainpage_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <link rel="stylesheet" href="../styles/nav_bar.css">
 </head>
 <body>
 <!-- Updated Header with Navigation -->
@@ -17,11 +16,11 @@
                 <h1>UniVista</h1>
             </a>
         </div>
-        <nav class="nav-links">
+        <nav class="nav-links" style="display:none;">
             <a href="dashboard.html">Dashboard</a>
             <a href="wizard-1-funds.html">Survival Wizard</a>
         </nav>
-        <a href="user-profile.html" class="user-profile">
+        <a href="user-profile.html" class="user-profile" style="display:none;">
             <!-- ADDED IDs HERE -->
             <span id="global-nav-name">Hello User!</span>
             <div class="avatar-circle">
@@ -101,7 +100,7 @@
                     
                     <div class="form-actions">
                         <label class="remember-me">
-                            <input type="checkbox" name="remember"> Remember Me
+                            <input type="checkbox" name="remember" checked> Remember Me
                         </label>
                         <a href="#" class="forgot-link">Forgot Password?</a>
                     </div>

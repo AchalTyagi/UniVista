@@ -60,26 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load Profile Data
     function loadProfileData() {
-        const profile = JSON.parse(localStorage.getItem('uniVista_profile')) || {
-            name: "Ledev Sharma",
-            status: "Undergraduate // Year 2",
-            avatarSeed: "Felix",
-            cpu: "Intel Core i7-1355U",
-            ram: "16 GB",
-            gpu: "Intel Iris Xe Graphics",
-            controller: "Kreo Surge XB",
-            directives: "Evaluating CAT Examination, Exploring US Masters Programs, Exploring Germany Masters Programs",
-            
-            p1Name: "RepoXray",
-            p1Tech: "Node.js",
-            p1Desc: "Dependency security risk assessment web app utilizing Express and MongoDB Atlas.",
-            p1Link: "https://github.com/LedevSharma/RepoXray",
-            
-            p2Name: "Smart-file-organiser",
-            p2Tech: "Python",
-            p2Desc: "Desktop application project built with PyQt6 to streamline directory sorting.",
-            p2Link: "https://github.com/LedevSharma/Smart-file-organiser"
-        };
+        let profile;
+        try { profile = JSON.parse(sessionStorage.getItem('uniVista_profile') || localStorage.getItem('uniVista_profile') || 'null'); }
+        catch (_) { profile = null; }
+        if (!profile) { window.location.replace('mainpage.html'); return; }
+        profile = { status: 'Undergraduate', avatarSeed: profile.name || 'Student', cpu: 'Not specified', ram: 'Not specified', gpu: 'Not specified', controller: 'Not specified', directives: '', p1Name: 'Project 1', p1Tech: '', p1Desc: '', p1Link: '#', p2Name: 'Project 2', p2Tech: '', p2Desc: '', p2Link: '#', ...profile };
 
         // Update Text Elements
         displayElements.name.textContent = profile.name;
@@ -227,6 +212,13 @@ document.addEventListener('DOMContentLoaded', () => {
         historyContainer.innerHTML = html;
     }
 
+    const logoutButton = document.getElementById('logout-btn');
+    if (logoutButton) logoutButton.addEventListener('click', event => {
+        event.preventDefault();
+        localStorage.removeItem('uniVista_profile');
+        sessionStorage.removeItem('uniVista_profile');
+        window.location.replace('mainpage.html');
+    });
     loadProfileData();
     loadWizardHistory();
 });
