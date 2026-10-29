@@ -465,3 +465,13 @@
     background: rgba(255, 82, 82, 0.15);
     border-color: #ff5252;
 }
+
+/* Empty profile fields are intentionally shown without demo/sample data. */
+.profile-empty-state {
+    color: #a1a1aa;
+    font-size: .92rem;
+    line-height: 1.6;
+    padding: 1rem 0;
+}
+.profile-empty-state strong { color: #c4b5fd; }
+.project-card[style*="display: none"] { display: none !important; }

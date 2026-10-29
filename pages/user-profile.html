@@ -33,8 +33,8 @@
                 <div class="profile-avatar-large">
                     <img id="main-user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar">
                 </div>
-                <h1 class="profile-name" id="display-name">Ledev Sharma</h1>
-                <p class="profile-status" id="display-status">Undergraduate // Year 2</p>
+                <h1 class="profile-name" id="display-name">Your Name</h1>
+                <p class="profile-status" id="display-status">Student</p>
                 <div class="status-badge" style="margin-bottom: 1.5rem;">
                     <span class="status-dot"></span>
                     SYSTEMS NOMINAL
@@ -49,10 +49,10 @@
                 <!-- Rest of your hardware loadout remains unchanged -->
                 <h3>Current Loadout (Hardware)</h3>
                 <ul class="loadout-list">
-                    <li><strong>CPU:</strong> <span id="display-cpu">Intel Core i7-1355U</span></li>
-                    <li><strong>RAM:</strong> <span id="display-ram">16 GB</span></li>
-                    <li><strong>GPU:</strong> <span id="display-gpu">Intel Iris Xe Graphics</span></li>
-                    <li><strong>Controller:</strong> <span id="display-controller">Kreo Surge XB</span></li>
+                    <li><strong>CPU:</strong> <span id="display-cpu">Not added yet</span></li>
+                    <li><strong>RAM:</strong> <span id="display-ram">Not added yet</span></li>
+                    <li><strong>GPU:</strong> <span id="display-gpu">Not added yet</span></li>
+                    <li><strong>Controller:</strong> <span id="display-controller">Not added yet</span></li>
                 </ul>
             </div>
         </aside>
@@ -81,15 +81,15 @@
                     <div class="stat-comparison">
                         <div class="stat-current">
                             <span class="label">CURRENT CGPA</span>
-                            <span class="value">6.57</span>
+                            <span class="value">—</span>
                         </div>
                         <div class="stat-arrow">&rarr;</div>
                         <div class="stat-target">
                             <span class="label">TARGET</span>
-                            <span class="value">8.5 - 9.0</span>
+                            <span class="value">—</span>
                         </div>
                     </div>
-                    <p class="stat-footer">Preparing for 3rd-year internships.</p>
+                    <p class="stat-footer">Customize this section with your academic goals.</p>
                 </div>
 
                 <!-- Post-Grad Directives -->
@@ -107,28 +107,24 @@
                 <h3>Active Development & Arsenal</h3>
                 <div class="project-list">
                     <!-- Project 1 Link -->
-                    <a href="#" target="_blank" id="display-p1-link" class="project-card clickable-card">
+                    <a href="#" target="_blank" rel="noopener noreferrer" id="display-p1-link" class="project-card clickable-card">
                         <div class="project-header">
-                            <h4 id="display-p1-name">RepoXray</h4>
-                            <span class="tech-tag" id="display-p1-tech">Node.js</span>
+                            <h4 id="display-p1-name"></h4>
+                            <span class="tech-tag" id="display-p1-tech"></span>
                         </div>
-                        <p id="display-p1-desc">Dependency security risk assessment web app utilizing Express and MongoDB Atlas.</p>
+                        <p id="display-p1-desc"></p>
                     </a>
                     <!-- Project 2 Link -->
-                    <a href="#" target="_blank" id="display-p2-link" class="project-card clickable-card">
+                    <a href="#" target="_blank" rel="noopener noreferrer" id="display-p2-link" class="project-card clickable-card">
                         <div class="project-header">
-                            <h4 id="display-p2-name">Smart-file-organiser</h4>
-                            <span class="tech-tag" id="display-p2-tech">Python</span>
+                            <h4 id="display-p2-name"></h4>
+                            <span class="tech-tag" id="display-p2-tech"></span>
                         </div>
-                        <p id="display-p2-desc">Desktop application project built with PyQt6 to streamline directory sorting.</p>
+                        <p id="display-p2-desc"></p>
                     </a>
                 </div>
-                <div class="skills-container">
-                    <span class="skill-pill">Java</span>
-                    <span class="skill-pill">C (DSA)</span>
-                    <span class="skill-pill">Python (Pandas)</span>
-                    <span class="skill-pill">Linear Algebra</span>
-                </div>
+                <p id="projects-empty-state" class="profile-empty-state">No projects added yet. Select <strong>Edit Profile</strong> to add your GitHub projects.</p>
+                <div class="skills-container" id="skills-container" style="display:none;"></div>
             </div>
         </section>
     </main>
@@ -231,7 +227,7 @@
         </div>
     </div>
 
-    <script src="../scripts/profile.js"></script>
     <script src="../scripts/auth.js"></script>
+    <script src="../scripts/profile.js"></script>
 </body>
 </html>

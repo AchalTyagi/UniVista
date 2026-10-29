@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const $ = (id) => document.getElementById(id);
 
     const DEFAULT_PROFILE = {
-        name: 'Operative', status: 'Student', avatarSeed: 'Felix',
-        cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown', directives: '',
+        name: 'Your Name', status: 'Student', avatarSeed: 'Felix',
+        cpu: '', ram: '', gpu: '', controller: '', directives: '',
         p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
     };
 
@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProject(prefix, p) {
         const card = $(`display-${prefix}-link`);
         const name = p[`${prefix}Name`];
-        if (!name) { card.style.display = 'none'; return; } // no empty cards for new users
+        // Only show a project card when the user has supplied a project name.
+        if (!String(name || '').trim()) { card.style.display = 'none'; return; }
         card.style.display = '';
         $(`display-${prefix}-name`).textContent = name;
         $(`display-${prefix}-tech`).textContent = p[`${prefix}Tech`];
@@ -52,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
         $('display-name').textContent = p.name;
         $('nav-user-name').textContent = p.name;
         $('display-status').textContent = p.status;
-        $('display-cpu').textContent = p.cpu;
-        $('display-ram').textContent = p.ram;
-        $('display-gpu').textContent = p.gpu;
-        $('display-controller').textContent = p.controller;
+        $('display-cpu').textContent = p.cpu || 'Not added yet';
+        $('display-ram').textContent = p.ram || 'Not added yet';
+        $('display-gpu').textContent = p.gpu || 'Not added yet';
+        $('display-controller').textContent = p.controller || 'Not added yet';
 
         // Directives: build with textContent (no innerHTML injection)
         const list = $('display-directives');
@@ -69,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderProject('p1', p);
         renderProject('p2', p);
+        const hasProjects = Boolean(String(p.p1Name || '').trim() || String(p.p2Name || '').trim());
+        const projectsEmpty = $('projects-empty-state');
+        if (projectsEmpty) projectsEmpty.style.display = hasProjects ? 'none' : 'block';
 
         const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.avatarSeed)}`;
         $('nav-user-avatar').src = avatarUrl;
