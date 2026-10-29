@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_PROFILE = {
         name: 'Your Name', status: 'Student', avatarSeed: 'Felix', currentCgpa: '', targetCgpa: '',
         cpu: '', ram: '', gpu: '', controller: '', directives: '',
-        p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
+        ...Object.fromEntries(Array.from({length: 10}, (_, i) => { const n = i + 1; return [[`p${n}Name`, ''], [`p${n}Tech`, ''], [`p${n}Desc`, ''], [`p${n}Link`, '']]; }).flat())
     };
 
     // Only allow http(s) links (blocks javascript: URLs)
@@ -23,28 +23,117 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderProject(prefix, p) {
-        const card = $(`display-${prefix}-link`);
-        const name = p[`${prefix}Name`];
-        // Only show a project card when the user has supplied a project name.
-        if (!String(name || '').trim()) { card.style.display = 'none'; return; }
-        card.style.display = '';
-        $(`display-${prefix}-name`).textContent = name;
-        $(`display-${prefix}-tech`).textContent = p[`${prefix}Tech`];
-        $(`display-${prefix}-desc`).textContent = p[`${prefix}Desc`];
+        const name = String(p[`${prefix}Name`] || '').trim();
+        if (!name) return null;
+        const card = document.createElement('a');
+        card.className = 'project-card clickable-card';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
         const url = safeUrl(p[`${prefix}Link`]);
-        if (url) { card.href = url; card.removeAttribute('aria-disabled'); card.style.pointerEvents = ''; }
+        if (url) card.href = url;
         else { card.removeAttribute('href'); card.style.pointerEvents = 'none'; }
+        const header = document.createElement('div');
+        header.className = 'project-header';
+        const title = document.createElement('h4');
+        title.textContent = name;
+        header.appendChild(title);
+        const techText = String(p[`${prefix}Tech`] || '').trim();
+        if (techText) {
+            const tech = document.createElement('span');
+            tech.className = 'tech-tag';
+            tech.textContent = techText;
+            header.appendChild(tech);
+        }
+        const desc = document.createElement('p');
+        desc.textContent = p[`${prefix}Desc`] || '';
+        card.append(header, desc);
+        return card;
     }
 
     // Maps profile fields to the edit-form input ids
     const idFor = { name: 'edit-name', status: 'edit-status', cpu: 'edit-cpu', ram: 'edit-ram', gpu: 'edit-gpu',
-        controller: 'edit-controller', directives: 'edit-directives', currentCgpa: 'edit-current-cgpa', targetCgpa: 'edit-target-cgpa',
-        p1Name: 'edit-p1-name', p1Tech: 'edit-p1-tech', p1Desc: 'edit-p1-desc', p1Link: 'edit-p1-link',
-        p2Name: 'edit-p2-name', p2Tech: 'edit-p2-tech', p2Desc: 'edit-p2-desc', p2Link: 'edit-p2-link' };
+        controller: 'edit-controller', directives: 'edit-directives', currentCgpa: 'edit-current-cgpa', targetCgpa: 'edit-target-cgpa' };
 
     function fillForm(p) {
-        Object.entries(idFor).forEach(([field, id]) => { $(id).value = p[field] || ''; });
+        Object.entries(idFor).forEach(([field, id]) => {
+            if (field !== 'directives' && $(id)) $(id).value = p[field] || '';
+        });
         $('edit-avatar').value = p.avatarSeed || '';
+        // Project 1 is always present in the form; projects 2–10 are added on demand.
+        for (const [part, suffix] of [['Name','name'], ['Tech','tech'], ['Link','link'], ['Desc','desc']]) {
+            const input = $(`edit-p1-${suffix}`);
+            if (input) input.value = p[`p1${part}`] || '';
+        }
+
+        const directiveInputs = $('directive-inputs');
+        directiveInputs.querySelectorAll('.extra-directive-row').forEach(row => row.remove());
+        const directives = String(p.directives || '').split(',').map(s => s.trim()).filter(Boolean);
+        $('edit-directives').value = directives[0] || '';
+        directives.slice(1).forEach(value => addDirectiveInput(value));
+
+        const projectInputs = $('project-inputs');
+        projectInputs.replaceChildren();
+        let count = 1;
+        for (let n = 2; n <= 10; n++) {
+            if (['Name', 'Tech', 'Link', 'Desc'].some(part => String(p[`p${n}${part}`] || '').trim())) count = n;
+        }
+        for (let n = 2; n <= count; n++) addProjectInput(n, p);
+        $('add-project-btn').hidden = count >= 10;
+    }
+
+    let directiveCounter = 1;
+    function addDirectiveInput(value = '') {
+        const container = $('directive-inputs');
+        const index = container.querySelectorAll('.directive-input-row').length + 1;
+        const row = document.createElement('div');
+        row.className = 'input-group directive-input-row extra-directive-row';
+        const label = document.createElement('label');
+        label.textContent = `Post-Grad Directive ${index}`;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'standard-input extra-directive-input';
+        input.placeholder = 'e.g. Exploring Germany Masters';
+        input.value = value;
+        row.append(label, input);
+        container.appendChild(row);
+        return input;
+    }
+
+    function addProjectInput(number, profile = {}) {
+        const container = $('project-inputs');
+        if (number > 10 || container.querySelectorAll('.project-edit-entry').length >= 9) return;
+        const section = document.createElement('section');
+        section.className = 'project-edit-entry';
+        section.style.marginTop = '1.25rem';
+        const heading = document.createElement('h3');
+        heading.className = 'modal-section-title';
+        heading.textContent = `GitHub Project ${number}`;
+        section.appendChild(heading);
+        const grid = document.createElement('div');
+        grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;';
+        const makeField = (part, labelText, placeholder = '') => {
+            const wrap = document.createElement('div');
+            wrap.className = 'input-group';
+            const label = document.createElement('label');
+            label.textContent = labelText;
+            label.htmlFor = `edit-p${number}-${part.toLowerCase()}`;
+            const input = document.createElement('input');
+            input.id = `edit-p${number}-${part.toLowerCase()}`;
+            input.className = 'standard-input';
+            input.type = part === 'Link' ? 'url' : 'text';
+            input.placeholder = placeholder;
+            input.value = profile[`p${number}${part}`] || '';
+            wrap.append(label, input);
+            return {wrap, input};
+        };
+        const name = makeField('Name', 'Project Name');
+        const tech = makeField('Tech', 'Tech Stack');
+        grid.append(name.wrap, tech.wrap);
+        const link = makeField('Link', 'GitHub URL', 'https://github.com/username/project');
+        const desc = makeField('Desc', 'Short Description');
+        section.append(grid, link.wrap, desc.wrap);
+        container.appendChild(section);
+        return section;
     }
 
     function render() {
@@ -74,11 +163,17 @@ document.addEventListener('DOMContentLoaded', () => {
             list.appendChild(li);
         });
 
-        renderProject('p1', p);
-        renderProject('p2', p);
-        const hasProjects = Boolean(String(p.p1Name || '').trim() || String(p.p2Name || '').trim());
-        const projectsEmpty = $('projects-empty-state');
-        if (projectsEmpty) projectsEmpty.style.display = hasProjects ? 'none' : 'block';
+        const projectList = $('display-project-list');
+        if (projectList) {
+            projectList.replaceChildren();
+            let hasProjects = false;
+            for (let n = 1; n <= 10; n++) {
+                const card = renderProject(`p${n}`, p);
+                if (card) { projectList.appendChild(card); hasProjects = true; }
+            }
+            const projectsEmpty = $('projects-empty-state');
+            if (projectsEmpty) projectsEmpty.style.display = hasProjects ? 'none' : 'block';
+        }
 
         const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.avatarSeed)}`;
         if ($('nav-user-avatar')) $('nav-user-avatar').src = avatarUrl;
@@ -95,11 +190,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
     if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
+    $('add-directive-btn')?.addEventListener('click', () => addDirectiveInput());
+    $('add-project-btn')?.addEventListener('click', () => {
+        const container = $('project-inputs');
+        const nextNumber = container.querySelectorAll('.project-edit-entry').length + 2;
+        if (nextNumber <= 10) addProjectInput(nextNumber);
+        $('add-project-btn').hidden = nextNumber >= 10;
+        const firstInput = $(`edit-p${nextNumber}-name`);
+        if (firstInput) firstInput.focus();
+    });
+
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const updated = { avatarSeed: $('edit-avatar').value.trim() || 'Felix' };
-            Object.entries(idFor).forEach(([field, id]) => { updated[field] = $(id).value.trim(); });
+            Object.entries(idFor).forEach(([field, id]) => {
+                if (field !== 'directives') updated[field] = $(id).value.trim();
+            });
+            for (let n = 1; n <= 10; n++) {
+                const prefix = `p${n}`;
+                for (const [part, suffix] of [['Name','name'], ['Tech','tech'], ['Link','link'], ['Desc','desc']]) {
+                    const input = $(`edit-${prefix}-${suffix}`);
+                    updated[`${prefix}${part}`] = input ? input.value.trim() : (currentProfile()[`${prefix}${part}`] || '');
+                }
+                if (updated[`${prefix}Link`] && !safeUrl(updated[`${prefix}Link`])) {
+                    alert(`Project ${n} URL must start with http:// or https://`);
+                    return;
+                }
+            }
+            updated.directives = [
+                $('edit-directives').value,
+                ...Array.from(document.querySelectorAll('#directive-inputs .extra-directive-input')).map(input => input.value)
+            ].map(value => value.trim()).filter(Boolean).join(', ');
             UniVistaAuth.saveProfile(updated); // also syncs the account record and keeps the email
             render();
             modal.classList.remove('active');

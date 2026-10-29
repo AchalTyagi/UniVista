@@ -105,24 +105,7 @@
             <!-- Active Development -->
             <div class="dev-section">
                 <h3>Active Development & Arsenal</h3>
-                <div class="project-list">
-                    <!-- Project 1 Link -->
-                    <a href="#" target="_blank" rel="noopener noreferrer" id="display-p1-link" class="project-card clickable-card">
-                        <div class="project-header">
-                            <h4 id="display-p1-name"></h4>
-                            <span class="tech-tag" id="display-p1-tech"></span>
-                        </div>
-                        <p id="display-p1-desc"></p>
-                    </a>
-                    <!-- Project 2 Link -->
-                    <a href="#" target="_blank" rel="noopener noreferrer" id="display-p2-link" class="project-card clickable-card">
-                        <div class="project-header">
-                            <h4 id="display-p2-name"></h4>
-                            <span class="tech-tag" id="display-p2-tech"></span>
-                        </div>
-                        <p id="display-p2-desc"></p>
-                    </a>
-                </div>
+                <div class="project-list" id="display-project-list"></div>
                 <p id="projects-empty-state" class="profile-empty-state">No projects added yet. Select <strong>Edit Profile</strong> to add your GitHub projects.</p>
                 <div class="skills-container" id="skills-container" style="display:none;"></div>
             </div>
@@ -167,10 +150,13 @@
 
                 <!-- Directives -->
                 <h3 class="modal-section-title">Future Plans & Directives</h3>
-                <div class="input-group">
-                    <label>Directives (Separate with commas)</label>
-                    <input type="text" id="edit-directives" class="standard-input" placeholder="e.g. Evaluating CAT, Exploring US Masters">
+                <div id="directive-inputs">
+                    <div class="input-group directive-input-row">
+                        <label for="edit-directives">Post-Grad Directive 1</label>
+                        <input type="text" id="edit-directives" class="standard-input" placeholder="e.g. Evaluating CAT">
+                    </div>
                 </div>
+                <button type="button" id="add-directive-btn" class="add-entry-btn">+ Add Another Directive</button>
 
                 <!-- Projects -->
                 <h3 class="modal-section-title">GitHub Project 1</h3>
@@ -193,25 +179,8 @@
                     <input type="text" id="edit-p1-desc" class="standard-input">
                 </div>
 
-                <h3 class="modal-section-title">GitHub Project 2</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="input-group">
-                        <label>Project Name</label>
-                        <input type="text" id="edit-p2-name" class="standard-input">
-                    </div>
-                    <div class="input-group">
-                        <label>Tech Stack</label>
-                        <input type="text" id="edit-p2-tech" class="standard-input">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>GitHub URL</label>
-                    <input type="url" id="edit-p2-link" class="standard-input">
-                </div>
-                <div class="input-group">
-                    <label>Short Description</label>
-                    <input type="text" id="edit-p2-desc" class="standard-input">
-                </div>
+                <div id="project-inputs"></div>
+                <button type="button" id="add-project-btn" class="add-entry-btn">+ Add Another Project</button>
                 
                 <!-- Hardware -->
                 <h3 class="modal-section-title">Hardware Loadout</h3>
