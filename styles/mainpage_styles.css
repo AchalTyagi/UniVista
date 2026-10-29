@@ -320,13 +320,13 @@ main {
 
 .forgot-link {
     font-size: 0.8rem;
-    color: #71d8e3;
+    color: #eff0f6;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .forgot-link:hover {
-    color: #a2d6db;
+    color: #406ee3;
 }
 
 .submit-button {
