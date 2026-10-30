@@ -46,3 +46,62 @@ Want to actually build something? Awesome. Here is the standard protocol:
 
 ### ✌️ The Vibe Check (Code of Conduct)
 Keep it respectful and kind. We are all stressed out, running on three hours of sleep, and trying our best. No toxic tech-bro behavior, gatekeeping, or being rude in the PR comments. If you wouldn't say it to someone in the library at 2 AM, don't type it here.
+
+## Run locally
+
+1. Keep the `pages`, `styles`, and `scripts` folders together in the project root.
+2. Open `pages/mainpage.html` in a browser, or serve the project root with a local static server and visit `/pages/mainpage.html`.
+3. Use the main page form to continue to the dashboard (authentication is intentionally bypassed during this UI/functionality pass).
+4. Start the Survival Wizard from the dashboard. The currently wired steps are Funds → Attendance → Assignments. Sleep and Calculate are not connected yet.
+
+## Project structure
+
+- `pages/` — HTML pages
+- `styles/` — shared and page-specific CSS
+- `scripts/` — JavaScript for navigation, profile display, and wizard interactions
+
+Note: this is a frontend prototype. Login/authentication is intentionally not enforced at this stage.
+
+
+
+## Session behavior
+
+Each successful sign-in starts a fresh wizard session. The user's profile details are preserved, while previously entered funds, attendance, assignments, sleep values, and the previous result are cleared and must be entered again. This prototype uses browser `localStorage`; it is not production-grade authentication or secure multi-user storage.
+
+
+## Assessment 2: JSON file persistence
+
+This frontend-only version provides a JSON export option without a backend.
+
+### Run the project
+
+1. Open the `Univista` folder.
+2. Open `pages/mainpage.html` directly or use VS Code Live Server.
+3. Open the profile page and choose Edit Profile → Export JSON to download your data.//localhost:3000/pages/mainpage.html`.
+
+Do not open the HTML files directly with `file://` when testing JSON persistence. The browser must use the local server so the `/api/submissions` endpoint is available.
+
+### What gets saved
+
+- Profile customization changes (`profile-update`).
+- Funds, attendance, assignments, and sleep form submissions.
+- The final survival score and verdict.
+
+Records are appended to `data/submissions.json`. Each record includes a type, timestamp, optional account email/name, and submitted payload. Passwords are not sent to this endpoint.
+
+### JSON export option
+
+In the profile customization modal, use **Export JSON** to download a `.json` file containing the current profile and the wizard values/results available in that browser session. This works independently from server persistence.
+
+The browser `localStorage` remains as the front-end's working state; the JSON file is the local server-side record required for Assessment 2. This is a coursework/local-development implementation, not production-grade multi-user authentication or deployment security.
+
+
+## JSON option (frontend-only; no backend)
+
+This version does **not** require Node.js, Express, or a backend.
+
+- Profile and wizard values remain in browser `localStorage`.
+- Relevant actions are also collected in the browser under `uniVista_json_records`.
+- In **Profile → Edit Profile → Export JSON**, select **Export JSON** to download a `.json` file containing the profile, saved Survival Wizard values/results, and locally collected records.
+- A browser-only website cannot automatically write or update a JSON file inside the project folder. Export JSON downloads a file when the user clicks the button.
+- Data is stored only in the current browser profile. It is not shared across devices and may be cleared by the browser.

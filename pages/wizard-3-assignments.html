@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments | Survival Wizard</title>
+    <link rel="stylesheet" href="../styles/mainpage_styles.css">
+    <link rel="stylesheet" href="../styles/wizard_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/univista_shared_theme.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <a href="mainpage.html" style="text-decoration: none; color: inherit;">
+                <h1>UniVista</h1>
+            </a>
+        </div>
+        <nav class="nav-links"><a href="dashboard.html">Dashboard</a><a href="wizard-1-funds.html" class="active">Survival Wizard</a><a href="about-us.html">About Us</a></nav>
+        <a href="user-profile.html" class="user-profile">
+            <span id="global-nav-name">Hello User!</span>
+            <div class="avatar-circle"><img id="global-nav-avatar" src="../assets/images/default-avatar.png" alt="User Avatar"></div>
+        </a>
+    </header>
+
+    <main class="wizard-layout">
+        <!-- HORIZONTAL PROGRESS TRACKER -->
+        <div class="wizard-header">
+            <div class="stage-info">
+                <h2>STAGE 03 // 05 <span class="stage-name">Pending Assignments</span></h2>
+                <span class="initialized-text">60% INITIALIZED</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%;"></div>
+            </div>
+            <div class="stepper-labels">
+                <span>1. Funds</span>
+                <span>2. Attendance</span>
+                <span class="active">3. Homework</span>
+                <span>4. Sleep</span>
+                <span>5. Calculate</span>
+            </div>
+        </div>
+
+        <!-- FORM CARD -->
+        <div class="wizard-card">
+            <form id="wizard-form-3">
+                <div class="protocol-badge">ACADEMIC DEFICIT TRACKER</div>
+                <h3 class="step-heading">Quantify the Threat Level</h3>
+                <p class="step-desc">How many deadlines are currently breathing down your neck?</p>
+                
+                <div class="input-group">
+                    <label for="assignments">PENDING SUBMISSIONS / PROJECTS</label>
+                    <input type="number" id="assignments" class="standard-input" placeholder="e.g. 3" required min="0">
+                </div>
+
+                <div class="input-group">
+                    <label for="deadline">NEAREST DEADLINE (IN DAYS)</label>
+                    <input type="number" id="deadline" class="standard-input" placeholder="e.g. 2" required min="0">
+                </div>
+
+                <div class="survival-metric-box">
+                    <div class="metric-header">
+                        <span class="metric-title">ACADEMIC THREAT LEVEL</span>
+                        <span class="metric-status" id="hw-metric-status">AWAITING INPUT</span>
+                    </div>
+                    <p class="metric-result">Status: <strong id="hw-status-text">--</strong></p>
+                    <div class="metric-footer">
+                        <span>Procrastination is not a strategy.</span>
+                    </div>
+                </div>
+
+                <div class="wizard-actions">
+                    <!-- Bulletproof back button -->
+                    <a href="wizard-2-attendance.html" class="btn-back">&larr; Back to Attendance</a>
+                    <button type="submit" class="submit-button wizard-next-btn">Next Step &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script src="../scripts/auth.js"></script>
+    <script src="../scripts/data-sync.js"></script>
+    <script src="../scripts/wizard.js"></script>
+</body>
+</html>
