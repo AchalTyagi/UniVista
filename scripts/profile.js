@@ -72,14 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
         select.value = SOCIAL_PLATFORMS.some(x => x.value === link.platform) ? link.platform : 'LinkedIn';
         const url = document.createElement('input');
         url.type = 'url';
+        url.maxLength = 300;
+        url.autocomplete = 'url';
         url.className = 'standard-input social-url';
-        url.placeholder = 'https://...';
+       url.placeholder = 'https://example.com/your-profile';
         url.setAttribute('aria-label', 'Social profile URL');
         url.value = safeUrl(link.url || '');
         const remove = document.createElement('button');
         remove.type = 'button';
         remove.className = 'remove-social-link';
-        remove.textContent = 'Remove';
+        remove.textContent = 'Remove Link';
         remove.addEventListener('click', () => { row.remove(); updateSocialLinkControls(); });
         row.append(select, url, remove);
         container.appendChild(row);
