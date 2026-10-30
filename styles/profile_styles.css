@@ -772,3 +772,50 @@
     .history-card.history-score-card { grid-template-columns: 1fr; gap: .45rem; }
     .history-score-card span { grid-column: auto; text-align: left; }
 }
+
+
+/* =========================================
+   RECENT SURVIVAL ANALYSIS - FULL WIDTH
+========================================= */
+
+#wizard-history-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: stretch;
+}
+
+#wizard-history-container .empty-history {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 220px;
+    box-sizing: border-box;
+    padding: 28px 32px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    border-radius: 14px;
+}
+
+/* Keep generated history cards consistent */
+#wizard-history-container .history-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    #wizard-history-container {
+        grid-template-columns: 1fr;
+    }
+
+    #wizard-history-container .empty-history {
+        padding: 24px 18px;
+    }
+}
