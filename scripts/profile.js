@@ -435,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = document.createElement('a');
             link.href = 'wizard-1-funds.html';
             link.textContent = 'Start the Survival Wizard →';
-            link.style.cssText = 'color:#8b5cf6;text-decoration:none;margin-top:10px;display:inline-block;';
+            link.style.cssText = 'color:var(--uv-purple-text);text-decoration:none;margin-top:10px;display:inline-block;';
             empty.append(message, link);
             container.appendChild(empty);
             return;

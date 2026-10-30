@@ -123,7 +123,7 @@
 .sync-text {
     font-family: monospace;
     font-size: 0.75rem;
-    color: #8b5cf6;
+    color: var(--uv-purple-text);
 }
 
 .stats-grid {
@@ -179,7 +179,7 @@
 }
 
 .stat-target .value {
-    color: #8b5cf6;
+    color: var(--uv-purple-text);
 }
 
 .stat-arrow {
@@ -205,7 +205,7 @@
 
 .directive-list li:before {
     content: "→";
-    color: #8b5cf6;
+    color: var(--uv-purple-text);
     margin-right: 8px;
 }
 
@@ -251,7 +251,7 @@
 .tech-tag {
     font-size: 0.7rem;
     background: rgba(139, 92, 246, 0.15);
-    color: #a78bfa;
+    color: var(--uv-purple-text);
     padding: 3px 8px;
     border-radius: 4px;
 }
@@ -430,7 +430,7 @@
 
 /* --- Modal Extensions & Project Links --- */
 .modal-section-title {
-    color: #8b5cf6;
+    color: var(--uv-purple-text);
     font-size: 0.85rem;
     margin: 1.5rem 0 1rem 0;
     text-transform: uppercase;
@@ -477,7 +477,7 @@
     line-height: 1.6;
     padding: 1rem 0;
 }
-.profile-empty-state strong { color: #c4b5fd; }
+.profile-empty-state strong { color: var(--uv-purple-text); }
 .project-card[style*="display: none"] { display: none !important; }
 
 
@@ -672,7 +672,7 @@
     border: 1px solid rgba(139, 92, 246, 0.55);
     border-radius: 9px;
     background: rgba(139, 92, 246, 0.10);
-    color: #b7a0ff;
+    color: var(--uv-purple-text);
     font: inherit;
     font-size: 0.9rem;
     font-weight: 600;
@@ -694,7 +694,7 @@
 
 /* Social links beneath the profile status/year */
 .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.45rem; margin: -0.8rem 0 1.35rem; }
-.social-link-chip { display: inline-flex; align-items: center; padding: 0.38rem 0.7rem; border: 1px solid rgba(139,92,246,.45); border-radius: 999px; background: rgba(139,92,246,.10); color: #c4b5fd; font-size: .76rem; text-decoration: none; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+.social-link-chip { display: inline-flex; align-items: center; padding: 0.38rem 0.7rem; border: 1px solid rgba(139,92,246,.45); border-radius: 999px; background: rgba(139,92,246,.10); color: var(--uv-purple-text); font-size: .76rem; text-decoration: none; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
 .social-link-chip:hover { background: rgba(139,92,246,.22); border-color: #8b5cf6; transform: translateY(-1px); }
 .social-links-help { color: #a1a1aa; font-size: .85rem; line-height: 1.5; margin: -.35rem 0 1rem; }
 .social-link-row { display: grid; grid-template-columns: minmax(130px, .8fr) minmax(180px, 1.5fr) auto; gap: .6rem; align-items: center; margin-bottom: .7rem; }

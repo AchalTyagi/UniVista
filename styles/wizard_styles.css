@@ -34,7 +34,7 @@
     flex-wrap: wrap;
     gap: 0.5rem; 
     font-size: 1.2rem; /* Slightly larger font for the wider layout */
-    color: #8b5cf6;
+    color: var(--uv-purple-text);
     margin: 0;
 }
 
@@ -272,7 +272,7 @@
 .empty-result { text-align: center; color: #a1a1aa; padding: 1.5rem 0 2.5rem; }
 .empty-result ul { list-style: none; margin-top: 1rem; }
 .empty-result li { margin-bottom: 0.5rem; }
-.empty-result a { color: #8b5cf6; text-decoration: none; }
+.empty-result a { color: var(--uv-purple-text); text-decoration: none; }
 
 /* --- Wizard: small screens --- */
 .progress-bar { overflow: hidden; }

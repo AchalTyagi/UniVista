@@ -93,7 +93,7 @@ a {
 .page-title {
     text-align: center;
     font-size: 2.5rem;
-    color: #b598ff;
+    color: var(--uv-purple-text);
     font-weight: 600;
     margin-bottom: 4rem;
 }
@@ -115,7 +115,7 @@ a {
 }
 
 .highlight-text {
-    color: #d8b4fe;
+    color: var(--uv-purple-text);
     font-weight: 700;
 }
 
@@ -184,7 +184,7 @@ a {
 }
 
 .stat-value {
-    color: #c084fc;
+    color: var(--uv-purple-text);
     font-weight: bold;
 }
 
@@ -233,7 +233,7 @@ a {
 }
 
 .icon-wrapper {
-    color: #a855f7;
+    color: var(--uv-purple-text);
     margin-bottom: 1.5rem;
 }
 
@@ -267,7 +267,7 @@ a {
     padding-top: 1rem;
 }
 
-.highlight-mono { color: #c084fc; }
+.highlight-mono { color: var(--uv-purple-text); }
 .danger-mono { color: #f87171; }
 
 /* --- User Stories Section --- */
@@ -291,7 +291,7 @@ a {
 }
 
 .quote-icon {
-    color: #d8b4fe;
+    color: var(--uv-purple-text);
     font-size: 1.8rem;
 }
 
@@ -374,7 +374,7 @@ a {
 }
 
 .network-title .badge {
-    color: #c084fc;
+    color: var(--uv-purple-text);
     display: flex;
     align-items: center;
     gap: 0.5rem;

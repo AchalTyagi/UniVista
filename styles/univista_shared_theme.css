@@ -1,7 +1,8 @@
 /* UniVista shared visual system — based on the About Us page */
 :root {
     --uv-bg: #0b0d14;
-    --uv-purple: #8b5cf6;
+    --uv-purple: #8b5cf6;          /* brand fills: buttons, underline, borders */
+    --uv-purple-text: #c084fc;     /* the one purple used for all purple TEXT */
     --uv-muted: #a1a1aa;
     --uv-border: rgba(255,255,255,.08);
 }
@@ -53,6 +54,9 @@ body {
     color: #a1a1aa;
 }
 .top-nav .nav-links a {
+    font-size: inherit;   /* match About Us: page stylesheets must not resize the links */
+    font-weight: 400;
+    line-height: 1.5;
     color: #a1a1aa;
     text-decoration: none;
     transition: color .18s ease;

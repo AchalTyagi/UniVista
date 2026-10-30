@@ -161,7 +161,7 @@
             if (navAvatar) navAvatar.src = '../assets/images/default-avatar.png';
         } else {
             if (userProfileEl) userProfileEl.style.display = 'none';
-            if (navLinksEl && page !== 'about-us.html') navLinksEl.style.display = 'none';
+            // Nav links stay visible when logged out (same as About Us); protected pages redirect to login
         }
 
         // 4. Logout
