@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = document.createElement('input');
         url.type = 'url';
         url.className = 'standard-input social-url';
-        url.placeholder = 'https://...';
+       url.placeholder = 'https://example.com/your-profile';
         url.setAttribute('aria-label', 'Social profile URL');
         url.value = safeUrl(link.url || '');
         const remove = document.createElement('button');
