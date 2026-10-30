@@ -43,6 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Forgot password: no reset flow yet, so tell the user instead of jumping to the top of the page
+    const forgotLink = document.querySelector('.forgot-link');
+    if (forgotLink) {
+        forgotLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const box = document.querySelector('.login-form .form-error');
+            if (box) { box.textContent = 'Password reset is not available yet. Please create a new account if you are locked out.'; box.hidden = false; }
+        });
+    }
+
     // 3. Google / GitHub buttons: no OAuth backend, so route to registration
     document.querySelectorAll('.btn-social').forEach(btn => {
         btn.addEventListener('click', () => { window.location.href = 'login.html'; });

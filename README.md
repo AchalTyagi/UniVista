@@ -60,7 +60,7 @@ Keep it respectful and kind. We are all stressed out, running on three hours of 
 - `styles/` — shared and page-specific CSS
 - `scripts/` — JavaScript for navigation, profile display, and wizard interactions
 
-Note: this is a frontend prototype. Login/authentication is intentionally not enforced at this stage.
+Note: this is a frontend prototype. Sign-in is a client-side demo (accounts live in `localStorage`): logged-out visitors are redirected to the login page, but this is not real security. A backend will replace it later.
 
 
 

@@ -17,9 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Only allow http(s) links (blocks javascript: URLs)
     const safeUrl = (u) => /^https?:\/\//i.test(u || '') ? u : '';
 
+    // Directives are stored as an array. Older profiles saved one comma-separated string.
+    function directiveList(value) {
+        const list = Array.isArray(value) ? value : String(value || '').split(',');
+        return list.map(item => String(item).trim()).filter(Boolean);
+    }
+
     function currentProfile() {
         // Merge so older/partial profiles never produce "undefined"
-        return Object.assign({}, DEFAULT_PROFILE, UniVistaAuth.getProfile() || {});
+        const p = Object.assign({}, DEFAULT_PROFILE, UniVistaAuth.getProfile() || {});
+        // Older accounts were created with "Unknown" as a placeholder; treat it as empty
+        ['cpu', 'ram', 'gpu', 'controller'].forEach(key => { if (String(p[key]).trim().toLowerCase() === 'unknown') p[key] = ''; });
+        p.directives = directiveList(p.directives);
+        return p;
     }
 
     function renderProject(prefix, p) {
@@ -144,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // older profiles that saved them as one comma-separated string.
         const directiveInputs = $('directive-inputs');
         directiveInputs.querySelectorAll('.extra-directive-row').forEach(row => row.remove());
-        const directives = String(p.directives || '').split(',').map(s => s.trim()).filter(Boolean);
+        const directives = directiveList(p.directives);
         $('edit-directives').value = directives[0] || '';
         directives.slice(1).forEach(value => addDirectiveInput(value));
 
@@ -157,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fillSocialLinks(p);
     }
 
-    let directiveCounter = 1;
     function addDirectiveInput(value = '') {
         const container = $('directive-inputs');
         const index = container.querySelectorAll('.directive-input-row').length + 1;
@@ -220,10 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSocialLinks(p);
         const currentCgpa = $('display-current-cgpa');
         const targetCgpa = $('display-target-cgpa');
-        if (currentCgpa) currentCgpa.textContent = p.currentCgpa !== '' && p.currentCgpa != null ? Number(p.currentCgpa).toFixed(2).replace(/\\.00$/, '') : '—';
-        if (targetCgpa) targetCgpa.textContent = p.targetCgpa !== '' && p.targetCgpa != null ? Number(p.targetCgpa).toFixed(2).replace(/\\.00$/, '') : '—';
+        const formatCgpa = (v) => (v === '' || v == null || Number.isNaN(Number(v))) ? '—' : Number(v).toFixed(2).replace(/\.00$/, '');
+        if (currentCgpa) currentCgpa.textContent = formatCgpa(p.currentCgpa);
+        if (targetCgpa) targetCgpa.textContent = formatCgpa(p.targetCgpa);
         const academicFooter = document.querySelector('.target-box .stat-footer');
-        if (academicFooter) academicFooter.textContent = (p.currentCgpa || p.targetCgpa) ? 'Your academic goals, as entered in profile customization.' : 'Add your current and target CGPA in Edit Profile.';
+        if (academicFooter) academicFooter.textContent = (p.currentCgpa !== '' || p.targetCgpa !== '') ? 'Your academic goals, as entered in profile customization.' : 'Add your current and target CGPA in Edit Profile.';
         $('display-cpu').textContent = p.cpu || 'Not added yet';
         $('display-ram').textContent = p.ram || 'Not added yet';
         $('display-gpu').textContent = p.gpu || 'Not added yet';
@@ -232,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Directives: build with textContent (no innerHTML injection)
         const list = $('display-directives');
         list.textContent = '';
-        const items = String(p.directives || '').split(',').map(s => s.trim()).filter(Boolean);
+        const items = directiveList(p.directives);
         (items.length ? items : ['No directives set yet']).forEach(text => {
             const li = document.createElement('li');
             li.textContent = text;
@@ -244,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const hasProjects = Boolean(String(p.p1Name || '').trim() || String(p.p2Name || '').trim());
         const projectsEmpty = $('projects-empty-state');
         if (projectsEmpty) projectsEmpty.style.display = hasProjects ? 'none' : 'block';
+        const projectList = document.querySelector('.project-list');
+        if (projectList) projectList.style.display = hasProjects ? '' : 'none';
 
         const avatarUrl = '../assets/images/default-avatar.png';
         if ($('nav-user-avatar')) $('nav-user-avatar').src = avatarUrl;
@@ -252,8 +264,21 @@ document.addEventListener('DOMContentLoaded', () => {
         fillForm(p);
     }
 
-    const openModal = () => { fillForm(currentProfile()); modal.classList.add('active'); };
-    const closeModal = () => { modal.classList.remove('active'); fillForm(currentProfile()); }; // discard unsaved edits
+    const openModal = () => {
+        fillForm(currentProfile());
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+        $('edit-name').focus();
+    };
+    const closeModal = () => {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+        fillForm(currentProfile()); // discard unsaved edits
+        editBtn && editBtn.focus();
+    };
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.classList.contains('active')) closeModal();
+    });
 
     if (editBtn) editBtn.addEventListener('click', openModal);
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -270,17 +295,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     $('remove-project-2-btn')?.addEventListener('click', clearProject2);
 
+    ['edit-p1-name', 'edit-p2-name'].forEach(id => $(id)?.addEventListener('input', (e) => e.target.setCustomValidity('')));
+
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
+            // A project with details but no name would be silently hidden on the profile, so require the name.
+            const projectNameOk = (prefix) => {
+                const name = $(`edit-${prefix}-name`);
+                const hasDetails = ['tech', 'link', 'desc'].some(f => $(`edit-${prefix}-${f}`).value.trim());
+                name.setCustomValidity(hasDetails && !name.value.trim() ? 'Enter a project name, or clear the other project fields.' : '');
+                if (!name.checkValidity()) { name.reportValidity(); return false; }
+                return true;
+            };
+            if (!projectNameOk('p1')) return;
+            if (!$('project-2-fields').hidden && !projectNameOk('p2')) return;
             const updated = {};
             Object.entries(idFor).forEach(([field, id]) => {
                 if (field !== 'directives') updated[field] = $(id).value.trim();
             });
-            updated.directives = [
+            updated.directives = directiveList([
                 $('edit-directives').value,
                 ...Array.from(document.querySelectorAll('#directive-inputs .extra-directive-input')).map(input => input.value)
-            ].map(value => value.trim()).filter(Boolean).join(', ');
+            ]);
             updated.socialLinks = Array.from(document.querySelectorAll('#social-link-inputs .social-link-row'))
                 .map(row => ({ platform: row.querySelector('.social-platform').value, url: row.querySelector('.social-url').value.trim() }))
                 .filter(link => link.url)
@@ -289,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
             UniVistaAuth.saveProfile(updated); // also syncs the account record and keeps the email
             render();
             modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
             if (window.UniVistaData) window.UniVistaData.saveRecord('profile-update', updated);
         });
     }

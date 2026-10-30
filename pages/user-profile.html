@@ -131,21 +131,21 @@
     </main>
 
     <!-- EDIT PROFILE MODAL -->
-    <div id="edit-modal" class="modal-overlay">
+    <div id="edit-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Edit Profile Configuration</h2>
-                <button id="close-modal-btn" class="close-btn">&times;</button>
+                <h2 id="edit-modal-title">Edit Profile Configuration</h2>
+                <button type="button" id="close-modal-btn" class="close-btn" aria-label="Close dialog">&times;</button>
             </div>
             <form id="edit-profile-form">
                 
                 <!-- Core Info -->
                 <div class="input-group">
-                    <label>Operative Name</label>
-                    <input type="text" id="edit-name" class="standard-input" required>
+                    <label for="edit-name">Operative Name</label>
+                    <input type="text" id="edit-name" class="standard-input" autocomplete="name" required>
                 </div>
                 <div class="input-group">
-                    <label>Academic Status</label>
+                    <label for="edit-status">Academic Status</label>
                     <input type="text" id="edit-status" class="standard-input" required>
                 </div>
 
@@ -182,20 +182,20 @@
                 <h3 class="modal-section-title">GitHub Project 1</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div class="input-group">
-                        <label>Project Name</label>
+                        <label for="edit-p1-name">Project Name</label>
                         <input type="text" id="edit-p1-name" class="standard-input">
                     </div>
                     <div class="input-group">
-                        <label>Tech Stack</label>
+                        <label for="edit-p1-tech">Tech Stack</label>
                         <input type="text" id="edit-p1-tech" class="standard-input">
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>GitHub URL</label>
+                    <label for="edit-p1-link">GitHub URL</label>
                     <input type="url" id="edit-p1-link" class="standard-input">
                 </div>
                 <div class="input-group">
-                    <label>Short Description</label>
+                    <label for="edit-p1-desc">Short Description</label>
                     <input type="text" id="edit-p1-desc" class="standard-input">
                 </div>
 
@@ -204,20 +204,20 @@
                 <h3 class="modal-section-title">GitHub Project 2</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div class="input-group">
-                        <label>Project Name</label>
+                        <label for="edit-p2-name">Project Name</label>
                         <input type="text" id="edit-p2-name" class="standard-input">
                     </div>
                     <div class="input-group">
-                        <label>Tech Stack</label>
+                        <label for="edit-p2-tech">Tech Stack</label>
                         <input type="text" id="edit-p2-tech" class="standard-input">
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>GitHub URL</label>
+                    <label for="edit-p2-link">GitHub URL</label>
                     <input type="url" id="edit-p2-link" class="standard-input">
                 </div>
                 <div class="input-group">
-                    <label>Short Description</label>
+                    <label for="edit-p2-desc">Short Description</label>
                     <input type="text" id="edit-p2-desc" class="standard-input">
                 </div>
                 <button type="button" id="remove-project-2-btn" class="remove-social-link remove-entry-btn" hidden>Remove Project</button>
@@ -226,19 +226,19 @@
                 <!-- Hardware -->
                 <h3 class="modal-section-title">Hardware Loadout</h3>
                 <div class="input-group">
-                    <label>CPU</label>
+                    <label for="edit-cpu">CPU</label>
                     <input type="text" id="edit-cpu" class="standard-input">
                 </div>
                 <div class="input-group">
-                    <label>RAM</label>
+                    <label for="edit-ram">RAM</label>
                     <input type="text" id="edit-ram" class="standard-input">
                 </div>
                 <div class="input-group">
-                    <label>GPU</label>
+                    <label for="edit-gpu">GPU</label>
                     <input type="text" id="edit-gpu" class="standard-input">
                 </div>
                 <div class="input-group">
-                    <label>Primary Controller</label>
+                    <label for="edit-controller">Primary Controller</label>
                     <input type="text" id="edit-controller" class="standard-input">
                 </div>
 

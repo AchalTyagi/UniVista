@@ -457,7 +457,6 @@ a {
 
 @media (max-width: 768px) {
     .top-nav { padding: 1.5rem 2rem; }
-    .nav-links { display: none; } /* Hide on mobile for simplicity */
     
     .intro-section, .reality-banner, .network-header {
         flex-direction: column;

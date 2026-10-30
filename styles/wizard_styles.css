@@ -6,6 +6,7 @@
     padding: 0 1.5rem;
     display: flex;
     flex-direction: column;
+    align-items: stretch; /* main{align-items:center} made the card shrink to its content */
     gap: 2rem;
     width: 100%;
 }
@@ -80,6 +81,7 @@
 
 /* --- Wizard Card --- */
 .wizard-card {
+    width: 100%;
     background: #121420;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
@@ -271,3 +273,20 @@
 .empty-result ul { list-style: none; margin-top: 1rem; }
 .empty-result li { margin-bottom: 0.5rem; }
 .empty-result a { color: #8b5cf6; text-decoration: none; }
+
+/* --- Wizard: small screens --- */
+.progress-bar { overflow: hidden; }
+@media (max-width: 640px) {
+    .wizard-layout { margin: 1rem auto 2.5rem; padding: 0 1rem; gap: 1.25rem; }
+    .wizard-header { padding: 1.2rem 1.1rem; }
+    .stage-info { flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .stage-info h2 { font-size: 1rem; }
+    .stepper-labels { font-size: 0.58rem; gap: 0.25rem; }
+    .wizard-card { padding: 1.5rem 1.1rem; }
+    .step-heading { font-size: 1.4rem; }
+    .slider-wrapper { flex-wrap: wrap; }
+    .slider-value { min-width: 0; }
+    .wizard-actions { flex-wrap: wrap; gap: 1rem; }
+    .result-score-value { font-size: 3rem; }
+    .result-row-head { flex-direction: column; gap: 0.2rem; }
+}

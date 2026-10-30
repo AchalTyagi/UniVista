@@ -19,7 +19,7 @@
         <form id="login-form">
             <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
                 <label for="login-name">FULL NAME</label>
-                <input type="text" id="login-name" class="standard-input" placeholder="e.g. John Doe" required>
+                <input type="text" id="login-name" class="standard-input" autocomplete="name" placeholder="e.g. John Doe" required>
             </div>
 
             <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
@@ -29,12 +29,12 @@
 
             <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
                 <label for="login-email">PERSONAL ID (EMAIL)</label>
-                <input type="email" id="login-email" class="standard-input" placeholder="xyz@domain.com" required>
+                <input type="email" id="login-email" class="standard-input" autocomplete="email" placeholder="xyz@domain.com" required>
             </div>
 
             <div class="input-group" style="text-align: left; margin-bottom: 1.5rem;">
                 <label for="login-password">PASSWORD</label>
-                <input type="password" id="login-password" class="standard-input" placeholder="At least 6 characters" minlength="6" required>
+                <input type="password" id="login-password" class="standard-input" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required>
             </div>
 
             <div id="login-error" class="form-error" hidden></div>

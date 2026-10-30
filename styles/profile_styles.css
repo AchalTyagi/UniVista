@@ -4,7 +4,9 @@
     margin: 3rem auto 5rem auto;
     padding: 0 2rem;
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 320px minmax(0, 1fr);
+    align-items: start; /* inherited main{align-items:center} floated the shorter column down the page */
+    width: 100%;
     gap: 2.5rem;
 }
 
@@ -30,9 +32,11 @@
 }
 
 .profile-avatar-large img {
+    display: block;
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .profile-name {
@@ -818,4 +822,12 @@
     #wizard-history-container .empty-history {
         padding: 24px 18px;
     }
+}
+
+/* Lock page scroll behind the open Edit Profile dialog */
+body.modal-open { overflow: hidden; }
+@media (max-width: 600px) {
+    .profile-layout { padding: 0 1rem; margin-top: 1.5rem; }
+    .stat-comparison { flex-wrap: wrap; gap: 0.75rem; }
+    .project-header { flex-wrap: wrap; gap: 0.5rem; }
 }

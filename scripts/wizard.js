@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function assessHomework(assignments, deadline) {
-        if (assignments === 0) return { status: 'NO PENDING WORK', level: 'good', score: 100 };
-        // A deadline of zero means work is due today. Otherwise, use a simple
-        // capacity rule: plan for roughly one assignment per available day.
-        if (deadline === 0) return { status: 'CRITICAL', level: 'bad', score: 10 };
-        const assignmentsPerDay = assignments / deadline;
-        if (assignmentsPerDay <= 1) return { status: 'RELAX', level: 'good', score: 90 };
-        if (assignmentsPerDay >= 2 || deadline <= 1) return { status: 'CRITICAL', level: 'bad', score: 10 };
-        if (deadline <= 2 || assignmentsPerDay > 1.5) return { status: 'HIGH', level: 'warn', score: 35 };
-        return { status: 'MODERATE', level: 'caution', score: 60 };
+        if (assignments === 0) return { status: 'NO PENDING WORK', level: 'good', score: 100, note: 'Nothing pending. Enjoy it while it lasts.' };
+        // Due today (or sooner) is always critical, however few assignments there are.
+        if (deadline <= 1) return { status: 'CRITICAL', level: 'bad', score: 10, note: deadline === 0 ? 'Something is due today.' : 'Something is due tomorrow.' };
+        // Simple capacity rule: plan for roughly one assignment per available day.
+        const perDay = assignments / deadline;
+        if (perDay >= 2) return { status: 'CRITICAL', level: 'bad', score: 10, note: 'Far more work than days left.' };
+        if (perDay > 1.5 || deadline <= 2) return { status: 'HIGH', level: 'warn', score: 35, note: 'Tight schedule. Start now.' };
+        if (perDay > 1) return { status: 'MODERATE', level: 'caution', score: 60, note: 'Manageable if you stay consistent.' };
+        return { status: 'RELAX', level: 'good', score: 90, note: 'Enough time to do it properly.' };
     }
 
     function assessSleep(sleep, caffeine) {
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const r = assessHomework(a, d);
             hwStatus.textContent = r.status;
             hwStatus.style.color = COLORS[r.level];
-            hwStatusText.textContent = r.status;
+            hwStatusText.textContent = `${r.status} - ${r.note}`;
             return true;
         }
 
@@ -334,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stored.sleep === null || stored.caffeine === null) missing.push(['wizard-4-sleep.html', '4. Sleep']);
 
         if (missing.length) {
+            localStorage.removeItem(KEY + 'lastResult'); // never show a stale score on the profile
             resultRoot.innerHTML = `
                 <div class="empty-result">
                     <p>Some stages are still incomplete. Finish them to get your verdict:</p>
@@ -343,9 +344,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const funds = assessFunds(Number(stored.funds), Number(stored.days));
             const att = assessAttendance(Number(stored.conducted), Number(stored.attended), Number(stored.target));
             const hw = assessHomework(Number(stored.assignments), Number(stored.deadline));
-            const sl = assessSleep(Number(stored.sleep), Number(stored.caffeine));
+            const sl = assessSleep(Number(stored.sleep) / 3, Number(stored.caffeine)); // stored value is a 3-day total
 
             if (att.state !== 'ok') {
+                localStorage.removeItem(KEY + 'lastResult');
                 resultRoot.innerHTML = `<div class="empty-result"><p>Your attendance data is invalid.</p><a href="wizard-2-attendance.html">Fix attendance &rarr;</a></div>`;
             } else {
                 const score = Math.round((funds.score + att.score + hw.score + sl.score) / 4);
@@ -355,8 +357,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if (score >= 25) { verdict = 'CRITICAL'; level = 'warn'; }
                 else { verdict = 'TERMINAL'; level = 'bad'; }
 
+                // Only log a record when the inputs actually changed (a page refresh must not add duplicates)
+                const signature = JSON.stringify(stored);
+                const isNewResult = get('lastResultSig') !== signature;
                 set('lastResult', JSON.stringify({ score, verdict }));
-                if (window.UniVistaData) window.UniVistaData.saveRecord('wizard-final-result', {
+                set('lastResultSig', signature);
+                if (window.UniVistaData && isNewResult) window.UniVistaData.saveRecord('wizard-final-result', {
                     inputs: stored, score, verdict,
                     breakdown: { funds: funds.status, attendance: att.status, homework: hw.status, sleep: sl.status }
                 });
@@ -364,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rows = [
                     ['Funds', funds.status, funds.level, `₹${Number(stored.funds)} over ${stored.days} day(s) = ₹${funds.daily.toFixed(2)}/day. ${funds.note}`],
                     ['Attendance', att.status, att.level, `${att.percent.toFixed(1)}% vs ${stored.target}% target. ${att.note}`],
-                    ['Homework', hw.status, hw.level, `${stored.assignments} pending, nearest deadline in ${stored.deadline} day(s).`],
+                    ['Homework', hw.status, hw.level, `${stored.assignments} pending, nearest deadline in ${stored.deadline} day(s). ${hw.note}`],
                     ['Sleep', sl.status, sl.level, `${(Number(stored.sleep) / 3).toFixed(1)} hrs/day average from ${stored.sleep} total hours over 3 days; ${stored.caffeine} caffeine/day. ${sl.note}`]
                 ];
 

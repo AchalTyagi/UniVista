@@ -55,7 +55,7 @@
                     </label>
                     <div class="input-with-icon">
                         <span class="currency-symbol">₹</span>
-                        <input type="number" id="funds" placeholder="200" required>
+                        <input type="number" id="funds" placeholder="200" min="0" step="any" inputmode="decimal" required>
                     </div>
                     
                     <div class="predicament-pills">
@@ -66,7 +66,7 @@
                 </div>
                 
                 <div class="input-group">
-                    <label for="days">Days remaining until next pocket money</label>
+                    <label for="days-slider">Days remaining until next pocket money</label>
                     <div class="slider-wrapper">
                         <input type="range" min="1" max="30" value="10" class="slider" id="days-slider">
                         <div class="slider-value"><span id="days-display">10</span> Days</div>
@@ -83,7 +83,7 @@
                         <span id="maggie-count" style="font-size: 0.95rem; color: #a1a1aa; display: inline-block; margin-top: 8px;"></span>
                     </p>
                     <div class="metric-footer">
-                        <span>Maggie baseline: ₹15/unit</span>
+                        <span>Maggi baseline: ₹15/unit</span>
                     </div>
                 </div>
 

@@ -415,3 +415,20 @@ main {
     font-family: monospace;
     color: #52525b;
 }
+
+/* --- Responsive --- */
+.stack-item { width: 32px; height: 32px; font-size: 0.55rem; }
+.crisis-badge { max-width: 100%; }
+@media (max-width: 1000px) {
+    .hero-section { flex-direction: column; align-items: stretch; gap: 2.5rem; padding: 2rem 1.5rem 3rem; }
+    .hero-content { max-width: none; }
+    .hero-form-container { max-width: none; }
+    .main-title { font-size: clamp(2.2rem, 7vw, 3.5rem); }
+}
+@media (max-width: 480px) {
+    .hero-form-container { padding: 1.25rem; }
+    .form-actions { flex-wrap: wrap; gap: 0.6rem; }
+    .tab-btn { font-size: 0.85rem; padding: 0.7rem 0.4rem; }
+    .calculate-btn { width: 100%; justify-content: center; }
+    main { align-items: stretch; }
+}
