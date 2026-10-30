@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Paste your Supabase Project URL and Anon Key here (from Supabase Dashboard -> Settings -> API)
-    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const SUPABASE_URL = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidmlmaXV2eGFoenFtZHV0eW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMjY3ODcsImV4cCI6MjEwODkwMjc4N30.kzvGaTXKcFfGnQIkSFkKjFnV2dRpYZhBGORrtnosIEQ';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidmlmaXV2eGFoenFtZHV0eW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMjY3ODcsImV4cCI6MjEwODkwMjc4N30.kzvGaTXKcFfGnQIkSFkKjFnV2dRpYZhBGORrtnosIEQ';
 
     const isConfigured = !SUPABASE_URL.includes('YOUR_PROJECT_ID') && window.supabase;
     const supabaseClient = isConfigured
