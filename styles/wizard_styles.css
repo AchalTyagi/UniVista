@@ -1,0 +1,258 @@
+/* --- Wizard Layout --- */
+/* --- Wizard Layout (Made Wider/Longer) --- */
+.wizard-layout {
+    max-width: 850px; /* Increased from 650px to make the whole component longer */
+    margin: 2rem auto 4rem auto;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* --- Horizontal Tracker Fixes --- */
+.wizard-header {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.8rem 2.5rem; /* Slightly more padding to match the wider look */
+    width: 100%;
+}
+
+.stage-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    gap: 1rem; 
+}
+
+.stage-info h2 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem; 
+    font-size: 1.2rem; /* Slightly larger font for the wider layout */
+    color: #8b5cf6;
+    margin: 0;
+}
+
+.stage-name {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.initialized-text {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #a1a1aa;
+    white-space: nowrap; 
+    margin-left: auto; 
+}
+
+.progress-bar {
+    width: 100%; /* Ensures the bar stretches the full length */
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-bottom: 1.2rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #8b5cf6;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.stepper-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #52525b;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.stepper-labels .active {
+    color: #ffffff;
+}
+
+/* --- Wizard Card --- */
+.wizard-card {
+    background: #121420;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0,0,0, 0.4);
+}
+
+.protocol-badge {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #a1a1aa;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.step-heading {
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.step-desc {
+    color: #a1a1aa;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 2rem;
+}
+
+.input-group label {
+    display: block;
+    color: #d1d5db;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.sub-label {
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 1rem;
+    color: #9ca3af;
+    font-size: 1.1rem;
+}
+
+.input-with-icon input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Pills */
+.predicament-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pill-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #a1a1aa;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.pill-btn.selected, .pill-btn:hover {
+    background: #8b5cf6;
+    border-color: #8b5cf6;
+    color: white;
+}
+
+/* Slider */
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.slider {
+    flex: 1;
+    accent-color: #8b5cf6;
+}
+
+.slider-value {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #ffffff;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Metric Box */
+.survival-metric-box {
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 3px solid #8b5cf6;
+    padding: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2rem;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #a1a1aa;
+    margin-bottom: 0.5rem;
+}
+
+.metric-result {
+    font-size: 1rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.metric-result strong {
+    font-size: 1.25rem;
+    color: #ffffff;
+}
+
+.metric-footer {
+    font-size: 0.75rem;
+    color: #52525b;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 0.5rem;
+}
+
+/* Actions */
+.wizard-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.wizard-next-btn {
+    width: auto !important;
+    padding: 0.8rem 1.5rem !important;
+}
+
+.btn-back {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
