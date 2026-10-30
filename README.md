@@ -51,8 +51,8 @@ Keep it respectful and kind. We are all stressed out, running on three hours of 
 
 1. Keep the `pages`, `styles`, and `scripts` folders together in the project root.
 2. Open `pages/mainpage.html` in a browser, or serve the project root with a local static server and visit `/pages/mainpage.html`.
-3. Use the main page form to continue to the dashboard (authentication is intentionally bypassed during this UI/functionality pass).
-4. Start the Survival Wizard from the dashboard. The currently wired steps are Funds → Attendance → Assignments. Sleep and Calculate are not connected yet.
+3. Use the main page and login flow to open the dashboard.
+4. Start the Survival Wizard and complete Funds → Attendance → Assignments → Sleep → Calculate.
 
 ## Project structure
 
@@ -79,7 +79,7 @@ This frontend-only version provides a JSON export option without a backend.
 2. Open `pages/mainpage.html` directly or use VS Code Live Server.
 3. Open the profile page and choose Edit Profile → Export JSON to download your data.//localhost:3000/pages/mainpage.html`.
 
-Do not open the HTML files directly with `file://` when testing JSON persistence. The browser must use the local server so the `/api/submissions` endpoint is available.
+This version is frontend-only. Open `pages/mainpage.html` with VS Code Live Server (recommended) or another static server. JSON export works in the browser and does not require a backend.
 
 ### What gets saved
 
@@ -87,7 +87,7 @@ Do not open the HTML files directly with `file://` when testing JSON persistence
 - Funds, attendance, assignments, and sleep form submissions.
 - The final survival score and verdict.
 
-Records are appended to `data/submissions.json`. Each record includes a type, timestamp, optional account email/name, and submitted payload. Passwords are not sent to this endpoint.
+The project stores working data in browser `localStorage`. The export option downloads the available profile and survival-wizard data as a JSON file. No backend endpoint is required.
 
 ### JSON export option
 
