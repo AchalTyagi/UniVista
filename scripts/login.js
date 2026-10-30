@@ -1,26 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Supabase configuration
-    const SUPABASE_URL = 'https://bbvifiuvexahzqmdutyoq.supabase.co';
+    // 1. Paste your Supabase Project URL and Anon Key here (from Supabase Dashboard -> Settings -> API)
+    const SUPABASE_URL = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidmlmaXV2eGFoenFtZHV0eW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMjY3ODcsImV4cCI6MjEwODkwMjc4N30.kzvGaTXKcFfGnQIkSFkKjFnV2dRpYZhBGORrtnosIEQ';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidmlmaXV2eGFoenFtZHV0eW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMjY3ODcsImV4cCI6MjEwODkwMjc4N30.kzvGaTXKcFfGnQIkSFkKjFnV2dRpYZhBGORrtnosIEQ';
 
-    // Paste your existing Supabase anon key here
-    const SUPABASE_ANON_KEY = 'YOUR_EXISTING_SUPABASE_ANON_KEY';
+    const isConfigured = !SUPABASE_URL.includes('YOUR_PROJECT_ID') && window.supabase;
+    const supabaseClient = isConfigured
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        : null;
 
-    // 2. Initialize Supabase
-    let supabaseClient = null;
-
-    if (window.supabase && SUPABASE_ANON_KEY !== 'YOUR_EXISTING_SUPABASE_ANON_KEY') {
-        try {
-            supabaseClient = window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
-        } catch (error) {
-            console.error('Supabase initialization failed:', error);
-        }
-    }
-
-    // 3. Handle OAuth redirect
+    // 2. Check if the user just returned from a Google/GitHub login redirect
     if (supabaseClient) {
         const { data, error } = await supabaseClient.auth.getSession();
 
