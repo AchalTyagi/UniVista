@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const remove = document.createElement('button');
         remove.type = 'button';
         remove.className = 'remove-social-link';
-        remove.textContent = 'Remove';
+        remove.textContent = 'Remove Link';
         remove.addEventListener('click', () => { row.remove(); updateSocialLinkControls(); });
         row.append(select, url, remove);
         container.appendChild(row);
