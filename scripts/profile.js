@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         select.value = SOCIAL_PLATFORMS.some(x => x.value === link.platform) ? link.platform : 'LinkedIn';
         const url = document.createElement('input');
         url.type = 'url';
+        url.maxLength = 300;
         url.autocomplete = 'url';
         url.className = 'standard-input social-url';
        url.placeholder = 'https://example.com/your-profile';
