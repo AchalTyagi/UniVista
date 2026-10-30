@@ -305,7 +305,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-        // SURVIVAL WIZARD HISTORY
+    // ==========================================
+    // LIVE SURVIVAL SYSTEM STATUS
+    // ==========================================
+    function updateSystemStatus() {
+        const badge = document.querySelector('.status-badge');
+        if (!badge) return;
+
+        const dot = badge.querySelector('.status-dot');
+        const label = $('profile-status-text');
+        let result = null;
+
+        try {
+            const raw = localStorage.getItem('uniVista_lastResult');
+            result = raw ? JSON.parse(raw) : null;
+        } catch (error) {
+            console.warn('Could not read the latest survival result:', error);
+        }
+
+        let status = 'SYSTEM NOMINAL';
+        let color = '#10b981';
+        let background = 'rgba(16, 185, 129, 0.12)';
+
+        if (result && Number.isFinite(Number(result.score))) {
+            const score = Number(result.score);
+            if (score >= 75) {
+                status = 'SYSTEM NOMINAL';
+            } else if (score >= 50) {
+                status = 'SYSTEM UNSTABLE';
+                color = '#facc15';
+                background = 'rgba(250, 204, 21, 0.12)';
+            } else if (score >= 25) {
+                status = 'SYSTEM CRITICAL';
+                color = '#f97316';
+                background = 'rgba(249, 115, 22, 0.12)';
+            } else {
+                status = 'SYSTEM FAILURE';
+                color = '#ff5252';
+                background = 'rgba(255, 82, 82, 0.12)';
+            }
+        }
+
+        badge.style.color = color;
+        badge.style.backgroundColor = background;
+        if (dot) dot.style.backgroundColor = color;
+        if (label) label.textContent = status;
+    }
+
+    // ==========================================
+    // SURVIVAL WIZARD HISTORY
     // ==========================================
     function loadWizardHistory() {
         const container = $('wizard-history-container');
@@ -372,4 +420,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     render();
     loadWizardHistory();
+    updateSystemStatus();
 });

@@ -36,14 +36,14 @@
                 <h1 class="profile-name" id="display-name">Your Name</h1>
                 <p class="profile-status" id="display-status">Student</p>
                 <div id="display-social-links" class="social-links" aria-label="Social profile links"></div>
-                <div class="status-badge" style="margin-bottom: 1.5rem;">
-                    <span class="status-dot"></span>
-                    SYSTEMS NOMINAL
+                <div class="status-badge" id="profile-system-status" style="margin-bottom: 1.5rem;">
+                    <span class="status-dot" id="profile-status-dot"></span>
+                    <span id="profile-status-text">SYSTEM NOMINAL</span>
                 </div>
                 
                 <!-- Buttons Stacked Here -->
                 <button id="edit-profile-btn" class="edit-btn">Edit Profile</button>
-                <button id="logout-btn" class="logout-btn">Log Out Operative</button>
+                <button id="logout-btn" class="logout-btn">Log Out</button>
             </div>
 
             <div class="info-card">
@@ -62,7 +62,7 @@
         <section class="profile-dashboard">
             
             <div class="dashboard-header">
-                <h2>OPERATIVE TELEMETRY</h2>
+                <h2>Dashboard</h2>
                 <span class="sync-text">LAST SYNC: JUST NOW</span>
             </div>
 
@@ -78,7 +78,7 @@
                 <!-- Academic Trajectory -->
                 <div class="stat-box target-box">
                     <div class="stat-icon">🎓</div>
-                    <h3>Academic Trajectory</h3>
+                    <h3>Academic Targets</h3>
                     <div class="stat-comparison">
                         <div class="stat-current">
                             <span class="label">CURRENT CGPA</span>
@@ -96,7 +96,7 @@
                 <!-- Post-Grad Directives -->
                 <div class="stat-box">
                     <div class="stat-icon">🌍</div>
-                    <h3>Post-Grad Directives</h3>
+                    <h3>Future Directives</h3>
                     <ul class="directive-list" id="display-directives">
                         <!-- JS injects directives here -->
                     </ul>
@@ -105,7 +105,7 @@
 
             <!-- Active Development -->
             <div class="dev-section">
-                <h3>Active Development & Arsenal</h3>
+                <h3>My Projects</h3>
                 <div class="project-list">
                     <!-- Project 1 Link -->
                     <a href="#" target="_blank" rel="noopener noreferrer" id="display-p1-link" class="project-card clickable-card">
@@ -141,22 +141,22 @@
                 
                 <!-- Core Info -->
                 <div class="input-group">
-                    <label>Operative Name</label>
+                    <label>Profile Name</label>
                     <input type="text" id="edit-name" class="standard-input" required>
                 </div>
                 <div class="input-group">
                     <label>Academic Status</label>
-                    <input type="text" id="edit-status" class="standard-input" required>
+                    <input type="text" id="edit-status" placeholder="Year" class="standard-input" required>
                 </div>
 
                 <!-- Optional social links: maximum five -->
-                <h3 class="modal-section-title">Social & Professional Links</h3>
+                <h3 class="modal-section-title">Social Links</h3>
                 <p class="social-links-help">Add up to 5 links. Choose a platform for each link and enter its full URL.</p>
                 <div id="social-link-inputs"></div>
                 <button type="button" id="add-social-link-btn" class="add-entry-btn">+ Add Social Link</button>
 
                 <!-- Academic goals -->
-                <h3 class="modal-section-title">Academic Trajectory</h3>
+                <h3 class="modal-section-title">Academic Targets</h3>
                 <div class="academic-input-grid">
                     <div class="input-group">
                         <label for="edit-current-cgpa">Current CGPA (0–10)</label>
@@ -172,7 +172,7 @@
                 <h3 class="modal-section-title">Future Plans & Directives</h3>
                 <div id="directive-inputs">
                     <div class="input-group directive-input-row">
-                        <label for="edit-directives">Post-Grad Directive 1</label>
+                        <label for="edit-directives">Future Directive 1</label>
                         <input type="text" id="edit-directives" class="standard-input" placeholder="e.g. Evaluating CAT">
                     </div>
                 </div>
@@ -227,19 +227,19 @@
                 <h3 class="modal-section-title">Hardware Loadout</h3>
                 <div class="input-group">
                     <label>CPU</label>
-                    <input type="text" id="edit-cpu" class="standard-input">
+                    <input type="text" id="edit-cpu" placeholder="Intel or AMD" class="standard-input">
                 </div>
                 <div class="input-group">
                     <label>RAM</label>
-                    <input type="text" id="edit-ram" class="standard-input">
+                    <input type="text" id="edit-ram" placeholder="in GB" class="standard-input">
                 </div>
                 <div class="input-group">
                     <label>GPU</label>
-                    <input type="text" id="edit-gpu" class="standard-input">
+                    <input type="text" id="edit-gpu" placeholder="NVIDIA or AMD" class="standard-input">
                 </div>
                 <div class="input-group">
                     <label>Primary Controller</label>
-                    <input type="text" id="edit-controller" class="standard-input">
+                    <input type="text" id="edit-controller" placeholder="e.g., PS5, Xbox, Steam Deck, etc" class="standard-input">
                 </div>
 
                 <div class="modal-actions">
