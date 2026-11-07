@@ -74,7 +74,7 @@
         status = String(status || '').trim();
         email = normEmail(email);
         if (!name || !status || !email || !password) return { ok: false, error: 'All fields are required.' };
-        if (!/^\S+@\S+\.\S+$/.test(email)) return { ok: false, error: 'Enter a valid email address.' };
+        if (!/^\S+@\S+\.\S+$/.test(email)) return { ok: false, error: 'Invalid emaail address' };
         if (password.length < 6) return { ok: false, error: 'Password must be at least 6 characters.' };
 
         const accounts = getAccounts();
