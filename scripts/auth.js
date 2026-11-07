@@ -86,7 +86,7 @@
         clearActiveSession(); // never leak a previous user's data into a new account
         localStorage.setItem(PROFILE_KEY, JSON.stringify({
             name, email, status,
-            cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown',
+            cpu: '', ram: '', gpu: '', controller: '',
             directives: '',
             p1Name: '', p1Tech: '', p1Desc: '', p1Link: '',
             p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
@@ -111,7 +111,7 @@
         clearActiveSession();
         localStorage.setItem(PROFILE_KEY, JSON.stringify(savedProfile || {
             name: email.split('@')[0], email, status: 'Student',
-            cpu: 'Unknown', ram: 'Unknown', gpu: 'Unknown', controller: 'Unknown', directives: '',
+            cpu: '', ram: '', gpu: '', controller: '', directives: '',
             p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
         }));
         return { ok: true };
@@ -161,7 +161,7 @@
             if (navAvatar) navAvatar.src = '../assets/images/default-avatar.png';
         } else {
             if (userProfileEl) userProfileEl.style.display = 'none';
-            if (navLinksEl && page !== 'about-us.html') navLinksEl.style.display = 'none';
+            // Nav links stay visible when logged out (same as About Us); protected pages redirect to login
         }
 
         // 4. Logout

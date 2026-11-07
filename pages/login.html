@@ -9,8 +9,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/univista_shared_theme.css">
 </head>
-<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+<body>
+    <header class="top-nav">
+        <div class="logo">
+            <a href="mainpage.html" style="text-decoration: none; color: inherit;">
+                <h1>UniVista</h1>
+            </a>
+        </div>
+        <nav class="nav-links"><a href="dashboard.html">Dashboard</a><a href="wizard-1-funds.html">Survival Wizard</a><a href="about-us.html">About Us</a></nav>
+        <a href="user-profile.html" class="user-profile">
+            <span id="global-nav-name">Hello User!</span>
+            <div class="avatar-circle"><img id="global-nav-avatar" src="../assets/images/default-avatar.png" alt="User Avatar"></div>
+        </a>
+    </header>
 
+    <main style="justify-content: center; padding: 2rem 1rem 3rem;">
     <div class="wizard-card" style="width: 100%; max-width: 450px;">
         <div class="protocol-badge">SYSTEM INITIALIZATION</div>
         <h3 class="step-heading">Identify Operative</h3>
@@ -19,7 +32,7 @@
         <form id="login-form">
             <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
                 <label for="login-name">FULL NAME</label>
-                <input type="text" id="login-name" class="standard-input" placeholder="e.g. John Doe" required>
+                <input type="text" id="login-name" class="standard-input" autocomplete="name" placeholder="e.g. John Doe" required>
             </div>
 
             <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
@@ -29,22 +42,23 @@
 
             <div class="input-group" style="text-align: left; margin-bottom: 1.2rem;">
                 <label for="login-email">PERSONAL ID (EMAIL)</label>
-                <input type="email" id="login-email" class="standard-input" placeholder="xyz@domain.com" required>
+                <input type="email" id="login-email" class="standard-input" autocomplete="email" placeholder="xyz@domain.com" required>
             </div>
 
             <div class="input-group" style="text-align: left; margin-bottom: 1.5rem;">
                 <label for="login-password">PASSWORD</label>
-                <input type="password" id="login-password" class="standard-input" placeholder="At least 6 characters" minlength="6" required>
+                <input type="password" id="login-password" class="standard-input" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required>
             </div>
 
             <div id="login-error" class="form-error" hidden></div>
 
             <button type="submit" class="submit-button" style="width: 100%;">Initialize System &rarr;</button>
             <p style="text-align:center; margin-top:1rem; font-size:0.85rem; color:#a1a1aa;">
-                Already registered? <a href="mainpage.html" style="color:#8b5cf6;">Sign in</a>
+                Already registered? <a href="mainpage.html" style="color:var(--uv-purple-text);">Sign in</a>
             </p>
         </form>
     </div>
+    </main>
 
     <script src="../scripts/auth.js"></script>
     <script>
