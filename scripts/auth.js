@@ -13,9 +13,9 @@
     const ACCOUNTS_KEY = 'uniVista_accounts';
 
     // Pages a logged-out visitor may open
-    const PUBLIC_PAGES = ['', 'index.html', 'mainpage.html', 'login.html', 'about-us.html'];
+    const PUBLIC_PAGES = ['', 'mainpage.html', 'login.html', 'about-us.html'];
     // Pages a logged-in user is bounced away from
-    const GUEST_ONLY_PAGES = ['', 'index.html', 'mainpage.html', 'login.html'];
+    const GUEST_ONLY_PAGES = ['', 'mainpage.html', 'login.html'];
 
     function readJSON(key, fallback) {
         try {
