@@ -42,10 +42,6 @@
             const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
             return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
-        // Fallback for insecure contexts (demo only)
-        let h = 5381;
-        for (const c of input) h = ((h << 5) + h + c.charCodeAt(0)) | 0;
-        return 'x' + h;
     }
 
     function activeKeys() {
