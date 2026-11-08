@@ -100,9 +100,7 @@
 
         // Start a clean working session every time the user signs in.
         // Preserve their profile details, but do not restore old wizard answers/results.
-        const savedProfile = acc.data && acc.data[PROFILE_KEY]
-            ? readJSONFromString(acc.data[PROFILE_KEY])
-            : null;
+        const savedProfile = acc.data && acc.data[PROFILE_KEY] ? readJSONFromString(acc.data[PROFILE_KEY]) : null;
 
         clearActiveSession();
         localStorage.setItem(PROFILE_KEY, JSON.stringify(savedProfile || {
