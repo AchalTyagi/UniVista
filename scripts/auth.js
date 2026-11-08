@@ -33,8 +33,8 @@
 
     const getProfile = () => readJSON(PROFILE_KEY, null);
     const getAccounts = () => readJSON(ACCOUNTS_KEY, {});
-    const saveAccounts = (a) => localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(a));
-    const normEmail = (e) => String(e || '').trim().toLowerCase();
+    const saveAccounts = a => localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(a));
+    const normEmail = e => String(e || '').trim().toLowerCase();
 
     async function hashPassword(email, password) {
         const input = `${email}:${password}`;
@@ -90,7 +90,7 @@
             directives: '',
             p1Name: '', p1Tech: '', p1Desc: '', p1Link: '',
             p2Name: '', p2Tech: '', p2Desc: '', p2Link: ''
-        }));
+        }));    
         snapshot();
         return { ok: true };
     }
