@@ -1,13 +1,4 @@
-/*
- * UniVista auth (client-side demo only; real security needs a backend).
- *
- * Storage model:
- *   uniVista_accounts : { [email]: { passHash, data } }   <- survives logout
- *   uniVista_profile  : the active, logged-in profile     <- exists only while logged in
- *   uniVista_*        : wizard answers for the active user
- * On logout, account/profile data may be snapshotted, but every successful sign-in
- * starts a fresh wizard session: only the saved profile is restored, never wizard answers.
- */
+
 (function () {
     const PROFILE_KEY = 'uniVista_profile';
     const ACCOUNTS_KEY = 'uniVista_accounts';
