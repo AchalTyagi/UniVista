@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.alt = '';
             icon.loading = 'lazy';
             anchor.appendChild(icon);
-            anchor.title = platform;
+            anchor.title = `Visit ${platform} profile`;
             anchor.setAttribute('aria-label', `${platform} profile (opens in a new tab)`);
             container.appendChild(anchor);
         });
