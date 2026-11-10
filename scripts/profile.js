@@ -33,8 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderProject(prefix, p) {
-        const card = $(`display-${prefix}-link`);
-        const name = p[`${prefix}Name`];
+    const card = $(`display-${prefix}-link`);
+
+    // Prevent errors if the project card is missing.
+    if (!card) return;
+
+    const name = p[`${prefix}Name`];
         // Only show a project card when the user has supplied a project name.
         if (!String(name || '').trim()) { card.style.display = 'none'; return; }
         card.style.display = '';
