@@ -46,10 +46,16 @@
     // Copy the active user's data into their account record
     function snapshot() {
         const profile = getProfile();
-        if (!profile || !profile.email) return;
+        if (!profile || !profile.email){
+            console.log("No active profile found. Snapshot aborted.");
+            return;
+        }
         const accounts = getAccounts();
         const acc = accounts[profile.email];
-        if (!acc) return;
+        if (!acc){
+            console.log("The profile is not in the database!");
+            return;
+        }
         const data = {};
         activeKeys().forEach(k => { data[k] = localStorage.getItem(k); });
         acc.data = data;
