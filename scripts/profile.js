@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             anchor.href = url;
             anchor.target = '_blank';
             anchor.rel = 'noopener noreferrer';
+            anchor.title = `Visit ${platform} profile`;
             const iconName = ({
                 'LinkedIn': 'linkedin', 'Instagram': 'instagram', 'X': 'x', 'GitHub': 'github',
                 'Portfolio': 'portfolio', 'YouTube': 'youtube', 'Facebook': 'facebook',
