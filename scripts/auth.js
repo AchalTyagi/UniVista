@@ -1,4 +1,3 @@
-
 (function () {
     const PROFILE_KEY = 'uniVista_profile';
     const ACCOUNTS_KEY = 'uniVista_accounts';

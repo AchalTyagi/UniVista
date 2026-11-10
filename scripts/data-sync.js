@@ -1,6 +1,3 @@
-/* Frontend-only JSON data helper.
-   Records are stored in browser localStorage. Browsers cannot silently write to a
-   project-folder JSON file without a backend; use Export JSON to download a file. */
 (function () {
     const RECORDS_KEY = 'uniVista_json_records';
 
