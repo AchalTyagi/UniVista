@@ -233,7 +233,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSocialLinks(p);
         const currentCgpa = $('display-current-cgpa');
         const targetCgpa = $('display-target-cgpa');
-        const formatCgpa = (v) => (v === '' || v == null || Number.isNaN(Number(v))) ? '—' : Number(v).toFixed(2).replace(/\.00$/, '');
+        const formatCgpa = (v) => {
+            if (v === '' || v == null || Number.isNaN(Number(v))) {
+                return '—';
+            }
+            return Number(v).toFixed(2);
+       };
         if (currentCgpa) currentCgpa.textContent = formatCgpa(p.currentCgpa);
         if (targetCgpa) targetCgpa.textContent = formatCgpa(p.targetCgpa);
         const academicFooter = document.querySelector('.target-box .stat-footer');
