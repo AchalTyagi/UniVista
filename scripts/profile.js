@@ -275,8 +275,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const openModal = () => {
+         if (!modal) return;
+
         fillForm(currentProfile());
-        modal.classList.add('active');
+         modal.classList.add('active');
         document.body.classList.add('modal-open');
         $('edit-name').focus();
     };
