@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_PROFILE = {
         name: 'Your Name', status: 'Student', currentCgpa: '', targetCgpa: '',
         cpu: '', ram: '', gpu: '', controller: '', directives: '',
-        p1Name: '', p1Tech: '', p1Desc: '', p1Link: '', p2Name: '', p2Tech: '', p2Desc: '', p2Link: '', socialLinks: []
+        projects: [], p1Name: '', p1Tech: '', p1Desc: '', p1Link: '',
+        p2Name: '', p2Tech: '', p2Desc: '', p2Link: '', socialLinks: []
     };
 
     // Only allow http(s) links (blocks javascript: URLs)
@@ -29,32 +30,150 @@ document.addEventListener('DOMContentLoaded', () => {
         // Older accounts were created with "Unknown" as a placeholder; treat it as empty
         ['cpu', 'ram', 'gpu', 'controller'].forEach(key => { if (String(p[key]).trim().toLowerCase() === 'unknown') p[key] = ''; });
         p.directives = directiveList(p.directives);
+        // New format: projects array. Migrate older p1/p2 profile fields automatically.
+        if (!Array.isArray(p.projects) || !p.projects.length) {
+            p.projects = [1, 2].map(n => ({
+                name: p[`p${n}Name`] || '',
+                tech: p[`p${n}Tech`] || '',
+                description: p[`p${n}Desc`] || '',
+                url: p[`p${n}Link`] || ''
+            })).filter(project => Object.values(project).some(value => String(value || '').trim()));
+        }
+        p.projects = p.projects.slice(0, 10);
         return p;
     }
 
-    function renderProject(prefix, p) {
-    const card = $(`display-${prefix}-link`);
+    function renderProjects(projects) {
+        const container = $('display-project-list');
+        if (!container) return;
+        container.replaceChildren();
 
-    // Prevent errors if the project card is missing.
-    if (!card) return;
+        (Array.isArray(projects) ? projects : []).slice(0, 10).forEach((project, index) => {
+            if (!String(project.name || '').trim()) return;
+            const card = document.createElement('a');
+            card.className = 'project-card clickable-card';
+            card.target = '_blank';
+            card.rel = 'noopener noreferrer';
 
-    const name = p[`${prefix}Name`];
-        // Only show a project card when the user has supplied a project name.
-        if (!String(name || '').trim()) { card.style.display = 'none'; return; }
-        card.style.display = '';
-        $(`display-${prefix}-name`).textContent = name;
-        $(`display-${prefix}-tech`).textContent = p[`${prefix}Tech`];
-        $(`display-${prefix}-desc`).textContent = p[`${prefix}Desc`];
-        const url = safeUrl(p[`${prefix}Link`]);
-        if (url) { card.href = url; card.removeAttribute('aria-disabled'); card.style.pointerEvents = ''; }
-        else { card.removeAttribute('href'); card.style.pointerEvents = 'none'; }
+            const url = safeUrl(project.url);
+            if (url) card.href = url;
+            else {
+                card.removeAttribute('href');
+                card.style.cursor = 'default';
+            }
+
+            const header = document.createElement('div');
+            header.className = 'project-header';
+            const name = document.createElement('h4');
+            name.textContent = project.name;
+            const tech = document.createElement('span');
+            tech.className = 'tech-tag';
+            tech.textContent = project.tech || '';
+            header.append(name, tech);
+
+            const description = document.createElement('p');
+            description.textContent = project.description || '';
+            card.append(header, description);
+            container.appendChild(card);
+        });
+    }
+
+    function addProjectInput(project = {}) {
+        const container = $('project-inputs');
+        if (!container || container.querySelectorAll('.project-input-row').length >= 10) return;
+
+        const index = container.querySelectorAll('.project-input-row').length + 1;
+        const row = document.createElement('section');
+        row.className = 'project-input-row';
+        row.dataset.projectIndex = String(index);
+
+        const heading = document.createElement('h4');
+        heading.className = 'project-input-heading';
+        heading.textContent = `GitHub Project ${index}`;
+
+        const grid = document.createElement('div');
+        grid.className = 'project-input-grid';
+
+        const makeField = (labelText, field, type = 'text', placeholder = '') => {
+            const group = document.createElement('div');
+            group.className = 'input-group';
+            const label = document.createElement('label');
+            label.textContent = labelText;
+            const input = document.createElement('input');
+            input.type = type;
+            input.className = `standard-input project-${field}`;
+            input.placeholder = placeholder;
+            input.value = project[field] || '';
+            group.append(label, input);
+            return { group, input };
+        };
+
+        const nameField = makeField('Project Name', 'name');
+        const techField = makeField('Tech Stack', 'tech');
+        grid.append(nameField.group, techField.group);
+
+        const urlField = makeField('GitHub URL', 'url', 'url', 'https://github.com/...');
+        const descField = makeField('Short Description', 'description');
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'remove-social-link remove-entry-btn project-remove-btn';
+        remove.textContent = 'Remove Project';
+        remove.addEventListener('click', () => {
+            row.remove();
+            relabelProjectInputs();
+            updateProjectControls();
+        });
+
+        row.append(heading, grid, urlField.group, descField.group);
+        if (index > 1) row.appendChild(remove);
+        container.appendChild(row);
+        updateProjectControls();
+        return nameField.input;
+    }
+
+    function relabelProjectInputs() {
+        const rows = Array.from($('project-inputs').querySelectorAll('.project-input-row'));
+        rows.forEach((row, index) => {
+            row.dataset.projectIndex = String(index + 1);
+            const heading = row.querySelector('.project-input-heading');
+            if (heading) heading.textContent = `GitHub Project ${index + 1}`;
+        });
+    }
+
+    function updateProjectControls() {
+        const container = $('project-inputs');
+        const button = $('add-project-btn');
+        if (!container || !button) return;
+        const count = container.querySelectorAll('.project-input-row').length;
+        button.hidden = count >= 10;
+        button.textContent = count >= 10 ? 'Maximum 10 projects reached' : '+ Add Another Project';
+    }
+
+    function fillProjects(projects) {
+        const container = $('project-inputs');
+        if (!container) return;
+        container.replaceChildren();
+        const items = Array.isArray(projects) ? projects.slice(0, 10) : [];
+        if (items.length) items.forEach(project => addProjectInput(project));
+        else addProjectInput();
+        updateProjectControls();
+    }
+
+    function readProjectsFromForm() {
+        return Array.from(document.querySelectorAll('#project-inputs .project-input-row'))
+            .map(row => ({
+                name: row.querySelector('.project-name').value.trim(),
+                tech: row.querySelector('.project-tech').value.trim(),
+                url: row.querySelector('.project-url').value.trim(),
+                description: row.querySelector('.project-description').value.trim()
+            }))
+            .filter(project => project.name || project.tech || project.url || project.description)
+            .slice(0, 10);
     }
 
     // Maps profile fields to the edit-form input ids
     const idFor = { name: 'edit-name', status: 'edit-status', cpu: 'edit-cpu', ram: 'edit-ram', gpu: 'edit-gpu',
-        controller: 'edit-controller', directives: 'edit-directives', currentCgpa: 'edit-current-cgpa', targetCgpa: 'edit-target-cgpa',
-        p1Name: 'edit-p1-name', p1Tech: 'edit-p1-tech', p1Desc: 'edit-p1-desc', p1Link: 'edit-p1-link',
-        p2Name: 'edit-p2-name', p2Tech: 'edit-p2-tech', p2Desc: 'edit-p2-desc', p2Link: 'edit-p2-link' };
+        controller: 'edit-controller', currentCgpa: 'edit-current-cgpa', targetCgpa: 'edit-target-cgpa' };
 
     const SOCIAL_PLATFORMS = [
         { value: 'LinkedIn', label: 'LinkedIn' },
@@ -163,12 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $('edit-directives').value = directives[0] || '';
         directives.slice(1).forEach(value => addDirectiveInput(value));
 
-        const project2 = $('project-2-fields');
-        const hasProject2 = ['p2Name', 'p2Tech', 'p2Link', 'p2Desc'].some(key => String(p[key] || '').trim());
-        project2.hidden = !hasProject2;
-        $('add-project-btn').hidden = hasProject2;
-        const removeProject2 = $('remove-project-2-btn');
-        if (removeProject2) removeProject2.hidden = !hasProject2;
+        fillProjects(p.projects);
         fillSocialLinks(p);
     }
 
@@ -218,13 +332,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function clearProject2() {
-        ['edit-p2-name', 'edit-p2-tech', 'edit-p2-link', 'edit-p2-desc'].forEach(id => { if ($(id)) $(id).value = ''; });
-        $('project-2-fields').hidden = true;
-        $('add-project-btn').hidden = false;
-        if ($('remove-project-2-btn')) $('remove-project-2-btn').hidden = true;
-    }
-
     function render() {
         const p = currentProfile();
 
@@ -259,12 +366,11 @@ document.addEventListener('DOMContentLoaded', () => {
             list.appendChild(li);
         });
 
-        renderProject('p1', p);
-        renderProject('p2', p);
-        const hasProjects = Boolean(String(p.p1Name || '').trim() || String(p.p2Name || '').trim());
+        renderProjects(p.projects);
+        const hasProjects = Array.isArray(p.projects) && p.projects.some(project => String(project.name || '').trim());
         const projectsEmpty = $('projects-empty-state');
         if (projectsEmpty) projectsEmpty.style.display = hasProjects ? 'none' : 'block';
-        const projectList = document.querySelector('.project-list');
+        const projectList = $('display-project-list');
         if (projectList) projectList.style.display = hasProjects ? '' : 'none';
 
         const avatarUrl = '../assets/images/default-avatar.png';
@@ -300,32 +406,39 @@ document.addEventListener('DOMContentLoaded', () => {
     $('add-directive-btn')?.addEventListener('click', () => addDirectiveInput());
     $('add-social-link-btn')?.addEventListener('click', () => addSocialLinkInput());
     $('add-project-btn')?.addEventListener('click', () => {
-        $('project-2-fields').hidden = false;
-        $('add-project-btn').hidden = true;
-        if ($('remove-project-2-btn')) $('remove-project-2-btn').hidden = false;
-        $('edit-p2-name').focus();
+        const input = addProjectInput();
+        input?.focus();
     });
-    $('remove-project-2-btn')?.addEventListener('click', clearProject2);
-
-    ['edit-p1-name', 'edit-p2-name'].forEach(id => $(id)?.addEventListener('input', (e) => e.target.setCustomValidity('')));
 
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            // A project with details but no name would be silently hidden on the profile, so require the name.
-            const projectNameOk = (prefix) => {
-                const name = $(`edit-${prefix}-name`);
-                const hasDetails = ['tech', 'link', 'desc'].some(f => $(`edit-${prefix}-${f}`).value.trim());
-                name.setCustomValidity(hasDetails && !name.value.trim() ? 'Enter a project name, or clear the other project fields.' : '');
-                if (!name.checkValidity()) { name.reportValidity(); return false; }
-                return true;
-            };
-            if (!projectNameOk('p1')) return;
-            if (!$('project-2-fields').hidden && !projectNameOk('p2')) return;
+            // Every non-empty project must have a name.
+            const projectRows = Array.from(document.querySelectorAll('#project-inputs .project-input-row'));
+            for (const row of projectRows) {
+                const name = row.querySelector('.project-name');
+                const hasDetails = ['.project-tech', '.project-url', '.project-description']
+                    .some(selector => row.querySelector(selector).value.trim());
+                name.setCustomValidity(hasDetails && !name.value.trim()
+                    ? 'Enter a project name, or clear the other project fields.' : '');
+                if (!name.checkValidity()) { name.reportValidity(); return; }
+            }
+
             const updated = {};
             Object.entries(idFor).forEach(([field, id]) => {
-                if (field !== 'directives') updated[field] = $(id).value.trim();
+                updated[field] = $(id).value.trim();
             });
+            updated.projects = readProjectsFromForm();
+            // Keep legacy first-two fields synchronized for compatibility with older code.
+            updated.projects.slice(0, 2).forEach((project, index) => {
+                const n = index + 1;
+                updated[`p${n}Name`] = project.name;
+                updated[`p${n}Tech`] = project.tech;
+                updated[`p${n}Desc`] = project.description;
+                updated[`p${n}Link`] = project.url;
+            });
+            if (!updated.p1Name) Object.assign(updated, { p1Name: '', p1Tech: '', p1Desc: '', p1Link: '' });
+            if (!updated.p2Name) Object.assign(updated, { p2Name: '', p2Tech: '', p2Desc: '', p2Link: '' });
             updated.directives = directiveList([
                 $('edit-directives').value,
                 ...Array.from(document.querySelectorAll('#directive-inputs .extra-directive-input')).map(input => input.value)

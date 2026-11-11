@@ -831,3 +831,34 @@ body.modal-open { overflow: hidden; }
     .stat-comparison { flex-wrap: wrap; gap: 0.75rem; }
     .project-header { flex-wrap: wrap; gap: 0.5rem; }
 }
+
+
+/* Dynamic GitHub project entries (up to 10) */
+.projects-help {
+    color: #a1a1aa;
+    font-size: .85rem;
+    line-height: 1.5;
+    margin: -.35rem 0 1rem;
+}
+.project-input-row {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(139, 92, 246, .22);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .025);
+}
+.project-input-heading {
+    color: #d8ccff;
+    font-size: .95rem;
+    margin: 0 0 .85rem;
+}
+.project-input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1rem;
+}
+.project-remove-btn { margin-top: .1rem; }
+#add-project-btn[hidden] { display: none !important; }
+@media (max-width: 600px) {
+    .project-input-grid { grid-template-columns: 1fr; }
+}
