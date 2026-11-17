@@ -60,7 +60,7 @@ Keep it respectful and kind. We are all stressed out, running on three hours of 
 - `styles/` — shared and page-specific CSS
 - `scripts/` — JavaScript for navigation, profile display, and wizard interactions
 
-Note: this is a frontend prototype. Sign-in is a client-side demo (accounts live in `localStorage`): logged-out visitors are redirected to the login page, but this is not real security. A backend will replace it later.
+Note: this is a frontend prototype. Login/authentication is intentionally not enforced at this stage.
 
 
 
@@ -105,3 +105,7 @@ This version does **not** require Node.js, Express, or a backend.
 - In **Profile → Edit Profile → Export JSON**, select **Export JSON** to download a `.json` file containing the profile, saved Survival Wizard values/results, and locally collected records.
 - A browser-only website cannot automatically write or update a JSON file inside the project folder. Export JSON downloads a file when the user clicks the button.
 - Data is stored only in the current browser profile. It is not shared across devices and may be cleared by the browser.
+
+## Profile form storage
+
+The profile edit form is handled entirely by `scripts/profile.js`. That file reads the saved profile from `localStorage`, handles the Save Changes submit event, writes the updated profile to `uniVista_profile`, and updates the signed-in account snapshot in `uniVista_accounts`. The profile page no longer loads `data-sync.js` just to save profile details. `auth.js` remains responsible for registration, sign-in, session protection, and logout. The wizard pages continue to use `data-sync.js` for wizard submission records and JSON export functionality.
