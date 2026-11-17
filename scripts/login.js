@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. Select the backend URL
-    const isLocal = ['localhost', '127.0.0.1']
-        .includes(window.location.hostname);
+    // backend URL
+    const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
     const API_BASE = isLocal ? 'http://localhost:3000' : '';
 
-    // 2. Handle Sign In / Create Account tabs
+    //singin, create acc
     const tabButtons = document.querySelectorAll('.tab-btn');
     const submitButton = document.querySelector('.submit-button');
 
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Handle login
+    // handle login
     const loginForm = document.querySelector('.login-form');
 
     if (loginForm) {
