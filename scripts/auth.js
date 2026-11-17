@@ -74,7 +74,7 @@ async function initializeApp() {
 // Global logout function
 function logout() {
     localStorage.removeItem('univista_token');
-    window.location.replace('login.html');
+    window.location.replace('index.html');
 }
 
 // Run the initialization when any page loads
