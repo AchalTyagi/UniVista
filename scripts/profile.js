@@ -19,36 +19,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const PROFILE_STORAGE_KEY = 'uniVista_profile';
     const ACCOUNTS_STORAGE_KEY = 'uniVista_accounts';
 
-    function readProfileFromStorage() {
-        try {
-            return JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || 'null');
-        } catch (error) {
-            console.warn('Could not read the saved profile:', error);
-            return null;
-        }
+    let GLOBAL_PROFILE_STATE = null;
+
+    // 1. Fetch from MongoDB on load
+    const token = localStorage.getItem('univista_token');
+    if (token) {
+        fetch('http://localhost:3000/api/profile', { 
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(r => r.json())
+        .then(user => {
+            // Merge the base user info with their nested profileData
+            GLOBAL_PROFILE_STATE = { 
+                name: user.name, 
+                status: user.status, 
+                email: user.email, 
+                ...(user.profileData || {}) 
+            };
+            render(); // Update the UI once data arrives
+        })
+        .catch(err => console.error('Failed to load profile from DB:', err));
     }
 
+    // 2. Intercept reads
+    function readProfileFromStorage() {
+        return GLOBAL_PROFILE_STATE;
+    }
+
+    // 3. Intercept writes and send them to Express
     function saveProfileToStorage(profile) {
-        const previous = readProfileFromStorage() || {};
-        const updatedProfile = { ...previous, ...profile, email: previous.email || profile.email || '' };
+        GLOBAL_PROFILE_STATE = { ...GLOBAL_PROFILE_STATE, ...profile };
+        
+        fetch('http://localhost:3000/api/profile', {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify(profile)
+        }).catch(err => console.error('Failed to save to DB:', err));
 
-        // Save the active profile.
-        localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(updatedProfile));
-
-        // Keep the saved account copy in sync so the profile survives logout/login.
-        try {
-            const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_STORAGE_KEY) || '{}');
-            const email = String(updatedProfile.email || '').trim().toLowerCase();
-            if (email && accounts[email]) {
-                accounts[email].data = accounts[email].data || {};
-                accounts[email].data[PROFILE_STORAGE_KEY] = JSON.stringify(updatedProfile);
-                localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(accounts));
-            }
-        } catch (error) {
-            console.warn('Profile saved, but the account backup could not be updated:', error);
-        }
-
-        return updatedProfile;
+        return GLOBAL_PROFILE_STATE;
     }
 
     function exportProfileData() {

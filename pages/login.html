@@ -47,29 +47,47 @@
     </div>
 
     <script src="../scripts/auth.js"></script>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const errorBox = document.getElementById('login-error');
-            const btn = e.target.querySelector('button[type="submit"]');
-            errorBox.hidden = true;
-            btn.disabled = true;
+<script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errorBox = document.getElementById('login-error');
+        const btn = e.target.querySelector('button[type="submit"]');
+        errorBox.hidden = true;
+        btn.disabled = true;
 
-            const result = await UniVistaAuth.register({
-                name: document.getElementById('login-name').value,
-                status: document.getElementById('login-status').value,
-                email: document.getElementById('login-email').value,
-                password: document.getElementById('login-password').value
+        const name = document.getElementById('login-name').value;
+        const status = document.getElementById('login-status').value;
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+            // Send data to the real backend registration route
+            const response = await fetch('http://localhost:3000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, status, email, password })
             });
 
-            if (result.ok) {
-                window.location.href = 'dashboard.html';
+            const data = await response.json();
+
+            if (response.ok) {
+                // If registration is successful, automatically log them in or redirect them to sign in
+                alert('Account created! Please sign in.');
+                window.location.href = 'index.html'; 
             } else {
-                errorBox.textContent = result.error;
+                errorBox.textContent = data.error || 'Registration failed.';
                 errorBox.hidden = false;
                 btn.disabled = false;
             }
-        });
-    </script>
+        } catch (error) {
+            console.error('Error during registration:', error);
+            errorBox.textContent = 'Server is offline. Cannot register right now.';
+            errorBox.hidden = false;
+            btn.disabled = false;
+        }
+    });
+</script>
 </body>
 </html>

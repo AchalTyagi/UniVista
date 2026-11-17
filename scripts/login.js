@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Sign In: validate against registered accounts
+    // 2. Sign In: validate against backend API
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
         const errorBox = document.createElement('div');
@@ -28,22 +28,39 @@ document.addEventListener('DOMContentLoaded', () => {
             errorBox.hidden = true;
             submitButton.disabled = true;
 
-            const result = await UniVistaAuth.signIn(
-                document.getElementById('email').value,
-                document.getElementById('password').value
-            );
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-            if (result.ok) {
-                window.location.href = 'dashboard.html';
-            } else {
-                errorBox.textContent = result.error;
+            try {
+                // Fetch the backend API
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Save the real token and redirect
+                    localStorage.setItem('univista_token', data.token);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Show backend errors in your existing UI
+                    errorBox.textContent = data.error || 'Login failed';
+                    errorBox.hidden = false;
+                    submitButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
+                errorBox.textContent = 'Server is currently offline.';
                 errorBox.hidden = false;
                 submitButton.disabled = false;
             }
         });
     }
 
-    // 3. Google / GitHub buttons: no OAuth backend, so route to registration
+    // 3. Google / GitHub buttons: route to registration
     document.querySelectorAll('.btn-social').forEach(btn => {
         btn.addEventListener('click', () => { window.location.href = 'login.html'; });
     });
@@ -52,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculateBtn = document.querySelector('.calculate-btn');
     if (calculateBtn) {
         calculateBtn.addEventListener('click', () => {
-            window.location.href = UniVistaAuth.getProfile() ? 'dashboard.html' : 'login.html';
+            const token = localStorage.getItem('univista_token');
+            window.location.href = token ? 'dashboard.html' : 'login.html';
         });
     }
 });

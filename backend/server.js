@@ -23,6 +23,9 @@ app.get('/api/health', (req, res) => {
 // Auth Routes
 app.use('/api/auth', require('./routes/auth'));
 
+// Profile Routes
+app.use('/api/profile', require('./routes/profile'));
+
 // Start the Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
