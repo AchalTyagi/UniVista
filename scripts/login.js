@@ -1,12 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Detect Environment (Automatically switches for Eval vs Live)
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const API_BASE = isLocal ? 'http://localhost:3000' : ''; // Blank for Vercel relative paths
-
-    // 2. Tabs
+    const API_BASE = isLocal ? 'http://localhost:3000' : '';
     const tabButtons = document.querySelectorAll('.tab-btn');
     const submitButton = document.querySelector('.submit-button');
-
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
             if (button.textContent.trim() === 'Create your Account') {
@@ -19,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Sign In: validate against backend API
+
+    
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
         const errorBox = document.createElement('div');
@@ -36,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                // Now uses the dynamic API_BASE
                 const response = await fetch(`${API_BASE}/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -55,14 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error('Error logging in:', error);
-                errorBox.textContent = 'Server is currently offline.';
+                errorBox.textContent = 'Unable to complete login. Please check your connection and try again.';
                 errorBox.hidden = false;
                 submitButton.disabled = false;
             }
         });
     }
 
-    // 4. Google / GitHub buttons: Route to dynamic backend
     const googleBtn = document.getElementById('google-btn');
     if (googleBtn) {
         googleBtn.addEventListener('click', () => {
@@ -77,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. "Calculate My Survival"
     const calculateBtn = document.querySelector('.calculate-btn');
     if (calculateBtn) {
         calculateBtn.addEventListener('click', () => {
