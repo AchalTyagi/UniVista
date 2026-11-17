@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const cors = require('cors');
+app.use(cors()); // This allows your frontend domain to talk to your backend
 const app = express();
 
 // Middleware
@@ -28,6 +29,4 @@ app.use('/api/profile', require('./routes/profile'));
 
 // Start the Server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
