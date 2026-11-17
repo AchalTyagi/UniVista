@@ -4,7 +4,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const cors = require('cors');
+app.use(cors()); // This allows your frontend domain to talk to your backend
 const app = express();
 
 app.use(cors({
