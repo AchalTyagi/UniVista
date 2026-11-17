@@ -50,7 +50,7 @@ Keep it respectful and kind. We are all stressed out, running on three hours of 
 ## Run locally
 
 1. Keep the `pages`, `styles`, and `scripts` folders together in the project root.
-2. Open `pages/mainpage.html` in a browser, or serve the project root with a local static server and visit `/pages/mainpage.html`.
+2. Open `pages/index.html` in a browser, or serve the project root with a local static server and visit `/pages/index.html`.
 3. Use the main page and login flow to open the dashboard.
 4. Start the Survival Wizard and complete Funds → Attendance → Assignments → Sleep → Calculate.
 
@@ -76,10 +76,10 @@ This frontend-only version provides a JSON export option without a backend.
 ### Run the project
 
 1. Open the `Univista` folder.
-2. Open `pages/mainpage.html` directly or use VS Code Live Server.
-3. Open the profile page and choose Edit Profile → Export JSON to download your data.//localhost:3000/pages/mainpage.html`.
+2. Open `pages/index.html` directly or use VS Code Live Server.
+3. Open the profile page and choose Edit Profile → Export JSON to download your data.//localhost:3000/pages/index.html`.
 
-This version is frontend-only. Open `pages/mainpage.html` with VS Code Live Server (recommended) or another static server. JSON export works in the browser and does not require a backend.
+This version is frontend-only. Open `pages/index.html` with VS Code Live Server (recommended) or another static server. JSON export works in the browser and does not require a backend.
 
 ### What gets saved
 
