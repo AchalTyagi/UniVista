@@ -1,74 +1,104 @@
 (function () {
-    const RECORDS_KEY = 'uniVista_json_records';
+  const RECORDS_KEY = "uniVista_json_records";
 
-    function readRecords() {
-        try {
-            const value = JSON.parse(localStorage.getItem(RECORDS_KEY) || '[]');
-            return Array.isArray(value) ? value : [];
-        } catch (_) {
-            return [];
-        }
+  // 1. Read previously saved records
+  function readRecords() {
+    try {
+      const records = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
+
+      return Array.isArray(records) ? records : [];
+    } catch {
+      return [];
+    }
+  }
+
+  // 2. Save a new form submission
+  async function saveRecord(type, payload) {
+    const profile = window.UniVistaAuth?.getProfile?.() || {};
+
+    const record = {
+      type: type || "form-submission",
+      email: profile.email || "",
+      userName: profile.name || "",
+      submittedAt: new Date().toISOString(),
+      payload: payload && typeof payload === "object" ? payload : {},
+    };
+
+    try {
+      const records = readRecords();
+
+      records.push(record);
+
+      localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
+
+      return { saved: true, local: true };
+    } catch (error) {
+      console.error("Unable to save record:", error);
+      return { saved: false, local: true };
+    }
+  }
+
+  // 3. Export all UniVista data as a JSON file
+  function exportAll() {
+    const profile = window.UniVistaAuth?.getProfile?.() || {};
+
+    function getData(key) {
+      const value = localStorage.getItem("uniVista_" + key);
+
+      if (!value) return null;
+
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
     }
 
-    function saveRecord(type, payload) {
-        const profile = window.UniVistaAuth?.getProfile?.() || {};
-        const record = {
-            type: String(type || 'form-submission'),
-            email: String(profile.email || ''),
-            userName: String(profile.name || ''),
-            submittedAt: new Date().toISOString(),
-            payload: payload && typeof payload === 'object' ? payload : {}
-        };
+    const exportData = {
+      schemaVersion: 1,
+      exportedAt: new Date().toISOString(),
+      storageMode: "frontend-localStorage",
+      profile: profile,
 
-        try {
-            const records = readRecords();
-            records.push(record);
-            localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
-            return Promise.resolve({ saved: true, local: true });
-        } catch (error) {
-            console.warn('UniVista could not save this record in localStorage.', error);
-            return Promise.resolve({ saved: false, local: true });
-        }
-    }
+      wizard: {
+        funds: getData("funds"),
+        days: getData("days"),
+        conducted: getData("conducted"),
+        attended: getData("attended"),
+        targetAtt: getData("targetAtt"),
+        assignments: getData("assignments"),
+        deadline: getData("deadline"),
+        sleep: getData("sleep"),
+        caffeine: getData("caffeine"),
+        lastResult: getData("lastResult"),
+      },
 
-    function exportAll() {
-        const profile = window.UniVistaAuth?.getProfile?.() || {};
-        const parse = (key) => {
-            const raw = localStorage.getItem('uniVista_' + key);
-            if (raw === null || raw === '') return null;
-            try { return JSON.parse(raw); } catch (_) { return raw; }
-        };
-        const exportData = {
-            schemaVersion: 1,
-            exportedAt: new Date().toISOString(),
-            storageMode: 'frontend-localStorage',
-            profile,
-            wizard: {
-                funds: parse('funds'),
-                days: parse('days'),
-                conducted: parse('conducted'),
-                attended: parse('attended'),
-                targetAtt: parse('targetAtt'),
-                assignments: parse('assignments'),
-                deadline: parse('deadline'),
-                sleep: parse('sleep'),
-                caffeine: parse('caffeine'),
-                lastResult: parse('lastResult')
-            },
-            records: readRecords()
-        };
-        const safeName = String(profile.name || 'student').trim()
-            .replace(/[^a-z0-9_-]+/gi, '-').replace(/^-+|-+$/g, '') || 'student';
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `univista-${safeName}-data.json`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
+      records: readRecords(),
+    };
 
-    window.UniVistaData = { saveRecord, readRecords, exportAll };
+    const file = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    });
+
+    const url = URL.createObjectURL(file);
+    const link = document.createElement("a");
+
+    const name = (profile.name || "student").replace(/[^a-z0-9_-]/gi, "-");
+
+    link.href = url;
+    link.download = `univista-${name}-data.json`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+  }
+
+  // 4. Make functions available to other JavaScript files
+  window.UniVistaData = {
+    saveRecord,
+    readRecords,
+    exportAll,
+  };
 })();
