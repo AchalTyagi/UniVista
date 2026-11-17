@@ -109,3 +109,36 @@ This version does **not** require Node.js, Express, or a backend.
 ## Profile form storage
 
 The profile edit form is handled entirely by `scripts/profile.js`. That file reads the saved profile from `localStorage`, handles the Save Changes submit event, writes the updated profile to `uniVista_profile`, and updates the signed-in account snapshot in `uniVista_accounts`. The profile page no longer loads `data-sync.js` just to save profile details. `auth.js` remains responsible for registration, sign-in, session protection, and logout. The wizard pages continue to use `data-sync.js` for wizard submission records and JSON export functionality.
+
+
+## Deploying this project on Vercel
+
+This repository is configured for a single Vercel deployment:
+- Static UniVista pages are served from `pages/`, `styles/`, `scripts/`, and `assets/`.
+- `/` redirects to `/pages/index.html`.
+- `/api/*` is routed to the Express application through `api/index.js`.
+
+### Vercel setup
+
+1. Import this repository into Vercel and set the **Root Directory** to the repository root (`./`).
+2. Keep the Framework Preset as **Other**. The included `vercel.json` defines the API function and static files.
+3. Add the environment variables listed in `.env.example` under Vercel → Project → Settings → Environment Variables. Do not upload a real `.env` file or commit secrets.
+4. Redeploy after adding/changing environment variables.
+5. Test `https://YOUR-DEPLOYMENT.vercel.app/` and `https://YOUR-DEPLOYMENT.vercel.app/api/health`.
+
+### OAuth callback URLs
+
+For the deployed domain `https://univista-eta.vercel.app`, configure:
+- Google Authorized redirect URI: `https://univista-eta.vercel.app/api/auth/google/callback`
+- GitHub Authorization callback URL: `https://univista-eta.vercel.app/api/auth/github/callback`
+
+Set `FRONTEND_URL` and `BACKEND_URL` to `https://univista-eta.vercel.app` (no trailing slash). If the Vercel domain changes, update these values and both OAuth provider settings.
+
+### Local development
+
+1. Copy `.env.example` to `backend/.env` and fill in real values.
+2. Run `npm install`.
+3. Run `npm start`.
+4. Open `http://localhost:3000/`; the Express app serves the API, while the frontend static files are served by Vercel in production. For local static development, use a static server at the project root.
+
+Note: this deployment setup fixes the Vercel root page and routes API requests into Express. You still need valid MongoDB and OAuth environment variables for registration, login, and social sign-in to work.

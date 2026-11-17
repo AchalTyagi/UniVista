@@ -4,7 +4,8 @@
   "description": "The **UniVista** is a no-nonsense, stress-reducing dashboard built specifically for students. College is an absolute grind, and standard productivity tools are built for people with 9-to-5 jobs, predictable incomes, and a healthy eight hours of sleep.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js"
   },
   "repository": {
     "type": "git",
