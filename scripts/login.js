@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Tabs
+    // 1. Detect Environment (Automatically switches for Eval vs Live)
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const API_BASE = isLocal ? 'http://localhost:3000' : ''; // Blank for Vercel relative paths
+
+    // 2. Tabs
     const tabButtons = document.querySelectorAll('.tab-btn');
     const submitButton = document.querySelector('.submit-button');
 
@@ -15,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Sign In: validate against backend API
+    // 3. Sign In: validate against backend API
     const loginForm = document.querySelector('.login-form');
     if (loginForm) {
         const errorBox = document.createElement('div');
@@ -32,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                // Fetch the backend API
-                const response = await fetch('/api/auth/login', {
+                // Now uses the dynamic API_BASE
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -42,11 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Save the real token and redirect
                     localStorage.setItem('univista_token', data.token);
                     window.location.href = 'dashboard.html';
                 } else {
-                    // Show backend errors in your existing UI
                     errorBox.textContent = data.error || 'Login failed';
                     errorBox.hidden = false;
                     submitButton.disabled = false;
@@ -60,22 +62,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Google / GitHub buttons: route to registration
-// 3. Google / GitHub buttons: Redirect to backend OAuth routes
+    // 4. Google / GitHub buttons: Route to dynamic backend
     const googleBtn = document.getElementById('google-btn');
     if (googleBtn) {
         googleBtn.addEventListener('click', () => {
-            window.location.href = '/api/auth/google';
+            window.location.href = `${API_BASE}/api/auth/google`;
         });
     }
 
     const githubBtn = document.getElementById('github-btn');
     if (githubBtn) {
         githubBtn.addEventListener('click', () => {
-            window.location.href = '/api/auth/github';
+            window.location.href = `${API_BASE}/api/auth/github`;
         });
     }
-    // 4. "Calculate My Survival"
+
+    // 5. "Calculate My Survival"
     const calculateBtn = document.querySelector('.calculate-btn');
     if (calculateBtn) {
         calculateBtn.addEventListener('click', () => {
