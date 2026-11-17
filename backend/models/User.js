@@ -5,8 +5,11 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     status: { type: String, default: 'Student' },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }, // We will hash this before saving
-    
+    password: { type: String },
+    authProvider: {
+        type: String,
+        default: 'local'
+    },
     // Using a mixed object allows us to easily drop in your existing localStorage profile JSON
     profileData: { type: Object, default: {} } 
 }, { timestamps: true });

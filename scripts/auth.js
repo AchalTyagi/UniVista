@@ -4,6 +4,17 @@ const PUBLIC_PAGES = ['index.html', 'login.html', 'about-us.html'];
 const GUEST_ONLY_PAGES = ['index.html', 'login.html'];
 
 async function initializeApp() {
+    // NEW: Catch tokens returned from OAuth redirects
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    
+    if (urlToken) {
+        // Save the token and instantly wipe it from the browser URL history for security
+        localStorage.setItem('univista_token', urlToken);
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Now proceed with normal logic...
     const token = localStorage.getItem('univista_token');
     
     // FIX FOR FIREFOX LOCAL FILES: Safely extract the current page name

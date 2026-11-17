@@ -61,10 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3. Google / GitHub buttons: route to registration
-    document.querySelectorAll('.btn-social').forEach(btn => {
-        btn.addEventListener('click', () => { window.location.href = 'login.html'; });
-    });
+// 3. Google / GitHub buttons: Redirect to backend OAuth routes
+    const googleBtn = document.getElementById('google-btn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', () => {
+            window.location.href = 'http://localhost:3000/api/auth/google';
+        });
+    }
 
+    const githubBtn = document.getElementById('github-btn');
+    if (githubBtn) {
+        githubBtn.addEventListener('click', () => {
+            window.location.href = 'http://localhost:3000/api/auth/github';
+        });
+    }
     // 4. "Calculate My Survival"
     const calculateBtn = document.querySelector('.calculate-btn');
     if (calculateBtn) {
