@@ -355,11 +355,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 else if (score >= 25) { verdict = 'CRITICAL'; level = 'warn'; }
                 else { verdict = 'TERMINAL'; level = 'bad'; }
 
-                set('lastResult', JSON.stringify({ score, verdict }));
-                if (window.UniVistaData) window.UniVistaData.saveRecord('wizard-final-result', {
-                    inputs: stored, score, verdict,
-                    breakdown: { funds: funds.status, attendance: att.status, homework: hw.status, sleep: sl.status }
-                });
+                const calculation = {
+                    id: (window.crypto && crypto.randomUUID)
+                        ? crypto.randomUUID()
+                        : `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                    calculatedAt: new Date().toISOString(),
+                    score,
+                    verdict,
+                    inputs: { ...stored },
+                    breakdown: {
+                        funds: funds.status,
+                        attendance: att.status,
+                        homework: hw.status,
+                        sleep: sl.status
+                    }
+                };
+
+                // Keep the latest result for the existing status badge and
+                // retain only the five most recent calculations for history.
+                set('lastResult', JSON.stringify({
+                    score, verdict, calculatedAt: calculation.calculatedAt
+                }));
+                const historyKey = 'uniVista_survivalHistory';
+                let history = [];
+                try {
+                    const savedHistory = JSON.parse(localStorage.getItem(historyKey) || '[]');
+                    if (Array.isArray(savedHistory)) history = savedHistory;
+                } catch (error) {
+                    console.warn('Could not read survival calculation history:', error);
+                }
+                // Preserve the previously saved single-result value once when
+                // upgrading an older UniVista installation to calculation history.
+                if (!history.length) {
+                    try {
+                        const previousResult = JSON.parse(localStorage.getItem('uniVista_lastResult') || 'null');
+                        if (previousResult && Number.isFinite(Number(previousResult.score))) {
+                            history.push({
+                                id: 'legacy-' + Date.now(),
+                                calculatedAt: previousResult.calculatedAt || null,
+                                score: Number(previousResult.score),
+                                verdict: previousResult.verdict || 'Previous result',
+                                breakdown: {},
+                                inputs: {}
+                            });
+                        }
+                    } catch (_) { /* Ignore malformed legacy result data. */ }
+                }
+                history.unshift(calculation);
+                history = history.slice(0, 5);
+                localStorage.setItem(historyKey, JSON.stringify(history));
+
+                if (window.UniVistaData) window.UniVistaData.saveRecord('wizard-final-result', calculation);
+                window.dispatchEvent(new CustomEvent('univista:survival-history-updated'));
 
                 const rows = [
                     ['Funds', funds.status, funds.level, `₹${Number(stored.funds)} over ${stored.days} day(s) = ₹${funds.daily.toFixed(2)}/day. ${funds.note}`],

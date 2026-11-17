@@ -831,3 +831,48 @@ body.modal-open { overflow: hidden; }
     .stat-comparison { flex-wrap: wrap; gap: 0.75rem; }
     .project-header { flex-wrap: wrap; gap: 0.5rem; }
 }
+
+
+/* Previous Survival Score calculations */
+.survival-calculation-history-section {
+    margin-top: 1.35rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--uv-border, rgba(255,255,255,.12));
+}
+.survival-history-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .85rem;
+}
+.survival-history-section-heading h4 { margin: 0; font-size: 1rem; }
+.survival-history-section-heading span {
+    color: var(--uv-muted, #a1a1aa);
+    font-size: .78rem;
+    white-space: nowrap;
+}
+.survival-calculation-history {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: .75rem;
+}
+.survival-history-item {
+    min-width: 0;
+    padding: .9rem 1rem;
+    border: 1px solid var(--uv-border, rgba(255,255,255,.12));
+    border-left: 3px solid var(--uv-purple, #8b5cf6);
+    border-radius: 12px;
+    background: var(--uv-card, rgba(255,255,255,.035));
+}
+.survival-history-item[data-level="good"] { border-left-color: #10b981; }
+.survival-history-item[data-level="caution"] { border-left-color: #eab308; }
+.survival-history-item[data-level="warn"] { border-left-color: #f97316; }
+.survival-history-item[data-level="bad"] { border-left-color: #ef4444; }
+.survival-history-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.survival-history-heading h4 { margin: 0; font-size: .9rem; }
+.survival-history-score { font-size: 1.1rem; white-space: nowrap; }
+.survival-history-verdict { margin: .35rem 0; font-weight: 600; font-size: .82rem; }
+.survival-history-date { display: block; color: var(--uv-muted, #a1a1aa); font-size: .75rem; }
+.survival-history-breakdown { margin: .55rem 0 0; color: var(--uv-muted, #a1a1aa); font-size: .74rem; line-height: 1.5; }
+.survival-history-empty { margin: 0; color: var(--uv-muted, #a1a1aa); font-size: .85rem; }

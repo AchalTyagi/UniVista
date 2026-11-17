@@ -467,6 +467,78 @@ document.addEventListener('DOMContentLoaded', () => {
         if (label) label.textContent = status;
     }
 
+    function loadPreviousSurvivalCalculations() {
+        const container = $('survival-calculation-history');
+        if (!container) return;
+
+        let history = [];
+        try {
+            const saved = JSON.parse(localStorage.getItem('uniVista_survivalHistory') || '[]');
+            if (Array.isArray(saved)) history = saved.slice(0, 5);
+        } catch (error) {
+            console.warn('Could not load previous survival calculations:', error);
+        }
+
+        container.replaceChildren();
+        if (!history.length) {
+            const empty = document.createElement('p');
+            empty.className = 'survival-history-empty';
+            empty.textContent = 'No previous calculations yet. Complete the Survival Wizard to build your history.';
+            container.appendChild(empty);
+            return;
+        }
+
+        history.forEach((item, index) => {
+            const score = Number(item.score);
+            if (!Number.isFinite(score)) return;
+
+            const card = document.createElement('article');
+            card.className = 'survival-history-item';
+            const scoreClass = score >= 75 ? 'good' : score >= 50 ? 'caution' : score >= 25 ? 'warn' : 'bad';
+            card.dataset.level = scoreClass;
+
+            const heading = document.createElement('div');
+            heading.className = 'survival-history-heading';
+            const title = document.createElement('h4');
+            title.textContent = `Calculation ${index + 1}`;
+            const scoreLabel = document.createElement('strong');
+            scoreLabel.className = 'survival-history-score';
+            scoreLabel.textContent = `${score}/100`;
+            heading.append(title, scoreLabel);
+
+            const verdict = document.createElement('p');
+            verdict.className = 'survival-history-verdict';
+            verdict.textContent = item.verdict || 'Result unavailable';
+
+            const date = document.createElement('time');
+            date.className = 'survival-history-date';
+            const timestamp = item.calculatedAt || item.createdAt;
+            if (timestamp) {
+                const parsedDate = new Date(timestamp);
+                if (!Number.isNaN(parsedDate.getTime())) {
+                    date.dateTime = parsedDate.toISOString();
+                    date.textContent = parsedDate.toLocaleString(undefined, {
+                        dateStyle: 'medium', timeStyle: 'short'
+                    });
+                }
+            }
+            if (!date.textContent) date.textContent = 'Date not recorded';
+
+            const breakdown = document.createElement('p');
+            breakdown.className = 'survival-history-breakdown';
+            const details = item.breakdown || {};
+            breakdown.textContent = [
+                details.funds && `Funds: ${details.funds}`,
+                details.attendance && `Attendance: ${details.attendance}`,
+                details.homework && `Homework: ${details.homework}`,
+                details.sleep && `Sleep: ${details.sleep}`
+            ].filter(Boolean).join(' · ') || 'Category breakdown unavailable';
+
+            card.append(heading, verdict, date, breakdown);
+            container.appendChild(card);
+        });
+    }
+
     // ==========================================
     // SURVIVAL WIZARD HISTORY
     // ==========================================
@@ -535,5 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     render();
     loadWizardHistory();
+    loadPreviousSurvivalCalculations();
     updateSystemStatus();
+    window.addEventListener('univista:survival-history-updated', loadPreviousSurvivalCalculations);
 });
