@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Fetch the backend API
-                const response = await fetch('http://localhost:3000/api/auth/login', {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -65,14 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('google-btn');
     if (googleBtn) {
         googleBtn.addEventListener('click', () => {
-            window.location.href = 'http://localhost:3000/api/auth/google';
+            window.location.href = '/api/auth/google';
         });
     }
 
     const githubBtn = document.getElementById('github-btn');
     if (githubBtn) {
         githubBtn.addEventListener('click', () => {
-            window.location.href = 'http://localhost:3000/api/auth/github';
+            window.location.href = '/api/auth/github';
         });
     }
     // 4. "Calculate My Survival"

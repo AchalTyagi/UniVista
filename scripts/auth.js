@@ -46,7 +46,7 @@ async function initializeApp() {
     // 3. FETCH DATA: If logged in, get the real profile from your MongoDB Atlas database
     if (token && !isGuestOnlyPage) {
         try {
-            const response = await fetch('http://localhost:3000/api/profile', {
+            const response = await fetch('/api/profile', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`

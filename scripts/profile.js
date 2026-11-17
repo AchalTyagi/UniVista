@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Fetch from MongoDB on load
     const token = localStorage.getItem('univista_token');
     if (token) {
-        fetch('http://localhost:3000/api/profile', { 
+        fetch('/api/profile', { 
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then(r => r.json())
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveProfileToStorage(profile) {
         GLOBAL_PROFILE_STATE = { ...GLOBAL_PROFILE_STATE, ...profile };
         
-        fetch('http://localhost:3000/api/profile', {
+        fetch('/api/profile', {
             method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json', 

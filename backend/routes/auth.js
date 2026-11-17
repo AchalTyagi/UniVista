@@ -6,6 +6,11 @@ const User = require('../models/User');
 const axios = require('axios');
 const router = express.Router();
 
+const backendBaseUrl = () => (process.env.BACKEND_URL || '').replace(/\/$/, '');
+const frontendBaseUrl = () => (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+const googleCallbackUrl = () => `${backendBaseUrl()}/api/auth/google/callback`;
+const githubCallbackUrl = () => `${backendBaseUrl()}/api/auth/github/callback`;
+
 // 1. REGISTER ROUTE
 router.post('/register', async (req, res) => {
     try {
@@ -83,7 +88,11 @@ router.post('/login', async (req, res) => {
 // GITHUB OAUTH
 // ==========================================
 router.get('/github', (req, res) => {
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user:email`;
+    if (!process.env.GITHUB_CLIENT_ID || !process.env.BACKEND_URL) {
+        return res.status(500).send('GitHub OAuth is not configured on the server.');
+    }
+    const callback = encodeURIComponent(githubCallbackUrl());
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${callback}&scope=user:email`;
     res.redirect(githubAuthUrl);
 });
 
@@ -111,7 +120,8 @@ router.get('/github/callback', async (req, res) => {
 
         // GitHub users can have hidden emails, we need the primary one
         const primaryEmailObj = emailResponse.data.find(email => email.primary) || emailResponse.data[0];
-        const email = primaryEmailObj.email;
+        const email = primaryEmailObj && primaryEmailObj.email;
+        if (!email) throw new Error('No verified email was returned by GitHub.');
         const name = userResponse.data.name || userResponse.data.login;
 
         // 3. Find or Create User in MongoDB
@@ -123,11 +133,11 @@ router.get('/github/callback', async (req, res) => {
 
         // 4. Generate UniVista JWT and redirect to frontend
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.redirect(`${process.env.FRONTEND_URL}/dashboard.html?token=${token}`);
+        res.redirect(`${frontendBaseUrl()}/pages/dashboard.html?token=${encodeURIComponent(token)}`);
 
     } catch (error) {
         console.error('GitHub Auth Error:', error.message);
-        res.redirect(`${process.env.FRONTEND_URL}/index.html?error=oauth_failed`);
+        res.redirect(`${frontendBaseUrl()}/pages/index.html?error=oauth_failed`);
     }
 });
 
@@ -135,7 +145,11 @@ router.get('/github/callback', async (req, res) => {
 // GOOGLE OAUTH
 // ==========================================
 router.get('/google', (req, res) => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/google/callback&response_type=code&scope=profile email`;
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.BACKEND_URL) {
+        return res.status(500).send('Google OAuth is not configured on the server.');
+    }
+    const callback = encodeURIComponent(googleCallbackUrl());
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${callback}&response_type=code&scope=profile%20email`;
     res.redirect(googleAuthUrl);
 });
 
@@ -149,7 +163,7 @@ router.get('/google/callback', async (req, res) => {
             client_secret: process.env.GOOGLE_CLIENT_SECRET,
             code,
             grant_type: 'authorization_code',
-            redirect_uri: 'http://localhost:3000/api/auth/google/callback'
+            redirect_uri: googleCallbackUrl()
         });
 
         // 2. Fetch user data from Google
@@ -168,11 +182,11 @@ router.get('/google/callback', async (req, res) => {
 
         // 4. Generate UniVista JWT and redirect
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.redirect(`${process.env.FRONTEND_URL}/dashboard.html?token=${token}`);
+        res.redirect(`${frontendBaseUrl()}/pages/dashboard.html?token=${encodeURIComponent(token)}`);
 
     } catch (error) {
         console.error('Google Auth Error:', error.message);
-        res.redirect(`${process.env.FRONTEND_URL}/index.html?error=oauth_failed`);
+        res.redirect(`${frontendBaseUrl()}/pages/index.html?error=oauth_failed`);
     }
 });
 
