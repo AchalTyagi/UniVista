@@ -50,16 +50,8 @@ app.use('/api/profile', connectDatabase, require('./routes/profile'));
 
 module.exports = app;
 
-<<<<<<< HEAD
 // Start the Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-=======
-// Local development: node backend/server.js
-if (require.main === module) {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`UniVista server running on port ${PORT}`));
-}
->>>>>>> c58d87979ba58468f82830a5e796402ec8a5a3e5
