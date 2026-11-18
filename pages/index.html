@@ -108,58 +108,5 @@
 
     <script src="../scripts/auth.js"></script>
     <script src="../scripts/login.js"></script>
-
-    <script>
-    const OAUTH_API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-        ? 'http://localhost:3000' 
-        : 'https://univista-eta.vercel.app';
-
-    // 1. Google Button Handler
-    const googleBtn = document.getElementById('google-btn');
-    if (googleBtn) {
-        googleBtn.addEventListener('click', () => {
-            window.location.href = OAUTH_API_BASE + '/api/auth/google';
-        });
-    }
-
-    // 2. GitHub Button Handler
-    const githubBtn = document.getElementById('github-btn');
-    if (githubBtn) {
-        githubBtn.addEventListener('click', () => {
-            window.location.href = OAUTH_API_BASE + '/api/auth/github';
-        });
-    }
-
-    // 3. Email & Password Login Handler (Stops the ? refresh bug)
-    const signInForm = document.getElementById('sign-in-form');
-    if (signInForm) {
-        signInForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevents the browser from reloading the page
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await fetch(`${OAUTH_API_BASE}/api/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    localStorage.setItem('univista_token', data.token);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert(data.error || 'Login failed. Please check your credentials.');
-                }
-            } catch (error) {
-                console.error('Login Error:', error);
-                alert('Server is offline or CORS issue.');
-            }
-        });
-    }
-    </script>
 </body>
 </html>
