@@ -47,6 +47,15 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', connectDatabase, require('./routes/auth'));
 app.use('/api/profile', connectDatabase, require('./routes/profile'));
 
+// Root route
+app.get('/', (req, res) => {
+    res.send(`
+        <h1>UniVista Backend</h1>
+        <p>Express server is running successfully!</p>
+        <p>API Status: Online</p>
+    `);
+});
+
 module.exports = app;
 
 // Start the Server and Connect to MongoDB Immediately
