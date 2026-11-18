@@ -1,13 +1,12 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
-      "type": "chrome",
+      "type": "editor-browser",
       "request": "launch",
       "name": "Debug UniVista (Brave)",
       "url": "http://127.0.0.1:5500/pages/index.html",
-      "webRoot": "${workspaceFolder}",
-      "runtimeExecutable": "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
     }
   ]
 }
