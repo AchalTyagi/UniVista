@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // backend URL
     const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
-    const API_BASE = isLocal ? 'http://localhost:3000' : '';
-
     //singin, create acc
     const tabButtons = document.querySelectorAll('.tab-btn');
     const submitButton = document.querySelector('.submit-button');
