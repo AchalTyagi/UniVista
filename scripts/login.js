@@ -1,8 +1,12 @@
 
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
+=======
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3000' : 'https://univista-eta.vercel.app';
+>>>>>>> 9d21e703e7d543b7d1ed9d30e69f5abf6801c8b8
 
-    // backend URL
-    const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+    document.addEventListener('DOMContentLoaded', () => {
 
     //singin, create acc
     const tabButtons = document.querySelectorAll('.tab-btn');
