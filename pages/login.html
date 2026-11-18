@@ -61,7 +61,7 @@
 
         try {
             // Send data to the real backend registration route
-            const response = await fetch(${API_BASE}/api/auth/register, {
+            const response = await fetch(`${API_BASE}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
