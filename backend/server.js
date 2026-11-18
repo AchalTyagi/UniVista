@@ -1,5 +1,4 @@
-// backend/server.js
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -50,8 +49,20 @@ app.use('/api/profile', connectDatabase, require('./routes/profile'));
 
 module.exports = app;
 
-// Start the Server
+// Start the Server and Connect to MongoDB Immediately
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
+    
+    // Connect to MongoDB right on startup so you can see it working
+    if (process.env.MONGO_URI) {
+        try {
+            await mongoose.connect(process.env.MONGO_URI);
+            console.log('✅ MongoDB successfully integrated and connected!');
+        } catch (error) {
+            console.error('❌ MongoDB connection error:', error);
+        }
+    } else {
+        console.log('⚠️ MONGO_URI is missing from your .env file!');
+    }
 });
